@@ -9,13 +9,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('suxrob object');
-<<<<<<<<< Temporary merge branch 1
-    return const MaterialApp(
-=========
+
     return  MaterialApp(
->>>>>>>>> Temporary merge branch 2
       debugShowCheckedModeBanner: false,
-      home: AboutProjectPage(),
+      home: SelectLanguagePage(),
     );
   }
 }
