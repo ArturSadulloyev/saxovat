@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saxovat/pages/about_project_page.dart';
 import 'package:saxovat/views/font.dart';
 
 class SelectLanguagePage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _SelectLanguagePageState extends State<SelectLanguagePage> {
             'Выберите язык / Tilni tanlang / Choose language ',
             style: font(
               weight: FontWeight.w500,
+              size: 26
             ),
           ),
           const SizedBox(height: 20),
@@ -95,7 +97,9 @@ class _SelectLanguagePageState extends State<SelectLanguagePage> {
               FloatingActionButton(
                 mini: true,
                 backgroundColor: lang == "" ? Colors.blue.shade100 : Colors.blue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutProjectPage(),));
+                },
                 shape: const CircleBorder(),
                 child: const Icon(
                   Icons.navigate_next_sharp,

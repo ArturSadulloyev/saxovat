@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:saxovat/pages/login_page.dart';
+import 'package:saxovat/views/font.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -16,9 +18,27 @@ class SplashPage extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue.shade800,
               borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(100),
-                bottomRight: Radius.circular(100),
+                bottomLeft: Radius.circular(130),
+                bottomRight: Radius.circular(130),
               ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 60,
+                  backgroundColor: Colors.white,
+                  child: Text(
+                    'S',
+                    style: font(size: 72, color: Colors.blue.shade800),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'SAXOVAT',
+                  style: font(size: 36, color: Colors.white),
+                ),
+              ],
             ),
           ),
           const SizedBox(
@@ -39,11 +59,17 @@ class SplashPage extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ));
+            },
             child: const Text(
               "Tizimga kirish",
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
