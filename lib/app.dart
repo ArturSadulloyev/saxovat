@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saxovat/pages/about_project_page.dart';
+import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/pages/select_language_page.dart';
 import 'package:saxovat/pages/splash_page.dart';
 
@@ -8,11 +9,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('suxrob object');
-
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SelectLanguagePage(),
+      home: HomePage(),
     );
   }
 }
