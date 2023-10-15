@@ -9,6 +9,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -18,8 +19,8 @@ class SplashPage extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue.shade800,
               borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(130),
-                bottomRight: Radius.circular(130),
+                bottomLeft: Radius.circular(180),
+                bottomRight: Radius.circular(180),
               ),
             ),
             child: Column(
@@ -61,10 +62,11 @@ class SplashPage extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
             },
             child: const Text(
               "Tizimga kirish",

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:saxovat/views/font.dart';
-import 'package:swipe_cards/swipe_cards.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   List<AssetImage> images = [
-    AssetImage(
+    const AssetImage(
         'assets/images/integrity-wealth-partners-blog-donor-advised-funds-.jpg'),
-    AssetImage('assets/images/bg-donasi-renew.jpg'),
-    AssetImage('assets/images/shutterstock_396853333-scaled.jpg'),
-    AssetImage('assets/images/wheelchair.jpg'),
+    const AssetImage('assets/images/bg-donasi-renew.jpg'),
+    const AssetImage('assets/images/shutterstock_396853333-scaled.jpg'),
+    const AssetImage('assets/images/wheelchair.jpg'),
   ];
 
   @override
@@ -30,7 +29,7 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(
+          icon: const Icon(
             Icons.menu,
             color: Colors.blue,
           ),
@@ -39,7 +38,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           SizedBox(
@@ -47,7 +46,6 @@ class HomePage extends StatelessWidget {
             child: PageView.builder(
               padEnds: true,
               pageSnapping: true,
-
               itemCount: images.length,
               itemBuilder: (context, index) => Container(
                 margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -85,7 +83,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          Text('Kategoriyalar'),
+          const Text('Kategoriyalar'),
         ],
       ),
     );

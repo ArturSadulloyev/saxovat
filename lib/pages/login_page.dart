@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:saxovat/pages/phone_auth_page.dart';
 import 'package:saxovat/views/font.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
-  TextEditingController phoneController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final maskFormatter = MaskTextInputFormatter(
+    mask: "**-***-**-**99",
+    filter: {"*": RegExp(r"[0-9]")},
+    type: MaskAutoCompletionType.lazy,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.blue.shade800,
         title: Text(
@@ -17,105 +24,119 @@ class LoginPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Column(
-
-
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height / 2,
-            decoration: BoxDecoration(
-              color: Colors.blue.shade800,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(130),
-                bottomRight: Radius.circular(130),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height / 2.8,
+              decoration: BoxDecoration(
+                color: Colors.blue.shade800,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(180),
+                  bottomRight: Radius.circular(180),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      'S',
+                      style: font(size: 72, color: Colors.blue.shade800),
+                    ),
+                  ),
+                ],
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    'S',
-                    style: font(size: 72, color: Colors.blue.shade800),
-                  ),
-                ),
-              ],
+            const SizedBox(
+              height: 50,
             ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Row(
-              children: [
-                Badge(
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    '*',
-                    style: font(size: 23, color: Colors.red),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  Badge(
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      '*',
+                      style: font(size: 23, color: Colors.red),
+                    ),
                   ),
-                ),
-                Text('Telefon raqamini kiriting', style: font(size: 18)),
-              ],
+                  Text('Telefon raqamini kiriting', style: font(size: 18)),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
-            child: TextField(
-              keyboardType: const TextInputType.numberWithOptions(),
-              controller: phoneController,
-              onChanged: (value){
-                if(value.length==2 || value.length==6 || value.length==9){
-                  phoneController.text +='-';
-                }
-
-              },
-              decoration: InputDecoration(
-                prefix: Text('+998 '),
-                border: OutlineInputBorder(
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 5, bottom: 20),
+              child: TextField(
+                maxLength: 12,
+                inputFormatters: [maskFormatter],
+                keyboardType: const TextInputType.numberWithOptions(),
+                controller: phoneController,
+                decoration: InputDecoration(
+                  counterText: "",
+                  prefix: const Text('+998 '),
+                  border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.red)),
-                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.red),
+                  ),
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                        BorderSide(color: Colors.blue.shade800, width: 2)),
-              ),
-            ),
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all(
-                Size(MediaQuery.sizeOf(context).width / 1.1,
-                    MediaQuery.sizeOf(context).width / 8),
-              ),
-              backgroundColor: MaterialStateProperty.all(Colors.blue.shade800),
-              shape: MaterialStateProperty.all(
-                const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+                        BorderSide(color: Colors.blue.shade800, width: 2),
                   ),
                 ),
               ),
             ),
-            onPressed: () {},
-            child: const Text(
-              "Kirish",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            ElevatedButton(
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(
+                  Size(MediaQuery.sizeOf(context).width / 1.1,
+                      MediaQuery.sizeOf(context).width / 7),
+                ),
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.blue.shade800),
+                shape: MaterialStateProperty.all(
+                  const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                if (phoneController.text.trim().length < 12) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Iltimos telefon raqamni to'g'ri kiriting"),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PhoneAuthPage(),
+                    ),
+                  );
+                }
+              },
+              child: const Text(
+                "Kirish",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          const Spacer(
-            flex: 2,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

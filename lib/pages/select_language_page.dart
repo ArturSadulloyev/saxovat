@@ -21,10 +21,7 @@ class _SelectLanguagePageState extends State<SelectLanguagePage> {
         children: [
           Text(
             'Выберите язык / Tilni tanlang / Choose language ',
-            style: font(
-              weight: FontWeight.w500,
-              size: 26
-            ),
+            style: font(weight: FontWeight.w500, size: 26),
           ),
           const SizedBox(height: 20),
           Row(
@@ -41,7 +38,6 @@ class _SelectLanguagePageState extends State<SelectLanguagePage> {
                   groupValue: lang,
                   onChanged: (value) {
                     print(value);
-
                     lang = value as String;
                     setState(() {});
                   },
@@ -95,10 +91,17 @@ class _SelectLanguagePageState extends State<SelectLanguagePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
+                elevation: 0,
                 mini: true,
-                backgroundColor: lang == "" ? Colors.blue.shade100 : Colors.blue,
+                backgroundColor:
+                    lang == "" ? Colors.blue.shade100 : Colors.blue,
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutProjectPage(),));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AboutProjectPage(),
+                    ),
+                  );
                 },
                 shape: const CircleBorder(),
                 child: const Icon(
@@ -106,7 +109,9 @@ class _SelectLanguagePageState extends State<SelectLanguagePage> {
                   size: 24,
                 ),
               ),
-              const SizedBox(width: 10,),
+              const SizedBox(
+                width: 10,
+              ),
             ],
           )
         ],
@@ -126,7 +131,9 @@ class SelectLng extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.white38, borderRadius: BorderRadius.circular(10)),
+        color: Colors.white38,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Row(
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
