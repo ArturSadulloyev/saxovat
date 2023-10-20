@@ -3,10 +3,10 @@ import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/views/font.dart';
 
 class DonationPage extends StatelessWidget {
-  const DonationPage({super.key, required this.list, required this.category});
+   DonationPage({super.key});
 
-  final List<Charity> list;
-  final String category;
+  final List<Charity> list =[];
+  final String category ='';
 
   @override
   Widget build(BuildContext context) {
