@@ -12,87 +12,68 @@ class DonationView extends StatelessWidget {
     return SizedBox(
       height: 220,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: donationList.length,
-          itemBuilder: (context, index) {
-            return Container(
-              height: 200,
-              width: 150,
-              margin: const EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image(
-                      image: AssetImage(donationList[index].imageUrl[0]),
-                      height: 100,
-                      width: double.maxFinite,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Container(
-                    height: 50,
+        scrollDirection: Axis.horizontal,
+        itemCount: donationList.length,
+        itemBuilder: (context, index) {
+          return Container(
+            height: 200,
+            width: 150,
+            margin: const EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(8)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image(
+                    image: AssetImage(donationList[index].imageUrl[0]),
+                    height: 100,
                     width: double.maxFinite,
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      donationList[index].title,
-                      style: font(
-                          size: 15,
-                          color: Colors.black,
-                          weight: FontWeight.w400),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    fit: BoxFit.cover,
                   ),
-                  Container(
-                    height: 30,
-                    width: 70,
-                    margin: const EdgeInsets.all(3),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      donationList[index].category,
-                      style: font(size: 15),
-                      maxLines: 2,
-                    ),
+                ),
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    donationList[index].title,
+                    style: font(
+                        size: 15, color: Colors.black, weight: FontWeight.w400),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, top: 5),
-                    child: Text(
-                      donationList[index].location,
-                      style: font(size: 14, weight: FontWeight.w400),
-                      maxLines: 2,
-                    ),
+                ),
+                Container(
+                  height: 30,
+                  width: 70,
+                  margin: const EdgeInsets.all(3),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       charityList[0].createdAt.day.toString().padLeft(2, "0"),
-                  //       style: font(size: 12),
-                  //       maxLines: 2,
-                  //     ),
-                  //     Text(
-                  //       charityList[0]
-                  //           .createdAt
-                  //           .month
-                  //           .toString()
-                  //           .padLeft(2, "0"),
-                  //       style: font(size: 12),
-                  //       maxLines: 2,
-                  //     ),
-                  //   ],
-                  // ),
-                ],
-              ),
-            );
-          }),
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    donationList[index].category,
+                    style: font(size: 15),
+                    maxLines: 2,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5, top: 5),
+                  child: Text(
+                    donationList[index].location,
+                    style: font(size: 14, weight: FontWeight.w400),
+                    maxLines: 2,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
