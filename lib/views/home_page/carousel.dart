@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Carousel extends StatelessWidget {
   Carousel({super.key});
-  List<AssetImage> images = [
+  final List<AssetImage> images = [
     const AssetImage(
         'assets/images/integrity-wealth-partners-blog-donor-advised-funds-.jpg'),
     const AssetImage('assets/images/bg-donasi-renew.jpg'),
@@ -11,7 +11,7 @@ class Carousel extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return     SizedBox(
+    return SizedBox(
       height: 240,
       child: PageView.builder(
         scrollDirection: Axis.horizontal,

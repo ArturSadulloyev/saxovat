@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/donation_page.dart';
+import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/select_language_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
@@ -17,7 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final List<Charity> donationList = [];
   final List<Charity> charityList2 = [];
 
@@ -36,24 +37,90 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.95),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Asosiy',
-          style: font(
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
+        centerTitle: true,
+        title: const Text(
+          "Asosiy",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+      ),
+      drawer: Drawer(
+        surfaceTintColor: Colors.black,
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 80,
+              width: MediaQuery.sizeOf(context).width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(
+                    CupertinoIcons.profile_circled,
+                    size: 50,
+                    color: Colors.blue.shade300,
+                  ),
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Suxrob",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text("Oddiy foydalanuvchi"),
+                    ],
+                  ),
+                  const SizedBox(width: 15),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade100,
+                      border: Border.all(color: Colors.blueAccent),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: IconButton(
+                      splashRadius: 1,
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.mode_edit,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              color: Colors.blueAccent,
+            ),
+            ListTile(
+              leading: const Icon(
+                CupertinoIcons.question_circle,
+                color: Colors.blue,
+              ),
+              title: const Text("FAQ"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FaqPage(),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
