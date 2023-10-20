@@ -66,7 +66,7 @@ class FaqPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              Text(
+              const Text(
                 CustomStrings.faq1,
                 style: TextStyle(
                   color: Colors.black,
@@ -74,7 +74,7 @@ class FaqPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              Text(
+              const Text(
                 CustomStrings.faq1,
                 style: TextStyle(
                   color: Colors.black,
@@ -82,7 +82,15 @@ class FaqPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              Text(
+              const Text(
+                CustomStrings.faq1,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 40,
+                ),
+              ),
+              const SizedBox(height: 40),
+              const Text(
                 CustomStrings.faq1,
                 style: TextStyle(
                   color: Colors.black,
