@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Carousel extends StatelessWidget {
   Carousel({super.key});
+
   List<AssetImage> images = [
     const AssetImage(
         'assets/images/integrity-wealth-partners-blog-donor-advised-funds-.jpg'),
@@ -9,9 +10,10 @@ class Carousel extends StatelessWidget {
     const AssetImage('assets/images/shutterstock_396853333-scaled.jpg'),
     const AssetImage('assets/images/wheelchair.jpg'),
   ];
+
   @override
   Widget build(BuildContext context) {
-    return     SizedBox(
+    return SizedBox(
       height: 240,
       child: PageView.builder(
         scrollDirection: Axis.horizontal,
@@ -34,13 +36,6 @@ class Carousel extends StatelessWidget {
                   width: double.maxFinite,
                   fit: BoxFit.cover,
                 ),
-                // Text(
-                //   "Bu yerda qandaydir manoli so'zlar bo'lishi mumkin edi Artur !",
-                //   style: font(
-                //     size: 18,
-                //     color: Colors.white,
-                //   ),
-                //  ),
               ],
             ),
           ),

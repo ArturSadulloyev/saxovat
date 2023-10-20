@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-
 import '../../pages/donation_page.dart';
-import '../../pages/select_language_page.dart';
 
 class CategorySelectBtn extends StatelessWidget {
   const CategorySelectBtn({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return     Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Column(
           children: [
             FloatingActionButton(
+              heroTag:'',
               backgroundColor: Colors.green.shade50,
               elevation: 0,
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DonationPage(
-                      // list: charityList2,
-                      //category: 'Volontyorlik',
+                    builder: (context) => const DonationPage(
+                      category: 'Volontyorlik',
                     ),
                   ),
                 );
@@ -46,9 +43,8 @@ class CategorySelectBtn extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DonationPage(
-                      // list: donationList,
-                      // category: 'Xayriya',
+                    builder: (context) => const DonationPage(
+                       category: 'Xayriya',
                     ),
                   ),
                 );
