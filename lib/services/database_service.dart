@@ -21,7 +21,7 @@ final userList = [
     phoneNumber: '+998941289262',
     name: 'Sukhrob',
     surname: 'Gaybullaev',
-    userImage: '',
+    userImage: '', dateOfBirth: DateTime.now(),
   ),
 ];
 

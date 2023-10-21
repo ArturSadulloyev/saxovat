@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/donation_page.dart';
 import 'package:saxovat/pages/faq_page.dart';
+import 'package:saxovat/pages/profile_page.dart';
 import 'package:saxovat/pages/select_language_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
@@ -107,10 +108,27 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: const Icon(
+                CupertinoIcons.profile_circled,
+                color: Colors.blue,
+                size: 30,
+              ),
+              title: const Text("Shaxsiy ma'lumotlar",style: TextStyle(fontSize: 20),),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfilePage(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(
                 CupertinoIcons.question_circle,
                 color: Colors.blue,
+                size: 30,
               ),
-              title: const Text("FAQ"),
+              title: const Text("FAQ",style: TextStyle(fontSize: 20),),
               onTap: () {
                 Navigator.push(
                   context,
