@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController surnameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   final maskFormatter = MaskTextInputFormatter(
-    mask: "**-***-**-**99",
+    mask: "**-***-**-**",
     filter: {"*": RegExp(r"[0-9]")},
     type: MaskAutoCompletionType.lazy,
   );
