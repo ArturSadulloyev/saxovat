@@ -4,7 +4,7 @@ import 'package:saxovat/views/font.dart';
 
 class PhoneAuthPage extends StatelessWidget {
   PhoneAuthPage({super.key});
-  var maskFormatter = MaskTextInputFormatter(
+  final maskFormatter = MaskTextInputFormatter(
     mask: "**-***-**-**99",
     filter: {"*": RegExp(r"[0-9]")},
     type: MaskAutoCompletionType.lazy,
@@ -83,7 +83,15 @@ class PhoneAuthPage extends StatelessWidget {
                     alignment: Alignment.center,
                     height: 50,
                     width: 55,
-                    child: TextField(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      onSaved: (a){
+                        print(a);
+                      },
                       textAlign: TextAlign.center,
                       maxLength: 1,
                       keyboardType: TextInputType.number,
@@ -96,7 +104,7 @@ class PhoneAuthPage extends StatelessWidget {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                          BorderSide(color: Colors.blue.shade800, width: 2),
+                              BorderSide(color: Colors.blue.shade800, width: 2),
                         ),
                       ),
                     ),
@@ -105,7 +113,12 @@ class PhoneAuthPage extends StatelessWidget {
                     alignment: Alignment.center,
                     height: 50,
                     width: 55,
-                    child: TextField(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
                       textAlign: TextAlign.center,
                       maxLength: 1,
                       keyboardType: TextInputType.number,
@@ -118,7 +131,7 @@ class PhoneAuthPage extends StatelessWidget {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                          BorderSide(color: Colors.blue.shade800, width: 2),
+                              BorderSide(color: Colors.blue.shade800, width: 2),
                         ),
                       ),
                     ),
@@ -127,7 +140,12 @@ class PhoneAuthPage extends StatelessWidget {
                     alignment: Alignment.center,
                     height: 50,
                     width: 55,
-                    child: TextField(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
                       textAlign: TextAlign.center,
                       maxLength: 1,
                       keyboardType: TextInputType.number,
@@ -140,7 +158,7 @@ class PhoneAuthPage extends StatelessWidget {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                          BorderSide(color: Colors.blue.shade800, width: 2),
+                              BorderSide(color: Colors.blue.shade800, width: 2),
                         ),
                       ),
                     ),
@@ -149,7 +167,12 @@ class PhoneAuthPage extends StatelessWidget {
                     alignment: Alignment.center,
                     height: 50,
                     width: 55,
-                    child: TextField(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
                       textAlign: TextAlign.center,
                       maxLength: 1,
                       keyboardType: TextInputType.number,
@@ -162,7 +185,7 @@ class PhoneAuthPage extends StatelessWidget {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                          BorderSide(color: Colors.blue.shade800, width: 2),
+                              BorderSide(color: Colors.blue.shade800, width: 2),
                         ),
                       ),
                     ),
@@ -186,7 +209,7 @@ class PhoneAuthPage extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: (){},
+              onPressed: () {},
               child: const Text(
                 "Kirish",
                 style: TextStyle(

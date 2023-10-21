@@ -20,6 +20,7 @@ dependencies:
   easy_image_viewer: ^1.2.1
   swipe_image_gallery: ^0.8.3
   cached_network_image: ^3.3.0
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:
