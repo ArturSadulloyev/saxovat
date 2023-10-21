@@ -16,6 +16,10 @@ dependencies:
   mask_text_input_formatter: ^2.5.0
   swipe_cards: ^2.0.0+1
   intro_screen_onboarding_flutter: ^1.0.0
+  carousel_images: ^1.1.2
+  easy_image_viewer: ^1.2.1
+  swipe_image_gallery: ^0.8.3
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +32,7 @@ flutter:
   assets:
      - assets/images/
      - assets/images/masjid/
+     - assets/images/users/
 
   # fonts:
   #   - family: Schyler

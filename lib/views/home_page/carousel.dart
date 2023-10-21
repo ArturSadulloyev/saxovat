@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Carousel extends StatelessWidget {
-  Carousel({super.key});
+class CarouselCard extends StatelessWidget {
+  CarouselCard({super.key});
 
   List<AssetImage> images = [
     const AssetImage(

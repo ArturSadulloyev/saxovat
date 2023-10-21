@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 10),
-              Carousel(),
+              CarouselCard(),
               Text('Kategoriyalar', style: font(size: 20)),
               const SizedBox(height: 20),
               const CategorySelectBtn(),
