@@ -17,6 +17,7 @@ dependencies:
   swipe_cards: ^2.0.0+1
   intro_screen_onboarding_flutter: ^1.0.0
   image_picker: ^1.0.4
+  url_launcher: ^6.1.14
 
 dev_dependencies:
   flutter_test:

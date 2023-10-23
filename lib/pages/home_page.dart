@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
-import 'package:saxovat/pages/donation_page.dart';
+import 'package:saxovat/pages/contact_page.dart';
 import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
-import 'package:saxovat/pages/select_language_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
 import 'package:saxovat/views/home_page/carousel.dart';
@@ -112,7 +111,10 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.blue,
                 size: 30,
               ),
-              title: const Text("Shaxsiy ma'lumotlar",style: TextStyle(fontSize: 20),),
+              title: const Text(
+                "Shaxsiy ma'lumotlar",
+                style: TextStyle(fontSize: 20),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -124,11 +126,33 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: const Icon(
+                Icons.phone,
+                color: Colors.blue,
+                size: 30,
+              ),
+              title: const Text(
+                "Biz bilan aloqa",
+                style: TextStyle(fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ContactPage(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(
                 CupertinoIcons.question_circle,
                 color: Colors.blue,
                 size: 30,
               ),
-              title: const Text("FAQ",style: TextStyle(fontSize: 20),),
+              title: const Text(
+                "FAQ",
+                style: TextStyle(fontSize: 20),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -161,7 +185,7 @@ class _HomePageState extends State<HomePage> {
               Text('Volontyorlik', style: font(size: 20)),
               const SizedBox(height: 20),
               CharityView(charityList2: charityList2),
-              const SizedBox(height: 20),
+              const SizedBox(height: 60),
             ],
           ),
         ),
