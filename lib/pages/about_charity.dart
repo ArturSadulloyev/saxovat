@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_images/carousel_images.dart';
-import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/user_model.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
-import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 
 class AboutCharity extends StatefulWidget {
   AboutCharity({super.key, required this.charity});
@@ -206,15 +202,15 @@ class _AboutCharityState extends State<AboutCharity> {
                 itemCount: widget.charity.imageUrl.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {
-                      SwipeImageGallery(
-                        transitionDuration: 0,
-                        context: context,
-                        children: [
-                          Image.asset(widget.charity.imageUrl[index]),
-                        ],
-                      ).show();
-                    },
+                    // onTap: () {
+                    //   SwipeImageGallery(
+                    //     transitionDuration: 0,
+                    //     context: context,
+                    //     children: [
+                    //       Image.asset(widget.charity.imageUrl[index]),
+                    //     ],
+                    //   ).show();
+                    // },
                     child: Image(
                       height: double.maxFinite,
                       width: double.maxFinite,
