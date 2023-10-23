@@ -6,7 +6,6 @@ import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
-import 'package:saxovat/views/home_page/carousel.dart';
 import 'package:saxovat/views/home_page/category_btn.dart';
 import 'package:saxovat/views/home_page/charity_view.dart';
 import 'package:saxovat/views/home_page/donation_view.dart';
@@ -162,6 +161,26 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+            SizedBox(height: 500,),
+            ListTile(
+              leading: const Icon(
+                Icons.exit_to_app,
+                color: Colors.red,
+                size: 30,
+              ),
+              title: const Text(
+                "Chiqish",
+                style: TextStyle(fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -173,7 +192,6 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 10),
-
               Text('Kategoriyalar', style: font(size: 20)),
               const SizedBox(height: 20),
               const CategorySelectBtn(),
