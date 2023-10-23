@@ -7,6 +7,7 @@ class Charity {
   final String userId;
   final String category;
   final String location;
+  final String? cardNumber;
   final List<String> imageUrl;
   final bool isMe;
   List<Message> comments;
@@ -20,6 +21,7 @@ class Charity {
       required this.userId,
         required this.category,
         required this.location,
+         this.cardNumber,
       required this.imageUrl,
       required this.createdAt,
       required this.comments});
@@ -32,6 +34,7 @@ class Charity {
         userId: json["userId"] as String,
         category: json["category"] as String,
         location: json["location"] as String,
+        cardNumber: json["cardNumber"] as String?,
         createdAt: DateTime.parse(json["createdAt"] as String),
         isMe: isMe,
         comments: json["comments"] != null
@@ -49,6 +52,7 @@ class Charity {
         "content": description,
         "userId": userId,
     "location":location,
+    "cardNumber":cardNumber,
     "category":category,
         "imageUrl": imageUrl,
         "comments": comments.map((e) => e.toJson()).toList(),

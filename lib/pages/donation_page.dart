@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
+import 'package:saxovat/pages/about_charity.dart';
 import 'package:saxovat/views/font.dart';
 
 import '../services/database_service.dart';
@@ -16,15 +17,19 @@ class DonationPage extends StatefulWidget {
 class _DonationPageState extends State<DonationPage> {
   final List<Charity> list = [];
 
-  @override
-  void initState() {
-    super.initState();
+  void getList() {
     list.clear();
     for (int i = 0; i < charityList.length; i++) {
       if (charityList[i].category == widget.category) {
         list.add(charityList[i]);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getList();
   }
 
   @override
@@ -44,7 +49,7 @@ class _DonationPageState extends State<DonationPage> {
           ),
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         title: Text(widget.category,
             style: font(size: 20, weight: FontWeight.w500)),
       ),
@@ -53,21 +58,34 @@ class _DonationPageState extends State<DonationPage> {
         itemCount: list.length,
         itemBuilder: (context, index) {
           if (list[index].category == widget.category) {
-            return Container(
-              margin: const EdgeInsets.all(10),
-              child: ListTile(
-                leading: Image(
-                  height: 350,
-                  width: 150,
-                  fit: BoxFit.cover,
-                  image: AssetImage(list[index].imageUrl[0]),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AboutCharity(charity: list[index]),
+                    ));
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  child: ListTile(
+                    leading: Image(
+                      height: 350,
+                      width: 140,
+                      fit: BoxFit.cover,
+                      image: AssetImage(list[index].imageUrl[0]),
+                    ),
+                    title: Text(
+                      list[0].title,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: Text(list[0].category),
+                  ),
                 ),
-                title: Text(
-                  list[0].title,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: Text(list[0].category),
               ),
             );
           }
