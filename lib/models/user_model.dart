@@ -6,7 +6,7 @@ class User {
   final String name;
   final String surname;
   final String? userImage;
-  final List<Charity>? favoriteList;
+  final List<Charity> favoriteList;
   final DateTime dateOfBirth;
 
   User({
@@ -15,7 +15,7 @@ class User {
     required this.name,
     required this.surname,
     required this.userImage,
-    this.favoriteList,
+    required this.favoriteList,
     required this.dateOfBirth,
   });
 
@@ -27,7 +27,9 @@ class User {
       name: json["name"] as String,
       surname: json["surname"] as String,
       userImage: json["userImage"] as String?,
-      //  favoriteList:(json['favoriteList'] as List?).map((e) => null)
+      favoriteList: (json['favoriteList'] as List)
+          .map((e) => Charity.fromJson(e as Map<String, Object?>))
+          .toList(),
     );
   }
 

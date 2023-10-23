@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
-import 'package:saxovat/pages/donation_page.dart';
 import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
-import 'package:saxovat/pages/select_language_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
 import 'package:saxovat/views/home_page/carousel.dart';
@@ -12,8 +10,10 @@ import 'package:saxovat/views/home_page/category_btn.dart';
 import 'package:saxovat/views/home_page/charity_view.dart';
 import 'package:saxovat/views/home_page/donation_view.dart';
 
+import 'donation_page.dart';
+
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,9 +23,7 @@ class _HomePageState extends State<HomePage> {
   final List<Charity> donationList = [];
   final List<Charity> charityList2 = [];
 
-  @override
-  void initState() {
-    super.initState();
+  void getList() {
     for (int i = 0; i < charityList.length; i++) {
       if (charityList[i].category == 'Xayriya') {
         donationList.add(charityList[i]);
@@ -36,9 +34,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white.withOpacity(0.95),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
@@ -47,7 +51,7 @@ class _HomePageState extends State<HomePage> {
           "Asosiy",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
       ),
       drawer: Drawer(
         surfaceTintColor: Colors.black,
@@ -112,7 +116,10 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.blue,
                 size: 30,
               ),
-              title: const Text("Shaxsiy ma'lumotlar",style: TextStyle(fontSize: 20),),
+              title: const Text(
+                "Shaxsiy ma'lumotlar",
+                style: TextStyle(fontSize: 20),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -128,7 +135,10 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.blue,
                 size: 30,
               ),
-              title: const Text("FAQ",style: TextStyle(fontSize: 20),),
+              title: const Text(
+                "FAQ",
+                style: TextStyle(fontSize: 20),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -154,11 +164,60 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               const CategorySelectBtn(),
               const SizedBox(height: 20),
-              Text('Xayriya', style: font(size: 20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Xayriya', style: font(size: 20)),
+                  TextButton(
+                    onPressed: () {
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DonationPage(
+                            category: 'Xayriya',
+                          ),
+                        ),
+                      );
+
+
+
+                    },
+                    child: const Text(
+                      'Barchasi',
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               DonationView(donationList: donationList),
               const SizedBox(height: 20),
-              Text('Volontyorlik', style: font(size: 20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                children: [
+                  Text('Volontyorlik', style: font(size: 20)),
+                  TextButton(
+                    onPressed: () {
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DonationPage(
+                            category: 'Volontyorlik',
+                          ),
+                        ),
+                      );
+
+                    },
+                    child: const Text(
+                      'Barchasi',
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               CharityView(charityList2: charityList2),
               const SizedBox(height: 20),

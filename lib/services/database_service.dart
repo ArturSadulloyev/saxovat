@@ -22,7 +22,7 @@ final userList = [
     name: 'Sukhrob',
     surname: 'Gaybullaev',
     userImage: 'assets/images/users/photo_2023-09-21_10-16-35.jpg',
-    dateOfBirth: DateTime(1992, 04, 21),
+    dateOfBirth: DateTime(1992, 04, 21), favoriteList: [],
 
   ),
   User(
@@ -31,7 +31,7 @@ final userList = [
     name: 'Alisher',
     surname: 'Sadullayev',
     userImage: "assets/images/users/Alisher_Sa'dullayev._2022.jpg",
-    dateOfBirth: DateTime(1998, 01, 14),
+    dateOfBirth: DateTime(1998, 01, 14), favoriteList: [],
 
   ),
   User(
@@ -40,7 +40,7 @@ final userList = [
     name: 'Odilbek',
     surname: 'Ibrohimov',
     userImage: 'assets/images/users/083A3087.JPG',
-    dateOfBirth: DateTime(2002, 08, 27),
+    dateOfBirth: DateTime(2002, 08, 27), favoriteList: [],
   ),
 ];
 

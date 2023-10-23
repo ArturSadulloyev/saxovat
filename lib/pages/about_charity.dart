@@ -20,11 +20,15 @@ class AboutCharity extends StatefulWidget {
 
 class _AboutCharityState extends State<AboutCharity> {
   User? user;
+  bool isFavorite = false;
 
   checkUser() {
     for (int i = 0; i < userList.length; i++) {
       if (userList[i].uid == widget.charity.userId) {
         user = userList[i];
+        print('object');
+        print(userList[i].favoriteList.contains(widget.charity));
+        isFavorite = userList[i].favoriteList.contains(widget.charity);
         break;
       }
     }
@@ -116,45 +120,45 @@ class _AboutCharityState extends State<AboutCharity> {
   }
 
   void _showQuestion(BuildContext ctx) {
-    showDialog(context: context, builder: (context) => AlertDialog(
-      content: Container(
-        height: 50,
-        width: double.maxFinite,
-        alignment: Alignment.center,
-        // padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        // // decoration: BoxDecoration(
-        //     color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Xabar yozing...',
-                  fillColor: Colors.grey[300],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  focusedBorder:OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Container(
+          height: 50,
+          width: double.maxFinite,
+          alignment: Alignment.center,
+          // padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          // // decoration: BoxDecoration(
+          //     color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Xabar yozing...',
+                    fillColor: Colors.grey[300],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.send,
-                color: Colors.blue.shade900,
-              ),
-            )
-          ],
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.send,
+                  color: Colors.blue.shade900,
+                ),
+              )
+            ],
+          ),
         ),
       ),
-    ),);
-
+    );
   }
 
   @override
@@ -163,6 +167,7 @@ class _AboutCharityState extends State<AboutCharity> {
 
     checkUser();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +210,9 @@ class _AboutCharityState extends State<AboutCharity> {
                       SwipeImageGallery(
                         transitionDuration: 0,
                         context: context,
-                        children: [Image.asset(widget.charity.imageUrl[index])],
+                        children: [
+                          Image.asset(widget.charity.imageUrl[index]),
+                        ],
                       ).show();
                     },
                     child: Image(
@@ -235,7 +242,7 @@ class _AboutCharityState extends State<AboutCharity> {
                     height: 50,
                     width: 50,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(user?.userImage ?? ''),
+                      backgroundImage: AssetImage(user?.userImage ?? '2'),
                     ),
                   ),
 
@@ -257,8 +264,7 @@ class _AboutCharityState extends State<AboutCharity> {
                   GestureDetector(
                     onTap: () {
                       /// TODO
-                     _showQuestion(context);
-
+                      _showQuestion(context);
                     },
                     child: Container(
                       height: 40,
@@ -409,16 +415,29 @@ class _AboutCharityState extends State<AboutCharity> {
                     child: SizedBox(
                       height: 45,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (!isFavorite!) {
+                            print('add');
+                            user?.favoriteList?.add(widget.charity);
+                            checkUser();
+                          } else {
+                            print('remove');
+                            user?.favoriteList?.remove(widget.charity);
+                            checkUser();
+                          }
+                          setState(() {});
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue.shade900,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(9),
                           ),
                         ),
-                        child: const Icon(
-                          Icons.favorite_border,
-                        ),
+                        child: !isFavorite!
+                            ? const Icon(
+                                Icons.favorite_border,
+                              )
+                            : const Icon(Icons.favorite),
                       ),
                     ),
                   ),
