@@ -11,7 +11,7 @@ import 'package:saxovat/views/home_page/charity_view.dart';
 import 'package:saxovat/views/home_page/donation_view.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

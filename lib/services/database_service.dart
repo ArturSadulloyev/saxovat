@@ -10,8 +10,6 @@
 //     );
 //   }
 // }
-
-import 'package:flutter/cupertino.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/user_model.dart';
 

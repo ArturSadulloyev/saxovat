@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/views/font.dart';
 
 class PhoneAuthPage extends StatelessWidget {
@@ -89,7 +90,7 @@ class PhoneAuthPage extends StatelessWidget {
                           FocusScope.of(context).nextFocus();
                         }
                       },
-                      onSaved: (a){
+                      onSaved: (a) {
                         print(a);
                       },
                       textAlign: TextAlign.center,
@@ -209,7 +210,10 @@ class PhoneAuthPage extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const HomePage()));
+              },
               child: const Text(
                 "Kirish",
                 style: TextStyle(

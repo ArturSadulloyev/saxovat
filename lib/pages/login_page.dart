@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:saxovat/pages/phone_auth_page.dart';
+import 'package:saxovat/services/phone_auth_service.dart';
 import 'package:saxovat/views/font.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final TextEditingController phoneController = TextEditingController();
-  final maskFormatter = MaskTextInputFormatter(
-    mask: "**-***-**-**",
-    filter: {"*": RegExp(r"[0-9]")},
-    type: MaskAutoCompletionType.lazy,
-  );
+  // final maskFormatter = MaskTextInputFormatter(
+  //   mask: "****-**-***-**-**",
+  //   filter: {"*": RegExp(r"$[+][0-9]{3}[0-9]{2}[0-9]{3}[0-9]{2}[0-9]{2}")},
+  //   type: MaskAutoCompletionType.lazy,
+  // );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,13 +77,11 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 5, bottom: 20),
               child: TextField(
-                maxLength: 12,
-                inputFormatters: [maskFormatter],
-                keyboardType: const TextInputType.numberWithOptions(),
+                maxLength: 13,
+                // inputFormatters: [maskFormatter],
                 controller: phoneController,
                 decoration: InputDecoration(
                   counterText: "",
-                  prefix: const Text('+998 '),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.red),
@@ -112,7 +111,10 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                if (phoneController.text.trim().length < 12) {
+                Auth.signInWithPhoneNumber(phoneController.text.trim());
+                Auth.verifyPhoneNumber(phoneController.text.trim());
+                print(phoneController.text.trim());
+                if (phoneController.text.trim().length < 13) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text("Iltimos telefon raqamni to'g'ri kiriting"),
