@@ -6,6 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/database_service.dart';
+import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 
 class AddCharityPage extends StatefulWidget {

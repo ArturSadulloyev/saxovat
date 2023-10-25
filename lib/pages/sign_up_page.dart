@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/pages/phone_auth_page.dart';
+import 'package:saxovat/services/db_services.dart';
 
 import '../services/auth_service.dart';
 
@@ -160,6 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
               // inputFormatters: [maskFormatter],
               controller: birthController,
               decoration: InputDecoration(
+                labelText: "Tug'ulgan kuningizni kiriting",
                 suffixIcon: IconButton(
                   onPressed: () async {
                     final DateTime? picked = await showDatePicker(
@@ -214,34 +216,38 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
             onPressed: () async {
-              if (nameController.text.trim().length < 3) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Iltimos telefon raqamni to'g'ri kiriting"),
+              /// # TODO
+              final result = await Auth.createUserWithEmailAndPassword(
+                emailController.text,
+                passwordController.text,
+                usernameController.text,
+              );
+              await CircularProgressIndicator.adaptive();
+
+              if (result) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(),
                   ),
                 );
-              } else {
-                /// # TODO
-                final result = await Auth.createUserWithEmailAndPassword(
-                  emailController.text,
-                  passwordController.text,
-                  usernameController.text,
-                );
 
-                if (result) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Iltimos qayta urinib ko'ring !"),
-                    ),
-                  );
-                }
+                DBService.storeUser(
+                    emailController.text,
+                    passwordController.text,
+                    usernameController.text,
+                    Auth.auth.currentUser?.uid ?? '0',
+                    phoneController.text,
+                    nameController.text,
+                    file.toString(),
+                    [],
+                    selectedDate);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Iltimos qayta urinib ko'ring !"),
+                  ),
+                );
               }
             },
             child: const Text(

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/pages/phone_auth_page.dart';
+import 'package:saxovat/pages/sign_up_page.dart';
 import 'package:saxovat/services/auth_service.dart';
 import 'package:saxovat/views/font.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
-  final TextEditingController phoneController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   // final maskFormatter = MaskTextInputFormatter(
   //   mask: "****-**-***-**-**",
   //   filter: {"*": RegExp(r"$[+][0-9]{3}[0-9]{2}[0-9]{3}[0-9]{2}[0-9]{2}")},
@@ -69,7 +74,7 @@ class LoginPage extends StatelessWidget {
                       style: font(size: 23, color: Colors.red),
                     ),
                   ),
-                  Text('Telefon raqam kiriting', style: font(size: 18)),
+                  Text('Email kiriting', style: font(size: 18)),
                 ],
               ),
             ),
@@ -77,9 +82,8 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 5, bottom: 20),
               child: TextField(
-                maxLength: 13,
                 // inputFormatters: [maskFormatter],
-                controller: phoneController,
+                controller: emailController,
                 decoration: InputDecoration(
                   counterText: "",
                   border: OutlineInputBorder(
@@ -94,8 +98,6 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-
-
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Row(
@@ -115,11 +117,9 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 5, bottom: 20),
               child: TextField(
-                maxLength: 13,
                 // inputFormatters: [maskFormatter],
-                controller: phoneController,
+                controller: passwordController,
                 decoration: InputDecoration(
-                  counterText: "",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.red),
@@ -127,13 +127,22 @@ class LoginPage extends StatelessWidget {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide:
-                    BorderSide(color: Colors.blue.shade800, width: 2),
+                        BorderSide(color: Colors.blue.shade800, width: 2),
                   ),
                 ),
               ),
             ),
-
-
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignUpPage(),
+                  ),
+                );
+              },
+              child: Text("Ro'yhatdan o'tish"),
+            ),
             ElevatedButton(
               style: ButtonStyle(
                 fixedSize: MaterialStateProperty.all(
@@ -150,21 +159,22 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {
-                Auth.signInWithPhoneNumber(phoneController.text.trim());
-                Auth.verifyPhoneNumber(phoneController.text.trim());
-                print(phoneController.text.trim());
-                if (phoneController.text.trim().length < 13) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Iltimos telefon raqamni to'g'ri kiriting"),
+              onPressed: () async {
+                final result = await Auth.signInWithEmailAndPassword(
+                  emailController.text,
+                  passwordController.text,
+                );
+                if (result) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
                     ),
                   );
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PhoneAuthPage(),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Login yoki parol xato'),
                     ),
                   );
                 }

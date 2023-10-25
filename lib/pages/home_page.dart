@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
+import 'package:saxovat/services/auth_service.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
 import 'package:saxovat/views/home_page/carousel.dart';
@@ -91,7 +92,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-
                   const SizedBox(width: 15),
                   Container(
                     alignment: Alignment.center,
@@ -228,6 +228,21 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+            ListTile(
+              leading: const Icon(
+                Icons.login,
+                color: Colors.blue,
+                size: 30,
+              ),
+              title: const Text(
+                "Chiqish",
+                style: TextStyle(fontSize: 20),
+              ),
+              onTap: () async {
+                await Auth.signOut();
+
+              },
+            ),
           ],
         ),
       ),
@@ -250,7 +265,6 @@ class _HomePageState extends State<HomePage> {
                   Text('Xayriya', style: font(size: 20)),
                   TextButton(
                     onPressed: () {
-
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -259,9 +273,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       );
-
-
-
                     },
                     child: const Text(
                       'Barchasi',
@@ -275,12 +286,10 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
                   Text('Volontyorlik', style: font(size: 20)),
                   TextButton(
                     onPressed: () {
-
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -289,7 +298,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       );
-
                     },
                     child: const Text(
                       'Barchasi',

@@ -2,25 +2,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/foundation.dart';
 
+import '../models/charity_model.dart';
 import 'db_services.dart';
 
 class Auth {
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  User? get currentUser => _auth.currentUser;
+  User? get currentUser => auth.currentUser;
 
+  Stream<User?> get authStateChanges => auth.authStateChanges();
 
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
-
-  static Future<void> signInWithEmailAndPassword(
+  static Future<bool> signInWithEmailAndPassword(
       String email, String password) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+    final credential = await auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return credential.user != null;
   }
 
   static Future<bool> createUserWithEmailAndPassword(
-      String email, String password,String username) async {
+      String email, String password, String username) async {
     try {
-      final credential = await _auth.createUserWithEmailAndPassword(
+      final credential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (credential.user != null) {
         await credential.user!.updateDisplayName(username);
@@ -36,8 +38,10 @@ class Auth {
     }
   }
 
+
+
   static Future<void> signInWithPhoneNumber(String phoneNumber) async {
-    await _auth.signInWithPhoneNumber(
+    await auth.signInWithPhoneNumber(
       phoneNumber,
       // RecaptchaVerifier(
       //   container: "recaptcha",
@@ -52,10 +56,10 @@ class Auth {
   }
 
   static Future<void> verifyPhoneNumber(String phoneNumber) async {
-    await _auth.verifyPhoneNumber(
+    await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
-        await _auth.signInWithCredential(credential);
+        await auth.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {
@@ -71,13 +75,13 @@ class Auth {
             verificationId: verificationId, smsCode: smsCode);
 
         // Sign the user in (or link) with the credential
-        await _auth.signInWithCredential(credential);
+        await auth.signInWithCredential(credential);
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 
   static Future<void> signOut() async {
-    await _auth.signOut();
+    await auth.signOut();
   }
 }
