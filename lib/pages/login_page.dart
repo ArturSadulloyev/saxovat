@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:saxovat/pages/phone_auth_page.dart';
-import 'package:saxovat/services/phone_auth_service.dart';
+import 'package:saxovat/services/auth_service.dart';
 import 'package:saxovat/views/font.dart';
 
 class LoginPage extends StatelessWidget {
@@ -69,7 +69,7 @@ class LoginPage extends StatelessWidget {
                       style: font(size: 23, color: Colors.red),
                     ),
                   ),
-                  Text('Telefon raqamini kiriting', style: font(size: 18)),
+                  Text('Telefon raqam kiriting', style: font(size: 18)),
                 ],
               ),
             ),
@@ -94,6 +94,46 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
+
+
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  Badge(
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      '*',
+                      style: font(size: 23, color: Colors.red),
+                    ),
+                  ),
+                  Text('Parol kiriting', style: font(size: 18)),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 5, bottom: 20),
+              child: TextField(
+                maxLength: 13,
+                // inputFormatters: [maskFormatter],
+                controller: phoneController,
+                decoration: InputDecoration(
+                  counterText: "",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.red),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                    BorderSide(color: Colors.blue.shade800, width: 2),
+                  ),
+                ),
+              ),
+            ),
+
+
             ElevatedButton(
               style: ButtonStyle(
                 fixedSize: MaterialStateProperty.all(

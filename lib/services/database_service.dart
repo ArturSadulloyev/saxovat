@@ -18,27 +18,27 @@ final userList = [
     uid: '1',
     phoneNumber: '+998941289262',
     name: 'Sukhrob',
-    surname: 'Gaybullaev',
+    email: 'Gaybullaev@gmail.com',
     userImage: 'assets/images/users/photo_2023-09-21_10-16-35.jpg',
-    dateOfBirth: DateTime(1992, 04, 21), favoriteList: [],
+    dateOfBirth: DateTime(1992, 04, 21), favoriteList: [], username: 'sukhrob', password: '123123',
 
   ),
   User(
     uid: '2',
     phoneNumber: '+998946963252',
     name: 'Alisher',
-    surname: 'Sadullayev',
+    email: 'Sadullayev@gmail.com',
     userImage: "assets/images/users/Alisher_Sa'dullayev._2022.jpg",
-    dateOfBirth: DateTime(1998, 01, 14), favoriteList: [],
+    dateOfBirth: DateTime(1998, 01, 14), favoriteList: [], username: 'alisher', password: '123123',
 
   ),
   User(
     uid: '3',
     phoneNumber: '+998941254585',
     name: 'Odilbek',
-    surname: 'Ibrohimov',
+    email: 'Ibrohimov@gmail.com',
     userImage: 'assets/images/users/083A3087.JPG',
-    dateOfBirth: DateTime(2002, 08, 27), favoriteList: [],
+    dateOfBirth: DateTime(2002, 08, 27), favoriteList: [], username: 'odil', password: '123123',
   ),
 ];
 

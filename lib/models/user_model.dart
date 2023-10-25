@@ -4,7 +4,9 @@ class User {
   final String uid;
   final String phoneNumber;
   final String name;
-  final String surname;
+  final String email;
+  final String username;
+  final String password;
   final String? userImage;
   final List<Charity> favoriteList;
   final DateTime dateOfBirth;
@@ -12,8 +14,10 @@ class User {
   User({
     required this.uid,
     required this.phoneNumber,
+    required this.username,
+    required this.password,
     required this.name,
-    required this.surname,
+    required this.email,
     required this.userImage,
     required this.favoriteList,
     required this.dateOfBirth,
@@ -25,7 +29,9 @@ class User {
       uid: json["uid"] as String,
       phoneNumber: json["phoneNumber"] as String,
       name: json["name"] as String,
-      surname: json["surname"] as String,
+      email: json["email"] as String,
+      password: json["password"] as String,
+      username: json["username"] as String,
       userImage: json["userImage"] as String?,
       favoriteList: (json['favoriteList'] as List)
           .map((e) => Charity.fromJson(e as Map<String, Object?>))
@@ -38,7 +44,9 @@ class User {
       "uid": uid,
       "phoneNumber": phoneNumber,
       "name": name,
-      "surname": surname,
+      "email": email,
+      "password": password,
+      "username": username,
       "userImage": userImage,
       "dateOfBirth": dateOfBirth
     };

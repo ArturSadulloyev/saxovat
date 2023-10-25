@@ -21,6 +21,10 @@ dependencies:
   firebase_auth: ^4.11.1
   firebase_auth_platform_interface: ^7.0.1
   swipe_image_gallery: ^0.8.3
+  firebase_database: ^10.2.5
+  firebase_storage: ^11.2.7
+
+
 
 dev_dependencies:
   flutter_test:

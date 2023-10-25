@@ -1,9 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
+import 'package:flutter/foundation.dart';
+
+import 'db_services.dart';
 
 class Auth {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
+
   User? get currentUser => _auth.currentUser;
+
+
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   static Future<void> signInWithEmailAndPassword(
@@ -11,10 +17,23 @@ class Auth {
     await _auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  static Future<void> createUserWithEmailAndPassword(
-      String email, String password) async {
-    await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
+  static Future<bool> createUserWithEmailAndPassword(
+      String email, String password,String username) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      if (credential.user != null) {
+        await credential.user!.updateDisplayName(username);
+
+        // await DBService.storeUser(
+        //     email, password, username, credential.user!.uid);
+      }
+
+      return credential.user != null;
+    } catch (e) {
+      debugPrint("ERROR: $e");
+      return false;
+    }
   }
 
   static Future<void> signInWithPhoneNumber(String phoneNumber) async {
