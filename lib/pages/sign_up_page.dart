@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/pages/phone_auth_page.dart';
 
 import '../services/auth_service.dart';
@@ -14,6 +15,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
@@ -33,9 +38,11 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          /// image picker
           Align(
             alignment: Alignment.center,
             child: GestureDetector(
@@ -60,12 +67,14 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
           SizedBox(height: 50),
+
+          /// name
           Padding(
             padding:
                 const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
             child: TextField(
               // inputFormatters: [maskFormatter],
-              controller: phoneController,
+              controller: nameController,
               decoration: InputDecoration(
                 label: Text('Ismingizni kiriting'),
                 border: OutlineInputBorder(
@@ -79,12 +88,14 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+
+          /// email
           Padding(
             padding:
                 const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
             child: TextField(
               // inputFormatters: [maskFormatter],
-              controller: phoneController,
+              controller: emailController,
               decoration: InputDecoration(
                 label: Text('Email kiriting'),
                 border: OutlineInputBorder(
@@ -98,12 +109,14 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+
+          /// username
           Padding(
             padding:
                 const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
             child: TextField(
               // inputFormatters: [maskFormatter],
-              controller: phoneController,
+              controller: usernameController,
               decoration: InputDecoration(
                 label: Text('Username kiriting'),
                 border: OutlineInputBorder(
@@ -117,12 +130,14 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+
+          /// password
           Padding(
             padding:
                 const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
             child: TextField(
               // inputFormatters: [maskFormatter],
-              controller: phoneController,
+              controller: passwordController,
               decoration: InputDecoration(
                 label: Text('Parol kiriting'),
                 border: OutlineInputBorder(
@@ -136,6 +151,8 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+
+          /// birth
           Padding(
             padding:
                 const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
@@ -179,6 +196,8 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
           ),
+
+          /// btn
           ElevatedButton(
             style: ButtonStyle(
               fixedSize: MaterialStateProperty.all(
@@ -194,22 +213,39 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
             ),
-            onPressed: () {
-
-              if (phoneController.text.trim().length < 13) {
+            onPressed: () async {
+              if (nameController.text.trim().length < 3) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text("Iltimos telefon raqamni to'g'ri kiriting"),
                   ),
                 );
               } else {
-               /// # TODO
+                /// # TODO
+                final result = await Auth.createUserWithEmailAndPassword(
+                  emailController.text,
+                  passwordController.text,
+                  usernameController.text,
+                );
 
-
+                if (result) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Iltimos qayta urinib ko'ring !"),
+                    ),
+                  );
+                }
               }
             },
             child: const Text(
-              "Kirish",
+              "Ro'yhatdan O'tish",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
