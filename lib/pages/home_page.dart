@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
+import 'package:saxovat/pages/add_charity_page.dart';
 import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
 import 'package:saxovat/services/database_service.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i < charityList.length; i++) {
       if (charityList[i].category == 'Xayriya') {
         donationList.add(charityList[i]);
+     //   print(donationList[i].imageUrl);
       } else {
         charityList2.add(charityList[i]);
       }
@@ -81,7 +83,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      Text("Oddiy foydalanuvchi"),
+                      Row(
+                        children: [
+                          Icon(Icons.person, size: 16),
+                          SizedBox(width: 5),
+                          Text("Oddiy foydalanuvchi"),
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(width: 15),
@@ -109,6 +117,78 @@ class _HomePageState extends State<HomePage> {
             ),
             const Divider(
               color: Colors.blueAccent,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddCharityPage(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.all(10),
+                width: double.maxFinite,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage(
+                        'assets/images/PngItem_733744.png',
+                      ),
+                      height: 30,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      "Volontyor bo'ling",
+                      style: font(
+                          color: Colors.blue.shade900, weight: FontWeight.w800),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddCharityPage(cardNumber: 'Xayriya'),
+                  ),
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.all(10),
+                width: double.maxFinite,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage(
+                        'assets/images/pngegg.png',
+                      ),
+                      height: 35,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      "Xayriya",
+                      style: font(
+                          color: Colors.blue.shade900, weight: FontWeight.w800),
+                    )
+                  ],
+                ),
+              ),
             ),
             ListTile(
               leading: const Icon(
@@ -170,7 +250,6 @@ class _HomePageState extends State<HomePage> {
                   Text('Xayriya', style: font(size: 20)),
                   TextButton(
                     onPressed: () {
-
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -179,9 +258,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       );
-
-
-
                     },
                     child: const Text(
                       'Barchasi',
@@ -195,12 +271,10 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
                   Text('Volontyorlik', style: font(size: 20)),
                   TextButton(
                     onPressed: () {
-
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -209,7 +283,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       );
-
                     },
                     child: const Text(
                       'Barchasi',

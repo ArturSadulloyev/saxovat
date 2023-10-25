@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/about_charity.dart';
@@ -57,6 +59,7 @@ class _DonationPageState extends State<DonationPage> {
         padding: const EdgeInsets.all(4),
         itemCount: list.length,
         itemBuilder: (context, index) {
+          File f = File(list[index].imageUrl[0]);
           if (list[index].category == widget.category) {
             return GestureDetector(
               onTap: () {
@@ -72,12 +75,9 @@ class _DonationPageState extends State<DonationPage> {
                 child: Container(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    leading: Image(
-                      height: 350,
-                      width: 140,
-                      fit: BoxFit.cover,
-                      image: AssetImage(list[index].imageUrl[0]),
-                    ),
+                    leading: Image.file(f,fit: BoxFit.cover,),
+
+
                     title: Text(
                       list[0].title,
                       maxLines: 3,

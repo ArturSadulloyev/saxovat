@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:saxovat/models/charity_model.dart';
+import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/views/font.dart';
 
 class AddCharityPage extends StatefulWidget {
-  const AddCharityPage({super.key});
+  AddCharityPage({super.key, this.cardNumber});
+
+  String? cardNumber;
 
   @override
   State<AddCharityPage> createState() => _AddCharityPageState();
@@ -30,11 +33,14 @@ class _AddCharityPageState extends State<AddCharityPage> {
     filter: {"*": RegExp(r"[0-9]")},
     type: MaskAutoCompletionType.lazy,
   );
+  List<File> imageList = [];
 
   void getImage() async {
-    final xFile = await picker.pickImage(source: ImageSource.gallery);
+    var xFile = await picker.pickImage(source: ImageSource.gallery);
     if (xFile != null) {
       file = File(xFile.path);
+      imageList.add(file!);
+      print(file);
       setState(() {});
     }
   }
@@ -55,28 +61,159 @@ class _AddCharityPageState extends State<AddCharityPage> {
               const SizedBox(
                 height: 50,
               ),
-              Align(
-                alignment: Alignment.center,
-                child: GestureDetector(
-                  onTap: getImage,
-                  child: Container(
-                    clipBehavior: Clip.antiAlias,
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100)),
-                        color: Colors.blue.shade200),
-                    child: file == null
-                        ? const Icon(
-                            Icons.add,
-                            size: 60,
-                          )
-                        : Image.file(
-                            file!,
-                            fit: BoxFit.cover,
+              Container(
+                height: 150,
+                width: double.maxFinite,
+                //   padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //for (int i = 0; i < 3; i++)
+                        Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: getImage,
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(100)),
+                                  color: Colors.blue.shade200),
+                              child: file == null
+                                  ? const Icon(
+                                      Icons.add,
+                                      size: 60,
+                                    )
+                                  : Image.file(
+                                      file!,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
                           ),
-                  ),
+                        ),
+                        // Expanded(
+                        //   child: GestureDetector(
+                        //     onTap: getImage,
+                        //     child: Container(
+                        //       height: 150,
+                        //       width: 100,
+                        //       // margin: const EdgeInsets.only(
+                        //       //   right: 10,
+                        //       //   bottom: 10,
+                        //       // ),
+                        //       decoration: BoxDecoration(
+                        //         color: Colors.blue.shade200,
+                        //       ),
+                        //       child: file == null
+                        //           ? const Icon(
+                        //               Icons.add,
+                        //               size: 60,
+                        //             )
+                        //           : Image.file(
+                        //               file!,
+                        //                   // File(
+                        //                   //   '/data/user/0/com.example.saxovat/cache/01efade3-add5-4958-9f1c-f84dc4dc7566/anonym.png',
+                        //                   // ),
+                        //               fit: BoxFit.cover,
+                        //             ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // Expanded(
+                        //   child: GestureDetector(
+                        //     onTap: getImage,
+                        //     child: Container(
+                        //       height: 100,
+                        //       width: 100,
+                        //       margin: const EdgeInsets.only(
+                        //         right: 10,
+                        //         bottom: 10,
+                        //       ),
+                        //       decoration: BoxDecoration(
+                        //         color: Colors.blue.shade200,
+                        //       ),
+                        //       child: file == null
+                        //           ? const Icon(
+                        //               Icons.add,
+                        //               size: 60,
+                        //             )
+                        //           : Image.file(
+                        //               imageList[1] ??
+                        //                   File(
+                        //                     '/data/user/0/com.example.saxovat/cache/01efade3-add5-4958-9f1c-f84dc4dc7566/anonym.png',
+                        //                   ),
+                        //               fit: BoxFit.cover,
+                        //             ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // Expanded(
+                        //   child: GestureDetector(
+                        //     onTap: getImage,
+                        //     child: Container(
+                        //       height: 100,
+                        //       width: 100,
+                        //       margin: const EdgeInsets.only(
+                        //         right: 10,
+                        //         bottom: 10,
+                        //       ),
+                        //       decoration: BoxDecoration(
+                        //         color: Colors.blue.shade200,
+                        //       ),
+                        //       child: file == null
+                        //           ? const Icon(
+                        //               Icons.add,
+                        //               size: 60,
+                        //             )
+                        //           : Image.file(
+                        //               imageList[2] ??
+                        //                   File(
+                        //                     '/data/user/0/com.example.saxovat/cache/01efade3-add5-4958-9f1c-f84dc4dc7566/anonym.png',
+                        //                   ),
+                        //               fit: BoxFit.cover,
+                        //             ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                    // Row(
+                    //   children: [
+                    //     for (int i = 0; i < 3; i++)
+                    //       Expanded(
+                    //         child: GestureDetector(
+                    //           onTap: getImage,
+                    //           child: Container(
+                    //             clipBehavior: Clip.antiAlias,
+                    //             height: 100,
+                    //             width: 100,
+                    //             margin: const EdgeInsets.only(
+                    //                 right: 10, bottom: 10),
+                    //             decoration: BoxDecoration(
+                    //                 // borderRadius: const BorderRadius.all(
+                    //                 //   Radius.circular(100),
+                    //                 // ),
+                    //                 color: Colors.blue.shade200),
+                    //             child: file == null
+                    //                 ? const Icon(
+                    //                     Icons.add,
+                    //                     size: 60,
+                    //                   )
+                    //                 : Image.file(
+                    //                     imageList[i]!,
+                    //                     fit: BoxFit.cover,
+                    //                   ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //   ],
+                    // ),
+                  ],
                 ),
               ),
               const SizedBox(
@@ -171,8 +308,30 @@ class _AddCharityPageState extends State<AddCharityPage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 40),
+              widget.cardNumber != null
+                  ? const SizedBox(height: 40)
+                  : const SizedBox.shrink(),
+              widget.cardNumber != null
+                  ? TextField(
+                      keyboardType: TextInputType.text,
+                      controller: locationController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              borderSide: BorderSide(width: 0.2)),
+                          labelText: "Karta raqamini kiriting",
+                          labelStyle: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 18,
+                          )),
+                      onEditingComplete: () {
+                        FocusScope.of(context).nextFocus();
+                      },
+                    )
+                  : const SizedBox.shrink(),
 
+              const SizedBox(height: 40),
               TextField(
                 keyboardType: TextInputType.text,
                 controller: locationController,
@@ -189,8 +348,6 @@ class _AddCharityPageState extends State<AddCharityPage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-
-
               const SizedBox(
                 height: 50,
               ),
@@ -212,12 +369,18 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         userId: '2',
                         category: _myState,
                         location: locationController.text,
-                        imageUrl: [file.toString()],
+                        imageUrl: [file.toString().substring(7,file.toString().length-1)],
                         createdAt: DateTime.now(),
                         comments: []);
+
                     /// #TODO
                     charityList.add(charity);
-
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ),
+                    );
                   }
                 },
                 style: ButtonStyle(

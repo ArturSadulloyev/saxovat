@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_images/carousel_images.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -168,7 +171,6 @@ class _AboutCharityState extends State<AboutCharity> {
     checkUser();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,13 +207,15 @@ class _AboutCharityState extends State<AboutCharity> {
               child: PageView.builder(
                 itemCount: widget.charity.imageUrl.length,
                 itemBuilder: (context, index) {
+                  File f = File(widget.charity.imageUrl[index]);
+
                   return GestureDetector(
                     onTap: () {
                       SwipeImageGallery(
                         transitionDuration: 0,
                         context: context,
                         children: [
-                          Image.asset(widget.charity.imageUrl[index]),
+                          Image.file(f),
                         ],
                       ).show();
                     },

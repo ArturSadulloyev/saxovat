@@ -18,7 +18,6 @@ class DonationView extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -27,7 +26,6 @@ class DonationView extends StatelessWidget {
                   ),
                 ),
               );
-
             },
             child: Card(
               elevation: 1,
@@ -84,7 +82,10 @@ class DonationView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 5, top: 5),
                       child: Text(
                         donationList[index].location,
-                        style: font(size: 14, weight: FontWeight.w400),
+                        style: font(
+                          size: 14,
+                          weight: FontWeight.w400,
+                        ),
                         maxLines: 2,
                       ),
                     ),
