@@ -330,7 +330,6 @@ class _AddCharityPageState extends State<AddCharityPage> {
                       },
                     )
                   : const SizedBox.shrink(),
-
               const SizedBox(height: 40),
               TextField(
                 keyboardType: TextInputType.text,
@@ -369,7 +368,11 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         userId: '2',
                         category: _myState,
                         location: locationController.text,
-                        imageUrl: [file.toString().substring(7,file.toString().length-1)],
+                        imageUrl: [
+                          file
+                              .toString()
+                              .substring(7, file.toString().length - 1)
+                        ],
                         createdAt: DateTime.now(),
                         comments: []);
 

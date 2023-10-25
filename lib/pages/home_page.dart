@@ -10,6 +10,7 @@ import 'package:saxovat/views/home_page/category_btn.dart';
 import 'package:saxovat/views/home_page/charity_view.dart';
 import 'package:saxovat/views/home_page/donation_view.dart';
 
+import 'add_charity_page.dart';
 import 'donation_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -81,9 +82,16 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      Text("Oddiy foydalanuvchi"),
+                      Row(
+                        children: [
+                          Icon(Icons.person, size: 16),
+                          SizedBox(width: 5),
+                          Text("Oddiy foydalanuvchi"),
+                        ],
+                      ),
                     ],
                   ),
+
                   const SizedBox(width: 15),
                   Container(
                     alignment: Alignment.center,
@@ -109,6 +117,78 @@ class _HomePageState extends State<HomePage> {
             ),
             const Divider(
               color: Colors.blueAccent,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddCharityPage(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.all(10),
+                width: double.maxFinite,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage(
+                        'assets/images/PngItem_733744.png',
+                      ),
+                      height: 30,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      "Volontyor bo'ling",
+                      style: font(
+                          color: Colors.blue.shade900, weight: FontWeight.w800),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddCharityPage(cardNumber: 'Xayriya'),
+                  ),
+                );
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(10)),
+                margin: const EdgeInsets.all(10),
+                width: double.maxFinite,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage(
+                        'assets/images/pngegg.png',
+                      ),
+                      height: 35,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      "Xayriya",
+                      style: font(
+                          color: Colors.blue.shade900, weight: FontWeight.w800),
+                    )
+                  ],
+                ),
+              ),
             ),
             ListTile(
               leading: const Icon(

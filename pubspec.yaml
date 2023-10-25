@@ -20,6 +20,7 @@ dependencies:
   url_launcher: ^6.1.14
   firebase_auth: ^4.11.1
   firebase_auth_platform_interface: ^7.0.1
+  swipe_image_gallery: ^0.8.3
 
 dev_dependencies:
   flutter_test:

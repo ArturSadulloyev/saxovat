@@ -1,6 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_images/carousel_images.dart';
-import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:saxovat/models/charity_model.dart';
