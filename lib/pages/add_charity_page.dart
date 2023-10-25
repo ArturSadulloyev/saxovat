@@ -10,9 +10,9 @@ import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 
 class AddCharityPage extends StatefulWidget {
-  AddCharityPage({super.key, this.cardNumber});
+  const AddCharityPage({super.key, this.cardNumber});
 
-  String? cardNumber;
+  final String? cardNumber;
 
   @override
   State<AddCharityPage> createState() => _AddCharityPageState();
@@ -29,11 +29,6 @@ class _AddCharityPageState extends State<AddCharityPage> {
 
   TextEditingController locationController = TextEditingController();
 
-  final maskFormatter = MaskTextInputFormatter(
-    mask: "**-***-**-**",
-    filter: {"*": RegExp(r"[0-9]")},
-    type: MaskAutoCompletionType.lazy,
-  );
   List<File> imageList = [];
 
   void getImage() async {
@@ -60,7 +55,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 50,
+                height: 100,
               ),
               Container(
                 height: 150,
@@ -69,151 +64,30 @@ class _AddCharityPageState extends State<AddCharityPage> {
                 decoration: const BoxDecoration(),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //for (int i = 0; i < 3; i++)
-                        Align(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: getImage,
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(100)),
-                                  color: Colors.blue.shade200),
-                              child: file == null
-                                  ? const Icon(
-                                      Icons.add,
-                                      size: 60,
-                                    )
-                                  : Image.file(
-                                      file!,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                          ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: getImage,
+                        child: Container(
+                          clipBehavior: Clip.antiAlias,
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(100)),
+                              color: Colors.blue.shade200),
+                          child: file == null
+                              ? const Icon(
+                                  Icons.add,
+                                  size: 60,
+                                )
+                              : Image.file(
+                                  file!,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
-                        // Expanded(
-                        //   child: GestureDetector(
-                        //     onTap: getImage,
-                        //     child: Container(
-                        //       height: 150,
-                        //       width: 100,
-                        //       // margin: const EdgeInsets.only(
-                        //       //   right: 10,
-                        //       //   bottom: 10,
-                        //       // ),
-                        //       decoration: BoxDecoration(
-                        //         color: Colors.blue.shade200,
-                        //       ),
-                        //       child: file == null
-                        //           ? const Icon(
-                        //               Icons.add,
-                        //               size: 60,
-                        //             )
-                        //           : Image.file(
-                        //               file!,
-                        //                   // File(
-                        //                   //   '/data/user/0/com.example.saxovat/cache/01efade3-add5-4958-9f1c-f84dc4dc7566/anonym.png',
-                        //                   // ),
-                        //               fit: BoxFit.cover,
-                        //             ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // Expanded(
-                        //   child: GestureDetector(
-                        //     onTap: getImage,
-                        //     child: Container(
-                        //       height: 100,
-                        //       width: 100,
-                        //       margin: const EdgeInsets.only(
-                        //         right: 10,
-                        //         bottom: 10,
-                        //       ),
-                        //       decoration: BoxDecoration(
-                        //         color: Colors.blue.shade200,
-                        //       ),
-                        //       child: file == null
-                        //           ? const Icon(
-                        //               Icons.add,
-                        //               size: 60,
-                        //             )
-                        //           : Image.file(
-                        //               imageList[1] ??
-                        //                   File(
-                        //                     '/data/user/0/com.example.saxovat/cache/01efade3-add5-4958-9f1c-f84dc4dc7566/anonym.png',
-                        //                   ),
-                        //               fit: BoxFit.cover,
-                        //             ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // Expanded(
-                        //   child: GestureDetector(
-                        //     onTap: getImage,
-                        //     child: Container(
-                        //       height: 100,
-                        //       width: 100,
-                        //       margin: const EdgeInsets.only(
-                        //         right: 10,
-                        //         bottom: 10,
-                        //       ),
-                        //       decoration: BoxDecoration(
-                        //         color: Colors.blue.shade200,
-                        //       ),
-                        //       child: file == null
-                        //           ? const Icon(
-                        //               Icons.add,
-                        //               size: 60,
-                        //             )
-                        //           : Image.file(
-                        //               imageList[2] ??
-                        //                   File(
-                        //                     '/data/user/0/com.example.saxovat/cache/01efade3-add5-4958-9f1c-f84dc4dc7566/anonym.png',
-                        //                   ),
-                        //               fit: BoxFit.cover,
-                        //             ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
+                      ),
                     ),
-                    // Row(
-                    //   children: [
-                    //     for (int i = 0; i < 3; i++)
-                    //       Expanded(
-                    //         child: GestureDetector(
-                    //           onTap: getImage,
-                    //           child: Container(
-                    //             clipBehavior: Clip.antiAlias,
-                    //             height: 100,
-                    //             width: 100,
-                    //             margin: const EdgeInsets.only(
-                    //                 right: 10, bottom: 10),
-                    //             decoration: BoxDecoration(
-                    //                 // borderRadius: const BorderRadius.all(
-                    //                 //   Radius.circular(100),
-                    //                 // ),
-                    //                 color: Colors.blue.shade200),
-                    //             child: file == null
-                    //                 ? const Icon(
-                    //                     Icons.add,
-                    //                     size: 60,
-                    //                   )
-                    //                 : Image.file(
-                    //                     imageList[i]!,
-                    //                     fit: BoxFit.cover,
-                    //                   ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
@@ -270,19 +144,18 @@ class _AddCharityPageState extends State<AddCharityPage> {
                                 _myState = newValue ?? 'Xayriya';
                               });
                             },
-                            items: statesList?.map((item) {
-                                  return DropdownMenuItem(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: font(
-                                        color: Colors.blue,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  );
-                                })?.toList() ??
-                                [],
+                            items: statesList.map((item) {
+                              return DropdownMenuItem(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: font(
+                                    color: Colors.blue,
+                                    size: 18,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ),

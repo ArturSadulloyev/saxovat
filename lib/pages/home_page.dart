@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
+import 'package:saxovat/pages/contact_page.dart';
 import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
 import 'package:saxovat/services/auth_service.dart';
@@ -211,6 +212,25 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: const Icon(
+                Icons.phone,
+                color: Colors.blue,
+                size: 30,
+              ),
+              title: const Text(
+                "Biz bilan aloqa",
+                style: TextStyle(fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ContactPage(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(
                 CupertinoIcons.question_circle,
                 color: Colors.blue,
                 size: 30,
@@ -240,7 +260,6 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: () async {
                 await Auth.signOut();
-
               },
             ),
           ],
