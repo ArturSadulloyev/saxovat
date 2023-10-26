@@ -20,7 +20,7 @@ final userList = [
     name: 'Sukhrob',
     email: 'Gaybullaev@gmail.com',
     userImage: 'assets/images/users/photo_2023-09-21_10-16-35.jpg',
-    dateOfBirth: DateTime(1992, 04, 21), favoriteList: [], username: 'sukhrob', password: '123123',
+    dateOfBirth: '1992.04.21', favoriteList: [], username: 'sukhrob', password: '123123',
 
   ),
   User(
@@ -29,7 +29,7 @@ final userList = [
     name: 'Alisher',
     email: 'Sadullayev@gmail.com',
     userImage: "assets/images/users/Alisher_Sa'dullayev._2022.jpg",
-    dateOfBirth: DateTime(1998, 01, 14), favoriteList: [], username: 'alisher', password: '123123',
+    dateOfBirth: '19.08.1988', favoriteList: [], username: 'alisher', password: '123123',
 
   ),
   User(
@@ -38,7 +38,7 @@ final userList = [
     name: 'Odilbek',
     email: 'Ibrohimov@gmail.com',
     userImage: 'assets/images/users/083A3087.JPG',
-    dateOfBirth: DateTime(2002, 08, 27), favoriteList: [], username: 'odil', password: '123123',
+    dateOfBirth: '20.10.1988', favoriteList: [], username: 'odil', password: '123123',
   ),
 ];
 

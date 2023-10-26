@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/charity_model.dart';
@@ -14,21 +15,29 @@ class Auth {
 
   static Future<bool> signInWithEmailAndPassword(
       String email, String password) async {
-    final credential = await auth.signInWithEmailAndPassword(
-        email: email, password: password);
+    final credential =
+        await auth.signInWithEmailAndPassword(email: email, password: password);
     return credential.user != null;
   }
 
   static Future<bool> createUserWithEmailAndPassword(
-      String email, String password, String username) async {
+    String email,
+    String password,
+    String username,
+    String phoneNumber,
+    String name,
+    String userImage,
+    List<Charity> favoriteList,
+    String birth,
+  ) async {
     try {
       final credential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (credential.user != null) {
         await credential.user!.updateDisplayName(username);
 
-        // await DBService.storeUser(
-        //     email, password, username, credential.user!.uid);
+        await DBService.storeUser(email, password, username,
+            phoneNumber, name, userImage, favoriteList, birth,credential.user!.uid);
       }
 
       return credential.user != null;
@@ -37,6 +46,7 @@ class Auth {
       return false;
     }
   }
+
 
 
 

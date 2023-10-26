@@ -1,11 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:saxovat/pages/home_page.dart';
-import 'package:saxovat/pages/phone_auth_page.dart';
-import 'package:saxovat/services/db_services.dart';
-
 import '../services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -34,6 +30,10 @@ class _SignUpPageState extends State<SignUpPage> {
       file = File(xFile.path);
       setState(() {});
     }
+  }
+
+  void getUser(){
+
   }
 
   @override
@@ -99,6 +99,27 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: emailController,
               decoration: InputDecoration(
                 label: Text('Email kiriting'),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.red),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.blue.shade800, width: 2),
+                ),
+              ),
+            ),
+          ),
+
+          /// phone
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 20),
+            child: TextField(
+              // inputFormatters: [maskFormatter],
+              controller: phoneController,
+              decoration: InputDecoration(
+                label: Text('Telefon raqami kiriting'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: Colors.red),
@@ -221,6 +242,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 emailController.text,
                 passwordController.text,
                 usernameController.text,
+                phoneController.text,
+                nameController.text,
+                file.toString(),
+                [],
+                birthController.text,
               );
               await CircularProgressIndicator.adaptive();
 
@@ -231,17 +257,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     builder: (context) => HomePage(),
                   ),
                 );
-
-                DBService.storeUser(
-                    emailController.text,
-                    passwordController.text,
-                    usernameController.text,
-                    Auth.auth.currentUser?.uid ?? '0',
-                    phoneController.text,
-                    nameController.text,
-                    file.toString(),
-                    [],
-                    selectedDate);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

@@ -233,8 +233,11 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         content: Text(
                             "Saqlashdan oldin ma'lumotlar to'g'ri kiritilganiga amin bo'ling")));
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Muvaffaqiyatli saqlandi")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Muvaffaqiyatli saqlandi"),
+                      ),
+                    );
                     Charity charity = Charity(
                         id: '0',
                         title: titleController.text,

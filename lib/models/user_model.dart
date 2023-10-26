@@ -9,7 +9,7 @@ class User {
   final String password;
   final String? userImage;
   final List<Charity> favoriteList;
-  final DateTime dateOfBirth;
+  final String dateOfBirth;
 
   User({
     required this.uid,
@@ -23,19 +23,21 @@ class User {
     required this.dateOfBirth,
   });
 
-  factory User.fromJson(Map<String, Object?> json) {
+  factory User.fromJson(Map<dynamic, dynamic> json) {
     return User(
-      dateOfBirth: json["dateOfBirth"] as DateTime,
-      uid: json["uid"] as String,
-      phoneNumber: json["phoneNumber"] as String,
-      name: json["name"] as String,
-      email: json["email"] as String,
-      password: json["password"] as String,
-      username: json["username"] as String,
-      userImage: json["userImage"] as String?,
-      favoriteList: (json['favoriteList'] as List)
-          .map((e) => Charity.fromJson(e as Map<String, Object?>))
-          .toList(),
+      dateOfBirth: json["dateOfBirth"] ?? '',
+      uid: json["uid"] ?? '',
+      phoneNumber: json["phoneNumber"] ?? '',
+      name: json["name"] ?? '',
+      email: json["email"] ?? '',
+      password: json["password"] ?? '',
+      username: json["username"] ?? '',
+      userImage: json["userImage"] ?? '',
+      favoriteList: json['favoriteList'] != null
+          ? json['favoriteList']
+              .map((e) => Charity.fromJson(e as Map<dynamic, dynamic>))
+              .toList()
+          : [],
     );
   }
 
@@ -48,7 +50,8 @@ class User {
       "password": password,
       "username": username,
       "userImage": userImage,
-      "dateOfBirth": dateOfBirth
+      "dateOfBirth": dateOfBirth,
+      "favoriteList": favoriteList,
     };
   }
 }

@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:saxovat/services/db_services.dart';
+
+import 'home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,8 +17,12 @@ class _ProfilePageState extends State<ProfilePage> {
   final ImagePicker picker = ImagePicker();
   File? file;
   TextEditingController nameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
+
   final maskFormatter = MaskTextInputFormatter(
     mask: "**-***-**-**",
     filter: {"*": RegExp(r"[0-9]")},
@@ -28,6 +35,22 @@ class _ProfilePageState extends State<ProfilePage> {
       file = File(xFile.path);
       setState(() {});
     }
+  }
+
+  void autoFill() {
+    nameController.text = user.name;
+    emailController.text = user.email;
+    phoneNumberController.text = user.phoneNumber;
+    userNameController.text = user.username;
+    passwordController.text = user.password;
+    dateOfBirthController.text = user.dateOfBirth;
+    file = File(user.userImage.toString());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    autoFill();
   }
 
   @override
@@ -91,8 +114,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(
-                height: 50,
+                height: 40,
               ),
+
+              /// name
               TextField(
                 keyboardType: TextInputType.text,
                 controller: nameController,
@@ -100,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         borderSide: BorderSide(width: 0.2)),
-                    labelText: "Ismingiz",
+                    labelText: "Ism",
                     labelStyle: TextStyle(
                       color: Colors.blue,
                       fontSize: 18,
@@ -109,15 +134,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
+
+              /// email
               TextField(
                 keyboardType: TextInputType.text,
-                controller: surnameController,
+                controller: emailController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         borderSide: BorderSide(width: 0.2)),
-                    labelText: "Familiyangiz",
+                    labelText: "Email",
                     labelStyle: TextStyle(
                       color: Colors.blue,
                       fontSize: 18,
@@ -126,7 +153,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
+
+              /// phone
               TextField(
                 controller: phoneNumberController,
                 maxLength: 12,
@@ -142,26 +171,97 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize: 18,
                   ),
                   counterText: "",
-                  prefix: Text('+998 '),
+                  //prefix: Text('+998 '),
                 ),
                 onEditingComplete: () {
                   FocusScope.of(context).nextFocus();
                 },
               ),
+              const SizedBox(height: 20),
+
+              /// username
+              TextField(
+                keyboardType: TextInputType.text,
+                controller: userNameController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide(width: 0.2)),
+                    labelText: "Username",
+                    labelStyle: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                    )),
+                onEditingComplete: () {
+                  FocusScope.of(context).nextFocus();
+                },
+              ),
+              const SizedBox(height: 20),
+
+              /// password
+              TextField(
+                keyboardType: TextInputType.text,
+                controller: passwordController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide(width: 0.2)),
+                    labelText: "Parol",
+                    labelStyle: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                    )),
+                onEditingComplete: () {
+                  FocusScope.of(context).nextFocus();
+                },
+              ),
+              const SizedBox(height: 20),
+
+              /// birth
+              TextField(
+                keyboardType: TextInputType.text,
+                controller: dateOfBirthController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide(width: 0.2)),
+                    labelText: "Tug'ulgan kun",
+                    labelStyle: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                    )),
+                onEditingComplete: () {
+                  FocusScope.of(context).nextFocus();
+                },
+              ),
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
                   if (nameController.text.isEmpty ||
-                      surnameController.text.isEmpty ||
+                      emailController.text.isEmpty ||
                       phoneNumberController.text.trim().length < 12) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text(
                             "Saqlashdan oldin ma'lumotlar to'g'ri kiritilganiga amin bo'ling")));
                   } else {
+                   await DBService.updateUser(
+                        emailController.text,
+                        passwordController.text,
+                        userNameController.text,
+                        phoneNumberController.text,
+                        nameController.text,
+                        file.toString(),
+                        user.favoriteList,
+                        dateOfBirthController.text);
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Muvaffaqiyatli saqlandi")));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ));
                   }
                 },
                 style: ButtonStyle(

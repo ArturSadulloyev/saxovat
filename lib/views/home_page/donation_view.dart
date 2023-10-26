@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:saxovat/pages/about_charity.dart';
+import 'package:saxovat/pages/home_page.dart';
+import 'package:saxovat/services/db_services.dart';
 
+import '../../models/charity_model.dart';
 import '../font.dart';
 
 class DonationView extends StatelessWidget {
@@ -62,21 +65,43 @@ class DonationView extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Container(
-                      height: 30,
-                      width: 70,
-                      margin: const EdgeInsets.all(3),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        donationList[index].category,
-                        style: font(size: 15),
-                        maxLines: 2,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 70,
+                          margin: const EdgeInsets.all(3),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            donationList[index].category,
+                            style: font(size: 15),
+                            maxLines: 2,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async{
+                            //user.favoriteList
+                            List<Charity> favoriteList = await user.favoriteList;
+                            favoriteList.add(donationList[index]);
+                            DBService.updateUser(
+                                user.email,
+                                user.password,
+                                user.username,
+                                user.phoneNumber,
+                                user.name,
+                                user.userImage ?? '',
+                                favoriteList ?? [],
+                                user.dateOfBirth);
+                          },
+                          child: Icon(Icons.favorite_border),
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 5, top: 5),

@@ -26,15 +26,15 @@ class Charity {
       required this.createdAt,
       required this.comments});
 
-  factory Charity.fromJson(Map<String, Object?> json, {bool isMe = false}) {
+  factory Charity.fromJson(Map<dynamic, dynamic> json, {bool isMe = false}) {
     return Charity(
-        id: json["id"] as String,
-        title: json["title"] as String,
-        description: json["description"] as String,
-        userId: json["userId"] as String,
-        category: json["category"] as String,
-        location: json["location"] as String,
-        cardNumber: json["cardNumber"] as String?,
+        id: json["id"],
+        title: json["title"],
+        description: json["description"],
+        userId: json["userId"],
+        category: json["category"],
+        location: json["location"],
+        cardNumber: json["cardNumber"],
         createdAt: DateTime.parse(json["createdAt"] as String),
         isMe: isMe,
         comments: json["comments"] != null

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
@@ -6,12 +8,13 @@ import 'package:saxovat/pages/faq_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
 import 'package:saxovat/services/auth_service.dart';
 import 'package:saxovat/services/database_service.dart';
+import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 import 'package:saxovat/views/home_page/carousel.dart';
 import 'package:saxovat/views/home_page/category_btn.dart';
 import 'package:saxovat/views/home_page/charity_view.dart';
 import 'package:saxovat/views/home_page/donation_view.dart';
-
+import '../models/user_model.dart';
 import 'add_charity_page.dart';
 import 'donation_page.dart';
 
@@ -22,11 +25,22 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+User user = User(
+    uid: 'uid',
+    phoneNumber: 'phoneNumber',
+    username: 'username',
+    password: 'password',
+    name: 'name',
+    email: 'email',
+    userImage: 'userImage',
+    favoriteList: [],
+    dateOfBirth: 'dateOfBirth');
+
 class _HomePageState extends State<HomePage> {
   final List<Charity> donationList = [];
   final List<Charity> charityList2 = [];
 
-  void getList() {
+  void getList() async {
     for (int i = 0; i < charityList.length; i++) {
       if (charityList[i].category == 'Xayriya') {
         donationList.add(charityList[i]);
@@ -34,6 +48,8 @@ class _HomePageState extends State<HomePage> {
         charityList2.add(charityList[i]);
       }
     }
+    user = await DBService.readUserList(Auth.auth.currentUser!.uid);
+    print(user.name);
   }
 
   @override
@@ -54,6 +70,14 @@ class _HomePageState extends State<HomePage> {
           "Asosiy",
           style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.favorite_border,
+            ),
+          ),
+        ],
         backgroundColor: Colors.transparent,
       ),
       drawer: Drawer(
@@ -66,17 +90,19 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Icon(
-                    CupertinoIcons.profile_circled,
-                    size: 50,
-                    color: Colors.blue.shade300,
-                  ),
-                  const Column(
+                  user.userImage != null
+                      ? Icon(
+                          CupertinoIcons.profile_circled,
+                          size: 50,
+                          color: Colors.blue.shade300,
+                        )
+                      : Image.file(File(user.userImage ?? '')),
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Suxrob",
+                        user.name,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
