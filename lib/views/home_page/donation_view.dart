@@ -6,10 +6,28 @@ import 'package:saxovat/services/db_services.dart';
 import '../../models/charity_model.dart';
 import '../font.dart';
 
-class DonationView extends StatelessWidget {
+class DonationView extends StatefulWidget {
   const DonationView({super.key, required this.donationList});
 
   final List donationList;
+
+  @override
+  State<DonationView> createState() => _DonationViewState();
+}
+
+class _DonationViewState extends State<DonationView> {
+  List favoriteList = [];
+
+  void getList() async {
+    favoriteList = await user?.favoriteUserUid ?? [];
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +35,17 @@ class DonationView extends StatelessWidget {
       height: 220,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: donationList.length,
+        itemCount: widget.donationList.length,
         itemBuilder: (context, index) {
+          final favoriteIcon =
+              favoriteList!.contains(widget.donationList[index].id);
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => AboutCharity(
-                    charity: donationList[index],
+                    charity: widget.donationList[index],
                   ),
                 ),
               );
@@ -45,7 +65,8 @@ class DonationView extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image(
-                        image: AssetImage(donationList[index].imageUrl[0]),
+                        image:
+                            AssetImage(widget.donationList[index].imageUrl[0]),
                         height: 100,
                         width: double.maxFinite,
                         fit: BoxFit.cover,
@@ -56,7 +77,7 @@ class DonationView extends StatelessWidget {
                       width: double.maxFinite,
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
-                        donationList[index].title,
+                        widget.donationList[index].title,
                         style: font(
                             size: 15,
                             color: Colors.black,
@@ -79,34 +100,42 @@ class DonationView extends StatelessWidget {
                           ),
                           padding: const EdgeInsets.all(5.0),
                           child: Text(
-                            donationList[index].category,
+                            widget.donationList[index].category,
                             style: font(size: 15),
                             maxLines: 2,
                           ),
                         ),
                         GestureDetector(
-                          onTap: () async{
+                          onTap: () async {
                             //user.favoriteList
-                            List<Charity> favoriteList = await user.favoriteList;
-                            favoriteList.add(donationList[index]);
+                            if (favoriteList!
+                                .contains(widget.donationList[index].id)) {
+                              favoriteList
+                                  .remove(widget.donationList[index].id);
+                            } else {
+                              favoriteList.add(widget.donationList[index].id);
+                            }
                             DBService.updateUser(
-                                user.email,
-                                user.password,
-                                user.username,
-                                user.phoneNumber,
-                                user.name,
-                                user.userImage ?? '',
+                                user!.email,
+                                user!.password,
+                                user!.username,
+                                user!.phoneNumber,
+                                user!.name,
+                                user!.userImage ?? '',
                                 favoriteList ?? [],
-                                user.dateOfBirth);
+                                user!.dateOfBirth);
+                            setState(() {});
                           },
-                          child: Icon(Icons.favorite_border),
+                          child: !favoriteIcon
+                              ? Icon(Icons.favorite_border)
+                              : Icon(Icons.favorite),
                         )
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 5, top: 5),
                       child: Text(
-                        donationList[index].location,
+                        widget.donationList[index].location,
                         style: font(
                           size: 14,
                           weight: FontWeight.w400,

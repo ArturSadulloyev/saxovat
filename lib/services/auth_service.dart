@@ -14,10 +14,16 @@ class Auth {
   Stream<User?> get authStateChanges => auth.authStateChanges();
 
   static Future<bool> signInWithEmailAndPassword(
-      String email, String password) async {
+
+
+  String email, String password) async {
+    try{
     final credential =
-        await auth.signInWithEmailAndPassword(email: email, password: password);
-    return credential.user != null;
+  await auth.signInWithEmailAndPassword(email: email, password: password);
+  return credential.user != null;
+  }catch(e){
+    return false;
+  }
   }
 
   static Future<bool> createUserWithEmailAndPassword(
@@ -27,7 +33,7 @@ class Auth {
     String phoneNumber,
     String name,
     String userImage,
-    List<Charity> favoriteList,
+    List<String> favoriteUserUid,
     String birth,
   ) async {
     try {
@@ -37,7 +43,7 @@ class Auth {
         await credential.user!.updateDisplayName(username);
 
         await DBService.storeUser(email, password, username,
-            phoneNumber, name, userImage, favoriteList, birth,credential.user!.uid);
+            phoneNumber, name, userImage, favoriteUserUid, birth,credential.user!.uid);
       }
 
       return credential.user != null;

@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/user_model.dart';
 import 'package:saxovat/services/database_service.dart';
+import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
+
+import 'home_page.dart';
 
 class AboutCharity extends StatefulWidget {
   AboutCharity({super.key, required this.charity});
@@ -16,20 +19,19 @@ class AboutCharity extends StatefulWidget {
 }
 
 class _AboutCharityState extends State<AboutCharity> {
-  User? user;
   bool isFavorite = false;
 
-  checkUser() {
-    for (int i = 0; i < userList.length; i++) {
-      if (userList[i].uid == widget.charity.userId) {
-        user = userList[i];
-        print('object');
-        print(userList[i].favoriteList.contains(widget.charity));
-        isFavorite = userList[i].favoriteList.contains(widget.charity);
-        break;
-      }
-    }
-  }
+  // checkUser() {
+  //   for (int i = 0; i < userList.length; i++) {
+  //     if (userList[i].uid == widget.charity.userId) {
+  //       user = userList[i];
+  //       print('object');
+  //       print(userList[i].favoriteList.contains(widget.charity));
+  //       isFavorite = userList[i].favoriteList.contains(widget.charity);
+  //       break;
+  //     }
+  //   }
+  // }
 
   void _showCard(BuildContext ctx) {
     showModalBottomSheet(
@@ -161,10 +163,8 @@ class _AboutCharityState extends State<AboutCharity> {
   @override
   void initState() {
     super.initState();
-
-    checkUser();
+    isFavorite = user!.favoriteUserUid.contains(widget.charity.id);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +239,7 @@ class _AboutCharityState extends State<AboutCharity> {
                     height: 50,
                     width: 50,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(user?.userImage ?? '2'),
+                      backgroundImage: AssetImage(user?.userImage ?? ''),
                     ),
                   ),
 
@@ -315,9 +315,7 @@ class _AboutCharityState extends State<AboutCharity> {
                       Row(
                         children: [
                           const Badge(),
-                          const SizedBox(
-                            width: 4,
-                          ),
+                          const SizedBox(width: 4),
                           Text(
                             "Sanagacha to'planishi kerak",
                             style: font(size: 12),
@@ -415,13 +413,14 @@ class _AboutCharityState extends State<AboutCharity> {
                         onPressed: () {
                           if (!isFavorite!) {
                             print('add');
-                            user?.favoriteList?.add(widget.charity);
-                            checkUser();
+                            user?.favoriteUserUid?.add(widget.charity.id);
                           } else {
                             print('remove');
-                            user?.favoriteList?.remove(widget.charity);
-                            checkUser();
+                            user?.favoriteUserUid?.remove(widget.charity.id);
                           }
+                          isFavorite =
+                              user!.favoriteUserUid.contains(widget.charity);
+                          DBService.updateUserInfo();
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(

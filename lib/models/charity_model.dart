@@ -9,12 +9,13 @@ class Charity {
   final String location;
   final String? cardNumber;
   final List<String> imageUrl;
-  final bool isMe;
-  List<Message> comments;
+ // final bool isMe;
+ // List<Message> comments;
   final DateTime createdAt;
 
   Charity(
-      {this.isMe = false,
+      {
+        //this.isMe = false,
       required this.id,
       required this.title,
       required this.description,
@@ -24,7 +25,20 @@ class Charity {
          this.cardNumber,
       required this.imageUrl,
       required this.createdAt,
-      required this.comments});
+      //required this.comments
+      });
+
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Charity &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          userId == other.userId;
+
+  @override
+  int get hashCode => id.hashCode ^ userId.hashCode;
 
   factory Charity.fromJson(Map<dynamic, dynamic> json, {bool isMe = false}) {
     return Charity(
@@ -36,12 +50,12 @@ class Charity {
         location: json["location"],
         cardNumber: json["cardNumber"],
         createdAt: DateTime.parse(json["createdAt"] as String),
-        isMe: isMe,
-        comments: json["comments"] != null
-            ? (json["comments"] as List)
-                .map((item) => Message.fromJson(item as Map<String, Object?>))
-                .toList()
-            : [],
+      //  isMe: isMe,
+        // comments: json["comments"] != null
+        //     ? (json["comments"] as List)
+        //         .map((item) => Message.fromJson(item as Map<String, Object?>))
+        //         .toList()
+        //     : [],
         imageUrl:
             json["imageUrl"] != null ? json["imageUrl"] as List<String> : []);
   }
@@ -55,7 +69,7 @@ class Charity {
     "cardNumber":cardNumber,
     "category":category,
         "imageUrl": imageUrl,
-        "comments": comments.map((e) => e.toJson()).toList(),
+       // "comments": comments.map((e) => e.toJson()).toList(),
         "createdAt": createdAt.toIso8601String()
       };
 }

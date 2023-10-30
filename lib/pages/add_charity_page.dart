@@ -28,14 +28,15 @@ class _AddCharityPageState extends State<AddCharityPage> {
   TextEditingController descriptionController = TextEditingController();
 
   TextEditingController locationController = TextEditingController();
+  TextEditingController cardNumBerController = TextEditingController();
 
-  List<File> imageList = [];
+  List<String> imageList = [];
 
   void getImage() async {
     var xFile = await picker.pickImage(source: ImageSource.gallery);
     if (xFile != null) {
       file = File(xFile.path);
-      imageList.add(file!);
+      imageList.add(file.toString());
       print(file);
       setState(() {});
     }
@@ -74,17 +75,17 @@ class _AddCharityPageState extends State<AddCharityPage> {
                           width: 150,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(100)),
+                              const BorderRadius.all(Radius.circular(100)),
                               color: Colors.blue.shade200),
                           child: file == null
                               ? const Icon(
-                                  Icons.add,
-                                  size: 60,
-                                )
+                            Icons.add,
+                            size: 60,
+                          )
                               : Image.file(
-                                  file!,
-                                  fit: BoxFit.cover,
-                                ),
+                            file!,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -187,22 +188,22 @@ class _AddCharityPageState extends State<AddCharityPage> {
                   : const SizedBox.shrink(),
               widget.cardNumber != null
                   ? TextField(
-                      keyboardType: TextInputType.text,
-                      controller: locationController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              borderSide: BorderSide(width: 0.2)),
-                          labelText: "Karta raqamini kiriting",
-                          labelStyle: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 18,
-                          )),
-                      onEditingComplete: () {
-                        FocusScope.of(context).nextFocus();
-                      },
-                    )
+                keyboardType: TextInputType.text,
+                controller: cardNumBerController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide(width: 0.2)),
+                    labelText: "Karta raqamini kiriting",
+                    labelStyle: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 18,
+                    )),
+                onEditingComplete: () {
+                  FocusScope.of(context).nextFocus();
+                },
+              )
                   : const SizedBox.shrink(),
               const SizedBox(height: 40),
               TextField(
@@ -228,7 +229,10 @@ class _AddCharityPageState extends State<AddCharityPage> {
                 onPressed: () {
                   if (titleController.text.isEmpty ||
                       descriptionController.text.isEmpty ||
-                      locationController.text.trim().length < 8) {
+                      locationController.text
+                          .trim()
+                          .length < 8 ||
+                      file!.path.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text(
                             "Saqlashdan oldin ma'lumotlar to'g'ri kiritilganiga amin bo'ling")));
@@ -239,19 +243,30 @@ class _AddCharityPageState extends State<AddCharityPage> {
                       ),
                     );
                     Charity charity = Charity(
-                        id: '0',
-                        title: titleController.text,
-                        description: descriptionController.text,
-                        userId: '2',
-                        category: _myState,
-                        location: locationController.text,
-                        imageUrl: [
-                          file
-                              .toString()
-                              .substring(7, file.toString().length - 1)
-                        ],
-                        createdAt: DateTime.now(),
-                        comments: []);
+                      id: '0',
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      userId: '2',
+                      category: _myState,
+                      location: locationController.text,
+                      imageUrl: [
+                        file
+                            .toString()
+                            .substring(7, file
+                            .toString()
+                            .length - 1)
+                      ],
+                      createdAt: DateTime.now(),
+                      //    comments: [],
+                    );
+                    DBService.storeCharity(
+                        titleController.text,
+                        descriptionController.text,
+                        user?.uid ?? '',
+                        _myState,
+                        locationController.text,
+                        cardNumBerController.text,
+                        imageList);
 
                     /// #TODO
                     charityList.add(charity);
@@ -265,7 +280,9 @@ class _AddCharityPageState extends State<AddCharityPage> {
                 },
                 style: ButtonStyle(
                   fixedSize: MaterialStateProperty.all(
-                    Size(MediaQuery.sizeOf(context).width, 50),
+                    Size(MediaQuery
+                        .sizeOf(context)
+                        .width, 50),
                   ),
                 ),
                 child: const Text(

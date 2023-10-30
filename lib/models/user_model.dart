@@ -8,7 +8,7 @@ class User {
   final String username;
   final String password;
   final String? userImage;
-  final List<Charity> favoriteList;
+  final List<String> favoriteUserUid;
   final String dateOfBirth;
 
   User({
@@ -19,7 +19,7 @@ class User {
     required this.name,
     required this.email,
     required this.userImage,
-    required this.favoriteList,
+    required this.favoriteUserUid,
     required this.dateOfBirth,
   });
 
@@ -33,13 +33,25 @@ class User {
       password: json["password"] ?? '',
       username: json["username"] ?? '',
       userImage: json["userImage"] ?? '',
-      favoriteList: json['favoriteList'] != null
-          ? json['favoriteList']
-              .map((e) => Charity.fromJson(e as Map<dynamic, dynamic>))
-              .toList()
-          : [],
+      favoriteUserUid: (json['favoriteUserUid'])?? [],
+          // != null
+          // ? json['favoriteList']
+          //     .map((e) => Charity.fromJson(e as Map<dynamic, dynamic>))
+          //     .toList()
+          // : [],
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is User &&
+          runtimeType == other.runtimeType &&
+          uid == other.uid &&
+          email == other.email;
+
+  @override
+  int get hashCode => uid.hashCode ^ email.hashCode;
 
   Map<String, Object?> toJson() {
     return {
@@ -51,7 +63,7 @@ class User {
       "username": username,
       "userImage": userImage,
       "dateOfBirth": dateOfBirth,
-      "favoriteList": favoriteList,
+      "favoriteList": favoriteUserUid,
     };
   }
 }

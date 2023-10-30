@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/contact_page.dart';
 import 'package:saxovat/pages/faq_page.dart';
+import 'package:saxovat/pages/favourite_page.dart';
 import 'package:saxovat/pages/profile_page.dart';
 import 'package:saxovat/services/auth_service.dart';
 import 'package:saxovat/services/database_service.dart';
@@ -25,16 +26,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-User user = User(
-    uid: 'uid',
-    phoneNumber: 'phoneNumber',
-    username: 'username',
-    password: 'password',
-    name: 'name',
-    email: 'email',
-    userImage: 'userImage',
-    favoriteList: [],
-    dateOfBirth: 'dateOfBirth');
+User? user;
 
 class _HomePageState extends State<HomePage> {
   final List<Charity> donationList = [];
@@ -49,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
     user = await DBService.readUserList(Auth.auth.currentUser!.uid);
-    print(user.name);
+    print(user!.name ?? 'No name');
   }
 
   @override
@@ -72,7 +64,13 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FavoritePage(),
+                  ));
+            },
             icon: Icon(
               Icons.favorite_border,
             ),
@@ -90,19 +88,25 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  user.userImage != null
+                  user?.userImage == null
                       ? Icon(
                           CupertinoIcons.profile_circled,
                           size: 50,
                           color: Colors.blue.shade300,
                         )
-                      : Image.file(File(user.userImage ?? '')),
+                      : SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: Image(
+                            image: AssetImage(user!.userImage ?? ''),
+                          ),
+                        ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user.name,
+                        user?.name ?? '',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,

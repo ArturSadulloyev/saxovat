@@ -164,6 +164,7 @@ class LoginPage extends StatelessWidget {
                   emailController.text,
                   passwordController.text,
                 );
+                print('result11111111111w1222222222222222222222222222222222222221111111111111111111111111 $result');
                 if (result) {
                   Navigator.pushReplacement(
                     context,

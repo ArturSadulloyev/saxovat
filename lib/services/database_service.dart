@@ -20,7 +20,7 @@ final userList = [
     name: 'Sukhrob',
     email: 'Gaybullaev@gmail.com',
     userImage: 'assets/images/users/photo_2023-09-21_10-16-35.jpg',
-    dateOfBirth: '1992.04.21', favoriteList: [], username: 'sukhrob', password: '123123',
+    dateOfBirth: '1992.04.21', favoriteUserUid: [], username: 'sukhrob', password: '123123',
 
   ),
   User(
@@ -29,7 +29,7 @@ final userList = [
     name: 'Alisher',
     email: 'Sadullayev@gmail.com',
     userImage: "assets/images/users/Alisher_Sa'dullayev._2022.jpg",
-    dateOfBirth: '19.08.1988', favoriteList: [], username: 'alisher', password: '123123',
+    dateOfBirth: '19.08.1988', favoriteUserUid: [], username: 'alisher', password: '123123',
 
   ),
   User(
@@ -38,7 +38,7 @@ final userList = [
     name: 'Odilbek',
     email: 'Ibrohimov@gmail.com',
     userImage: 'assets/images/users/083A3087.JPG',
-    dateOfBirth: '20.10.1988', favoriteList: [], username: 'odil', password: '123123',
+    dateOfBirth: '20.10.1988', favoriteUserUid: [], username: 'odil', password: '123123',
   ),
 ];
 
@@ -58,7 +58,7 @@ final charityList = [
       'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    //comments: [],
   ),
   Charity(
     id: '2',
@@ -75,7 +75,7 @@ final charityList = [
       'assets/images/masjid/Mosque_Emirates_UAE_Sheikh_Zayed_Grand_Mosque_Abu_515032_2560x1708.jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    // comments: [],
   ),
   Charity(
     id: '3',
@@ -92,10 +92,10 @@ final charityList = [
       'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    // comments: [],
   ),
   Charity(
-    id: '2',
+    id: '4',
     title: "Mehrli qo'llar fondiga yordam !",
     description:
         "Fond uchun: Karta raqami: 8600748596412511\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -108,10 +108,10 @@ final charityList = [
       'assets/images/masjid/gettyimages-168268184-1024x1024.jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    // comments: [],
   ),
   Charity(
-    id: '2',
+    id: '5',
     title: "Nazokat opa uchun yordam",
     description:
         "Nazokat opa tuzalib ketishlari uchun 2-gruppa qon guruhi juda zarur. +998931235285\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -123,10 +123,10 @@ final charityList = [
       'assets/images/masjid/maxresdefault (1).jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    // comments: [],
   ),
   Charity(
-    id: '1',
+    id: '6',
     title: "Boburjon uchun donar kerak",
     description:
         "Assalomu aleykum Boburjon uchun 3-qon gruppasidagi donar kerak. +998936965821\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -138,10 +138,10 @@ final charityList = [
       'assets/images/masjid/110320111066.jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    // comments: [],
   ),
   Charity(
-    id: '1',
+    id: '7',
     title: "Jamila opa uchun yordam",
     description:
         "Assalomu aleykum Jamila opa yurishlari uchun nogironlar aravachasiga yig'im: Karta raqami: 8600748596696325\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -152,10 +152,10 @@ final charityList = [
       'assets/images/masjid/maxresdefault (3).jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    // comments: [],
   ),
   Charity(
-    id: '3',
+    id: '8',
     title: "Lobar uchun mehr",
     description:
         "Lobar opa 2yildan buyon 1-o'zlari turadila ular uchun suhbat quradigan mehrli inson kerak(Iltimos erkaklar bezovta qilmasin). +998945658932\n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -167,6 +167,6 @@ final charityList = [
       'assets/images/masjid/maxresdefault (4).jpg',
     ],
     createdAt: DateTime.now(),
-    comments: [],
+    // comments: [],
   ),
 ];

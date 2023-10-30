@@ -38,13 +38,13 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void autoFill() {
-    nameController.text = user.name;
-    emailController.text = user.email;
-    phoneNumberController.text = user.phoneNumber;
-    userNameController.text = user.username;
-    passwordController.text = user.password;
-    dateOfBirthController.text = user.dateOfBirth;
-    file = File(user.userImage.toString());
+    nameController.text = user?.name ?? '';
+    emailController.text = user?.email ?? '';
+    phoneNumberController.text = user?.phoneNumber ?? '';
+    userNameController.text = user?.username ?? '';
+    passwordController.text = user?.password ?? '';
+    dateOfBirthController.text = user?.dateOfBirth ?? '';
+    file = File(user!.userImage.toString());
   }
 
   @override
@@ -253,7 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         phoneNumberController.text,
                         nameController.text,
                         file.toString(),
-                        user.favoriteList,
+                        user?.favoriteUserUid ?? [],
                         dateOfBirthController.text);
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Muvaffaqiyatli saqlandi")));

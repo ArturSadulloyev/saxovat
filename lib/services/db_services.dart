@@ -6,6 +6,7 @@ import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/services/auth_service.dart';
 
 import '../models/user_model.dart';
+import '../pages/home_page.dart';
 
 sealed class DBService {
   static final db = FirebaseDatabase.instance;
@@ -17,7 +18,7 @@ sealed class DBService {
     String phoneNumber,
     String name,
     String userImage,
-    List<Charity> favoriteList,
+    List<String> favoriteUserUid,
     String birth,
     String? uid,
   ) async {
@@ -31,7 +32,7 @@ sealed class DBService {
         name: name,
         email: email,
         userImage: userImage,
-        favoriteList: favoriteList,
+        favoriteUserUid: favoriteUserUid,
         dateOfBirth: birth,
       );
       await folder.set(member.toJson());
@@ -42,6 +43,18 @@ sealed class DBService {
     }
   }
 
+  static void updateUserInfo() {
+    DBService.updateUser(
+        user!.email,
+        user!.password,
+        user!.username,
+        user!.phoneNumber,
+        user!.name,
+        user!.userImage ?? '',
+        user!.favoriteUserUid,
+        user!.dateOfBirth);
+  }
+
   static Future<bool> updateUser(
     String email,
     String password,
@@ -49,24 +62,24 @@ sealed class DBService {
     String phoneNumber,
     String name,
     String userImage,
-    List<Charity> favoriteList,
+    List favoriteList,
     String birth,
   ) async {
     //try {
-      final fbUser = db.ref(Folder.user).child(Auth.auth.currentUser!.uid);
-      await fbUser.update({
-        "email": email,
-        "password": password,
-        "username": username,
-        "phoneNumber": phoneNumber,
-        "name": name,
-        "userImage": userImage,
-        "favoriteList": favoriteList,
-        "birth": birth,
-      });
+    final fbUser = db.ref(Folder.user).child(Auth.auth.currentUser!.uid);
+    await fbUser.update({
+      "email": email,
+      "password": password,
+      "username": username,
+      "phoneNumber": phoneNumber,
+      "name": name,
+      "userImage": userImage,
+      "favoriteList": favoriteList,
+      "birth": birth,
+    });
 
-      // fbPost.set(post.toJson());
-      return true;
+    // fbPost.set(post.toJson());
+    return true;
     // } catch (e) {
     //   debugPrint("DB ERROR: $e");
     //   return false;
@@ -82,16 +95,49 @@ sealed class DBService {
       final user1 = User.fromJson(value);
       if (user1.uid == uid) {
         user = user1;
+        print(user.userImage);
         return user;
       }
     });
     return user;
   }
+
 // catch (e) {
 //   debugPrint("DB ERROR: $e");
 //   return null;
 // }
 //}
+
+  static Future<bool> storeCharity(
+    String title,
+    String description,
+    String userId,
+    String category,
+    String location,
+      String? cardNumber,
+      List<String> imageUrl,
+  ) async{
+    try {
+      final folder = db.ref(Folder.post);
+      final uid = folder.push().key!;
+      final member = Charity(
+        id: uid,
+        title: title,
+        description: description,
+        userId: userId,
+        category: category,
+        location: location,
+        cardNumber: cardNumber ?? '',
+        imageUrl: imageUrl,
+        createdAt: DateTime.now(),
+      );
+      await folder.set(member.toJson());
+      return true;
+    } catch (e) {
+      debugPrint("DB ERROR: $e");
+      return false;
+    }
+  }
 }
 
 sealed class Folder {
