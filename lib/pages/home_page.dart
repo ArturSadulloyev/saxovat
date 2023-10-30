@@ -31,17 +31,29 @@ User? user;
 class _HomePageState extends State<HomePage> {
   final List<Charity> donationList = [];
   final List<Charity> charityList2 = [];
-
   void getList() async {
-    for (int i = 0; i < charityList.length; i++) {
-      if (charityList[i].category == 'Xayriya') {
-        donationList.add(charityList[i]);
+    user = await DBService.readUserList(Auth.auth.currentUser!.uid);
+
+    final allPostList = await DBService.readAllPost();
+    allPostList.forEach((element) {
+      print(element.title);
+    });
+    for (int i = 0; i < allPostList.length; i++) {
+      if (allPostList[i].category == 'Xayriya') {
+        donationList.add(allPostList[i]);
       } else {
-        charityList2.add(charityList[i]);
+        charityList2.add(allPostList[i]);
       }
     }
-    user = await DBService.readUserList(Auth.auth.currentUser!.uid);
     print(user!.name ?? 'No name');
+  }
+
+  @override
+  void didChangeDependencies() {
+    getList();
+
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
   }
 
   @override
@@ -97,8 +109,8 @@ class _HomePageState extends State<HomePage> {
                       : SizedBox(
                           height: 50,
                           width: 50,
-                          child: Image(
-                            image: AssetImage(user!.userImage ?? ''),
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(user!.userImage ?? ''),
                           ),
                         ),
                   Column(

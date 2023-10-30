@@ -66,7 +66,7 @@ class _DonationViewState extends State<DonationView> {
                       borderRadius: BorderRadius.circular(8),
                       child: Image(
                         image:
-                            AssetImage(widget.donationList[index].imageUrl[0]),
+                            NetworkImage(widget.donationList[index].imageUrl[0]),
                         height: 100,
                         width: double.maxFinite,
                         fit: BoxFit.cover,

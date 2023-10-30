@@ -30,13 +30,13 @@ class _AddCharityPageState extends State<AddCharityPage> {
   TextEditingController locationController = TextEditingController();
   TextEditingController cardNumBerController = TextEditingController();
 
-  List<String> imageList = [];
+  List<File> imageList = [];
 
   void getImage() async {
     var xFile = await picker.pickImage(source: ImageSource.gallery);
     if (xFile != null) {
       file = File(xFile.path);
-      imageList.add(file.toString());
+      imageList.add(file!);
       print(file);
       setState(() {});
     }
@@ -242,23 +242,24 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         content: Text("Muvaffaqiyatli saqlandi"),
                       ),
                     );
-                    Charity charity = Charity(
-                      id: '0',
-                      title: titleController.text,
-                      description: descriptionController.text,
-                      userId: '2',
-                      category: _myState,
-                      location: locationController.text,
-                      imageUrl: [
-                        file
-                            .toString()
-                            .substring(7, file
-                            .toString()
-                            .length - 1)
-                      ],
-                      createdAt: DateTime.now(),
-                      //    comments: [],
-                    );
+                    // Charity charity = Charity(
+                    //   id: '0',
+                    //   title: titleController.text,
+                    //   description: descriptionController.text,
+                    //   userId: '2',
+                    //   category: _myState,
+                    //   location: locationController.text,
+                    //   imageUrl: [
+                    //     file
+                    //         .toString()
+                    //         .substring(7, file
+                    //         .toString()
+                    //         .length - 1)
+                    //   ],
+                    //   createdAt: DateTime.now(),
+                    //   //    comments: [],
+                    // );
+                    final imageList2 = [];
                     DBService.storeCharity(
                         titleController.text,
                         descriptionController.text,
@@ -269,7 +270,6 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         imageList);
 
                     /// #TODO
-                    charityList.add(charity);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

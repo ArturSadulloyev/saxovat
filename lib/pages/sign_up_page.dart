@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:saxovat/pages/home_page.dart';
 import '../services/auth_service.dart';
+import '../services/db_services.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
@@ -238,13 +240,14 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             onPressed: () async {
               /// # TODO
+
               final result = await Auth.createUserWithEmailAndPassword(
                 emailController.text,
                 passwordController.text,
                 usernameController.text,
                 phoneController.text,
                 nameController.text,
-                file.toString(),
+                file!,
                 [],
                 birthController.text,
               );

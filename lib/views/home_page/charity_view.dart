@@ -41,7 +41,7 @@ class CharityView extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image(
-                        image: AssetImage(charityList2[index].imageUrl[0]),
+                        image: NetworkImage(charityList2[index].imageUrl[0]),
                         height: 100,
                         width: double.maxFinite,
                         fit: BoxFit.cover,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -32,7 +34,7 @@ class Auth {
     String username,
     String phoneNumber,
     String name,
-    String userImage,
+    File userImage,
     List<String> favoriteUserUid,
     String birth,
   ) async {

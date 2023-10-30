@@ -40,7 +40,7 @@ class Charity {
   @override
   int get hashCode => id.hashCode ^ userId.hashCode;
 
-  factory Charity.fromJson(Map<dynamic, dynamic> json, {bool isMe = false}) {
+  factory Charity.fromJson(Map<dynamic, dynamic> json) {
     return Charity(
         id: json["id"],
         title: json["title"],

@@ -75,8 +75,8 @@ class _DonationPageState extends State<DonationPage> {
                 child: Container(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    leading: Image.asset(
-                      list[index].imageUrl[0],
+                    leading: Image(
+                      image: NetworkImage(list[index].imageUrl[0]),
                       fit: BoxFit.cover,
                       height: 100,
                       width: 100,
