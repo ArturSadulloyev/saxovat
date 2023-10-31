@@ -106,8 +106,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             Icons.add,
                             size: 60,
                           )
-                        : Image.file(
-                            file!,
+                        : Image(
+                           image: NetworkImage(user!.userImage ?? ''),
                             fit: BoxFit.cover,
                           ),
                   ),

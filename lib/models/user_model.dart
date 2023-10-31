@@ -33,12 +33,7 @@ class User {
       password: json["password"] ?? '',
       username: json["username"] ?? '',
       userImage: json["userImage"] ?? '',
-      favoriteUserUid: (json['favoriteList'])?? [],
-          // != null
-          // ? json['favoriteList']
-          //     .map((e) => Charity.fromJson(e as Map<dynamic, dynamic>))
-          //     .toList()
-          // : [],
+      favoriteUserUid: List<String>.from(json['favoriteList'] ?? []),
     );
   }
 
