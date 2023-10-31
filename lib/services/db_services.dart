@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,9 +29,8 @@ sealed class DBService {
     try {
       final folder = db.ref(Folder.user).child(uid!);
 
-
-
       final storage = FirebaseStorage.instance;
+
       ///
       final image = storage.ref(Folder.postImages).child(
           "image_${DateTime.now().toIso8601String()}${userImage?.path.substring(userImage!.path.lastIndexOf("."))}");
@@ -39,8 +39,6 @@ sealed class DBService {
       await task.whenComplete(() {});
 
       String imageUrl = await image.getDownloadURL();
-
-
 
       final member = User(
         uid: uid,
@@ -125,18 +123,25 @@ sealed class DBService {
 //   return null;
 // }
 //}
-  static Future<List<Charity>> readAllPost() async{
-    final snapshot = await db.ref(Folder.post).get();
+  static Future<List<Charity>> readAllPost() async {
+    final databaseReference = await db.ref(Folder.post);
     List<Charity> list = [];
-    final map = snapshot.value as Map<dynamic, dynamic>;
-    map.forEach((key, value) {
-      final charity = Charity.fromJson(value);
+
+    final child = await databaseReference.once();
+    final data = child.snapshot;
+
+    if (data.value != null) {
+      final data2 = data.value as Map<dynamic, dynamic>;
+      final charity = Charity.fromJson(data2);
       list.add(charity);
+    }
+
+    list.forEach((element) {
+      print('Element !! ${element.title}, ${element.category}');
     });
+
     return list;
   }
-
-
 
   static Future<bool> storeCharity(
     String title,
@@ -145,13 +150,13 @@ sealed class DBService {
     String category,
     String location,
     String? cardNumber,
-    List<File> file,
+    File file,
   ) async {
     try {
       final folder = db.ref(Folder.post);
       final uid = folder.push().key!;
-      final listImageUrl = await StoreService.uploadFile(file);
-      print(listImageUrl);
+      final ImageUrl = await StoreService.uploadFile(file);
+      print('Uidd1111111111111111111111 $uid');
       final charity = Charity(
         id: uid,
         title: title,
@@ -160,10 +165,10 @@ sealed class DBService {
         category: category,
         location: location,
         cardNumber: cardNumber ?? '',
-        imageUrl: listImageUrl,
+        imageUrl: ImageUrl,
         createdAt: DateTime.now(),
       );
-        charityList.add(charity);
+      //charityList22.add(charity);
 
       await folder.set(charity.toJson());
       return true;
@@ -177,18 +182,18 @@ sealed class DBService {
 sealed class StoreService {
   static final storage = FirebaseStorage.instance;
 
-  static Future<List<String>> uploadFile(List<File> fileList) async {
+  static Future<String> uploadFile(File file) async {
     List<String> list = [];
-    fileList.forEach((file) async{
-      final image = storage.ref(Folder.postImages).child(
-          "image_${DateTime.now().toIso8601String()}${file.path.substring(file.path.lastIndexOf("."))}");
-      final task = image.putFile(file);
-      await task.whenComplete(() {});
-      String url = await image.getDownloadURL();
-      list.add(url);
-    });
+    //fileList.forEach((file) async{
+    final image = storage.ref(Folder.postImages).child(
+        "image_${DateTime.now().toIso8601String()}${file.path.substring(file.path.lastIndexOf("."))}");
+    final task = image.putFile(file);
+    await task.whenComplete(() {});
+    String url = await image.getDownloadURL();
+    //list.add(url);
+    //});
 
-    return list;
+    return url;
   }
 }
 

@@ -36,7 +36,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
     var xFile = await picker.pickImage(source: ImageSource.gallery);
     if (xFile != null) {
       file = File(xFile.path);
-      imageList.add(file!);
+     // imageList.add(file!);
       print(file);
       setState(() {});
     }
@@ -229,9 +229,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
                 onPressed: () {
                   if (titleController.text.isEmpty ||
                       descriptionController.text.isEmpty ||
-                      locationController.text
-                          .trim()
-                          .length < 8 ||
+
                       file!.path.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text(
@@ -242,24 +240,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         content: Text("Muvaffaqiyatli saqlandi"),
                       ),
                     );
-                    // Charity charity = Charity(
-                    //   id: '0',
-                    //   title: titleController.text,
-                    //   description: descriptionController.text,
-                    //   userId: '2',
-                    //   category: _myState,
-                    //   location: locationController.text,
-                    //   imageUrl: [
-                    //     file
-                    //         .toString()
-                    //         .substring(7, file
-                    //         .toString()
-                    //         .length - 1)
-                    //   ],
-                    //   createdAt: DateTime.now(),
-                    //   //    comments: [],
-                    // );
-                    final imageList2 = [];
+
                     DBService.storeCharity(
                         titleController.text,
                         descriptionController.text,
@@ -267,7 +248,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         _myState,
                         locationController.text,
                         cardNumBerController.text,
-                        imageList);
+                        file!);
 
                     /// #TODO
                     Navigator.pushReplacement(

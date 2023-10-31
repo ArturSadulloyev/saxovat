@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/services/database_service.dart';
 
+import '../views/font.dart';
+import 'about_charity.dart';
 import 'home_page.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -22,12 +24,12 @@ class _FavoritePageState extends State<FavoritePage> {
   List<Charity> favoriteList = [];
 
   void getList() {
-    print(user?.favoriteUserUid.length);
+    print('norrr ${user?.favoriteUserUid.length}');
     user?.favoriteUserUid.forEach((element) {
-      for (var item in charityList) {
+      for (var item in allPostList) {
         if (item.id == element) {
           favoriteList.add(item);
-          print(element);
+          print('BOrrr ${element}');
         }
       }
     });
@@ -36,13 +38,92 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Colors.transparent,
+
+        elevation: 0,
+        centerTitle: true,
+        title: Text("Saqlab qo'yilgan loyihalar", style: TextStyle(color: Colors.black,fontSize: 20),),
+      ),
       body: GridView.builder(
         itemCount: favoriteList.length,
         gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisSpacing: 110,childAspectRatio: 0.9),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(favoriteList[index].title)
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AboutCharity(
+                    charity: favoriteList[index],
+                  ),
+                ),
+              );
+            },
+            child: Card(
+              child: Container(
+                height: 220,
+                width: 150,
+                margin: const EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image(
+                        image: NetworkImage(favoriteList[index].imageUrl),
+                        height: 100,
+                        width: double.maxFinite,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: double.maxFinite,
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        favoriteList[index].title,
+                        style: font(
+                            size: 15,
+                            color: Colors.black,
+                            weight: FontWeight.w400),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      width: 90,
+                      margin: const EdgeInsets.all(3),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        favoriteList[index].category,
+                        style: font(size: 14),
+                        maxLines: 2,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5, top: 5),
+                      child: Text(
+                        favoriteList[index].location,
+                        style: font(size: 14),
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           );
         },
       ),

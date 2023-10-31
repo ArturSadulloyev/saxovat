@@ -27,22 +27,26 @@ class HomePage extends StatefulWidget {
 }
 
 User? user;
+List allPostList = [];
 
 class _HomePageState extends State<HomePage> {
   final List<Charity> donationList = [];
-  final List<Charity> charityList2 = [];
+  final List<Charity> charityList = [];
+
   void getList() async {
     user = await DBService.readUserList(Auth.auth.currentUser!.uid);
 
-    final allPostList = await DBService.readAllPost();
-    allPostList.forEach((element) {
-      print(element.title);
-    });
+    allPostList = await DBService.readAllPost();
+
     for (int i = 0; i < allPostList.length; i++) {
       if (allPostList[i].category == 'Xayriya') {
-        donationList.add(allPostList[i]);
-      } else {
-        charityList2.add(allPostList[i]);
+        if (!donationList.contains(allPostList[i])) {
+          donationList.add(allPostList[i]);
+        }
+      } if(allPostList[i].category == 'Volontyorlik') {
+        if (!charityList.contains(allPostList[i])) {
+          charityList.add(allPostList[i]);
+        }
       }
     }
     print(user!.name ?? 'No name');
@@ -110,7 +114,8 @@ class _HomePageState extends State<HomePage> {
                           height: 50,
                           width: 50,
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(user!.userImage ?? ''),
+                            backgroundImage:
+                                NetworkImage(user!.userImage ?? ''),
                           ),
                         ),
                   Column(
@@ -307,72 +312,87 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 10),
-              CarouselCard(),
-              Text('Kategoriyalar', style: font(size: 20)),
-              const SizedBox(height: 20),
-              const CategorySelectBtn(),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Xayriya', style: font(size: 20)),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DonationPage(
-                            category: 'Xayriya',
+      body: FutureBuilder<List<Charity>>(
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text('Error ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 10),
+                    CarouselCard(),
+                    Text('Kategoriyalar', style: font(size: 20)),
+                    const SizedBox(height: 20),
+                    const CategorySelectBtn(),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Xayriya', style: font(size: 20)),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DonationPage(
+                                  category: 'Xayriya',
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Barchasi',
+                            style:
+                                TextStyle(decoration: TextDecoration.underline),
                           ),
                         ),
-                      );
-                    },
-                    child: const Text(
-                      'Barchasi',
-                      style: TextStyle(decoration: TextDecoration.underline),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              DonationView(donationList: donationList),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Volontyorlik', style: font(size: 20)),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DonationPage(
-                            category: 'Volontyorlik',
+                    const SizedBox(height: 20),
+                    DonationView(donationList: donationList),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Volontyorlik', style: font(size: 20)),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DonationPage(
+                                  category: 'Volontyorlik',
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Barchasi',
+                            style:
+                                TextStyle(decoration: TextDecoration.underline),
                           ),
                         ),
-                      );
-                    },
-                    child: const Text(
-                      'Barchasi',
-                      style: TextStyle(decoration: TextDecoration.underline),
+                      ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    CharityView(charityList2: charityList),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
-              const SizedBox(height: 20),
-              CharityView(charityList2: charityList2),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
+            );
+          } else {
+            return Text('No data found');
+          }
+        },
+        future: DBService.readAllPost(),
       ),
     );
   }

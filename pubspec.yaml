@@ -23,7 +23,7 @@ dependencies:
   swipe_image_gallery: ^0.8.3
   firebase_database: ^10.2.5
   firebase_storage: ^11.2.7
-
+  cloud_firestore: ^4.12.1
 
 
 dev_dependencies:

@@ -42,7 +42,7 @@ final userList = [
   ),
 ];
 
-final charityList = [
+final charityList22 = [
   Charity(
     id: '1',
     title: "Masjid tahoratxonasi uchun hissa o'z hissangizni qo'shing",
@@ -52,11 +52,13 @@ final charityList = [
     category: 'Xayriya',
     location: 'Toshkent',
     cardNumber: '8600748596696325',
-    imageUrl: [
-      'assets/images/masjid/6991499_0_0_1279_722_2072x0_60_0_0_1cff576f6595c262373159167687f013.jpg',
-      'assets/images/masjid/aoeWu_eUrAY.jpg',
-      'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
-    ],
+    imageUrl:
+    'assets/images/masjid/6991499_0_0_1279_722_2072x0_60_0_0_1cff576f6595c262373159167687f013.jpg',
+
+    // [
+    //   'assets/images/masjid/aoeWu_eUrAY.jpg',
+    //   'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
+    // ],
     createdAt: DateTime.now(),
     //comments: [],
   ),
@@ -69,11 +71,13 @@ final charityList = [
     category: 'Xayriya',
     location: 'Toshkent',
     cardNumber: '8600748596124781',
-    imageUrl: [
-      'assets/images/masjid/99.jpg',
-      'assets/images/masjid/182297_best-masjid-e-nabvi-madina-saudi-arabia-7-jpg-hd-wallpapers_2560x2048_h.jpg',
-      'assets/images/masjid/Mosque_Emirates_UAE_Sheikh_Zayed_Grand_Mosque_Abu_515032_2560x1708.jpg',
-    ],
+    imageUrl:
+    'assets/images/masjid/99.jpg',
+
+    // [
+    //   'assets/images/masjid/182297_best-masjid-e-nabvi-madina-saudi-arabia-7-jpg-hd-wallpapers_2560x2048_h.jpg',
+    //   'assets/images/masjid/Mosque_Emirates_UAE_Sheikh_Zayed_Grand_Mosque_Abu_515032_2560x1708.jpg',
+    // ],
     createdAt: DateTime.now(),
     // comments: [],
   ),
@@ -86,11 +90,13 @@ final charityList = [
     category: 'Xayriya',
     cardNumber: '8600748596412532',
     location: 'Toshkent',
-    imageUrl: [
-      'assets/images/masjid/4f8eedec5038bad70d16d.jpg',
-      'assets/images/masjid/IhxHQgy_8_EsIYgYUznoKx3zFDXwXNF3.jpg',
-      'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
-    ],
+    imageUrl:
+    'assets/images/masjid/4f8eedec5038bad70d16d.jpg',
+
+    // [
+    //   'assets/images/masjid/IhxHQgy_8_EsIYgYUznoKx3zFDXwXNF3.jpg',
+    //   'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
+    // ],
     createdAt: DateTime.now(),
     // comments: [],
   ),
@@ -103,10 +109,11 @@ final charityList = [
     category: 'Xayriya',
     location: 'Toshkent',
     cardNumber: '8600748596412511',
-    imageUrl: [
-      'assets/images/masjid/6ae7fda8-cd78-41ba-a072-6f04f8712bce_cover.jpg',
-      'assets/images/masjid/gettyimages-168268184-1024x1024.jpg',
-    ],
+    imageUrl: 'assets/images/masjid/6ae7fda8-cd78-41ba-a072-6f04f8712bce_cover.jpg',
+    // [
+    //   'assets/images/masjid/6ae7fda8-cd78-41ba-a072-6f04f8712bce_cover.jpg',
+    //   'assets/images/masjid/gettyimages-168268184-1024x1024.jpg',
+    // ],
     createdAt: DateTime.now(),
     // comments: [],
   ),
@@ -118,10 +125,12 @@ final charityList = [
     userId: '1',
     category: 'Volontyorlik',
     location: 'Jizzax',
-    imageUrl: [
-      'assets/images/masjid/maxresdefault.jpg',
-      'assets/images/masjid/maxresdefault (1).jpg',
-    ],
+    imageUrl:
+    'assets/images/masjid/maxresdefault.jpg',
+
+    // [
+    //   'assets/images/masjid/maxresdefault (1).jpg',
+    // ],
     createdAt: DateTime.now(),
     // comments: [],
   ),
@@ -133,10 +142,12 @@ final charityList = [
     userId: '1',
     category: 'Volontyorlik',
     location: 'Namangan',
-    imageUrl: [
-      'assets/images/masjid/maxresdefault (2).jpg',
-      'assets/images/masjid/110320111066.jpg',
-    ],
+    imageUrl:
+    'assets/images/masjid/maxresdefault (2).jpg',
+
+    // [
+    //   'assets/images/masjid/110320111066.jpg',
+    // ],
     createdAt: DateTime.now(),
     // comments: [],
   ),
@@ -148,9 +159,11 @@ final charityList = [
     userId: '1',
     category: 'Volontyorlik',
     location: 'Sirdaryo',
-    imageUrl: [
-      'assets/images/masjid/maxresdefault (3).jpg',
-    ],
+    imageUrl:
+    'assets/images/masjid/maxresdefault (3).jpg',
+
+    // [
+    // ],
     createdAt: DateTime.now(),
     // comments: [],
   ),
@@ -162,10 +175,12 @@ final charityList = [
     userId: '1',
     category: 'Volontyorlik',
     location: 'Vobkent',
-    imageUrl: [
-      'assets/images/masjid/hqdefault.jpg',
-      'assets/images/masjid/maxresdefault (4).jpg',
-    ],
+    imageUrl:
+    'assets/images/masjid/hqdefault.jpg',
+
+    // [
+    //   'assets/images/masjid/maxresdefault (4).jpg',
+    // ],
     createdAt: DateTime.now(),
     // comments: [],
   ),

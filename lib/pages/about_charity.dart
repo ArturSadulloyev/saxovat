@@ -164,6 +164,7 @@ class _AboutCharityState extends State<AboutCharity> {
   void initState() {
     super.initState();
     isFavorite = user!.favoriteUserUid.contains(widget.charity.id);
+    print(widget.charity.description);
   }
 
   @override
@@ -208,7 +209,7 @@ class _AboutCharityState extends State<AboutCharity> {
                         transitionDuration: 0,
                         context: context,
                         children: [
-                          Image.asset(widget.charity.imageUrl[index]),
+                          Image(image: NetworkImage(widget.charity.imageUrl)),
                         ],
                       ).show();
                     },
@@ -216,7 +217,7 @@ class _AboutCharityState extends State<AboutCharity> {
                       height: double.maxFinite,
                       width: double.maxFinite,
                       fit: BoxFit.cover,
-                      image: AssetImage(widget.charity.imageUrl[index]),
+                      image: NetworkImage(widget.charity.imageUrl),
                     ),
                   );
                 },
@@ -239,7 +240,7 @@ class _AboutCharityState extends State<AboutCharity> {
                     height: 50,
                     width: 50,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(user?.userImage ?? ''),
+                      backgroundImage: NetworkImage(user?.userImage ?? ''),
                     ),
                   ),
 

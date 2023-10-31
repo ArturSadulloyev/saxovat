@@ -24,8 +24,8 @@ class _DonationViewState extends State<DonationView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getList();
+    print(widget.donationList.length);
     super.initState();
   }
 
@@ -66,7 +66,7 @@ class _DonationViewState extends State<DonationView> {
                       borderRadius: BorderRadius.circular(8),
                       child: Image(
                         image:
-                            NetworkImage(widget.donationList[index].imageUrl[0]),
+                            NetworkImage(widget.donationList[index].imageUrl),
                         height: 100,
                         width: double.maxFinite,
                         fit: BoxFit.cover,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/about_charity.dart';
+import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/views/font.dart';
 
 import '../services/database_service.dart';
@@ -21,9 +22,9 @@ class _DonationPageState extends State<DonationPage> {
 
   void getList() {
     list.clear();
-    for (int i = 0; i < charityList.length; i++) {
-      if (charityList[i].category == widget.category) {
-        list.add(charityList[i]);
+    for (int i = 0; i < allPostList.length; i++) {
+      if (allPostList[i].category == widget.category) {
+        list.add(allPostList[i]);
       }
     }
   }
@@ -76,7 +77,7 @@ class _DonationPageState extends State<DonationPage> {
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
                     leading: Image(
-                      image: NetworkImage(list[index].imageUrl[0]),
+                      image: NetworkImage(list[index].imageUrl),
                       fit: BoxFit.cover,
                       height: 100,
                       width: 100,
