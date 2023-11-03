@@ -49,21 +49,17 @@ class _HomePageState extends State<HomePage> {
         }
       }
     }
-    print(user!.name ?? 'No name');
   }
 
   @override
   void didChangeDependencies() {
     getList();
-
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   void initState() {
     super.initState();
-    getList();
   }
 
   @override

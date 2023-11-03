@@ -81,7 +81,6 @@ sealed class DBService {
     List favoriteList,
     String birth,
   ) async {
-    //try {
     final fbUser = db.ref(Folder.user).child(Auth.auth.currentUser!.uid);
     await fbUser.update({
       "email": email,
@@ -93,13 +92,31 @@ sealed class DBService {
       "favoriteList": favoriteList,
       "birth": birth,
     });
-
-    // fbPost.set(post.toJson());
     return true;
-    // } catch (e) {
-    //   debugPrint("DB ERROR: $e");
-    //   return false;
-    // }
+  }
+
+  static Future<bool> updateCharity(
+    String postId,
+    String title,
+    String content,
+    String category,
+    String location,
+    String cardNumber,
+    String imageUrl,
+  ) async {
+    final fbUser = db.ref(Folder.post).child(postId);
+    final id = fbUser.key;
+    await fbUser.update({
+      // "id": id,
+      "title": title,
+      "content": content,
+      // "userId": Auth.auth.currentUser!.uid,
+      "category": category,
+      "location": location,
+      "cardNumber": cardNumber,
+      "imageUrl": imageUrl,
+    });
+    return true;
   }
 
   static Future<User> readUserList(String uid) async {
@@ -118,11 +135,6 @@ sealed class DBService {
     return user;
   }
 
-// catch (e) {
-//   debugPrint("DB ERROR: $e");
-//   return null;
-// }
-//}
   static Future<List<Charity>> readAllPost() async {
     final databaseReference = await db.ref(Folder.post);
     List<Charity> list = [];
@@ -154,23 +166,33 @@ sealed class DBService {
   ) async {
     try {
       final folder = db.ref(Folder.post);
-      final uid = folder.push().key!;
+      final id = folder.push().key!;
       final ImageUrl = await StoreService.uploadFile(file);
-      print('Uidd1111111111111111111111 $uid');
-      final charity = Charity(
-        id: uid,
-        title: title,
-        description: description,
-        userId: userId,
-        category: category,
-        location: location,
-        cardNumber: cardNumber ?? '',
-        imageUrl: ImageUrl,
-        createdAt: DateTime.now(),
-      );
+      // Charity charity = Charity(
+      //   id: uid,
+      //   title: title,
+      //   description: description,
+      //   userId: userId,
+      //   category: category,
+      //   location: location,
+      //   cardNumber: cardNumber ?? '',
+      //   imageUrl: ImageUrl,
+      //   createdAt: DateTime.now(),
+      // );
       //charityList22.add(charity);
+      // await folder.set(charity.toJson());
+      await folder.set({
+        "id": id,
+        "title": title,
+        "content": description,
+        "userId": Auth.auth.currentUser!.uid,
+        "category": category,
+        "location": location,
+        "cardNumber": cardNumber,
+        "createdAt": DateTime.now().toIso8601String(),
+        "imageUrl": ImageUrl,
+      });
 
-      await folder.set(charity.toJson());
       return true;
     } catch (e) {
       debugPrint("DB ERROR: $e");

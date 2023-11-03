@@ -28,16 +28,17 @@ class Charity {
     //required this.comments
   });
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Charity &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          userId == other.userId;
-
-  @override
-  int get hashCode => id.hashCode ^ userId.hashCode;
+  //
+  // @override
+  // bool operator ==(Object other) =>
+  //     identical(this, other) ||
+  //     other is Charity &&
+  //         runtimeType == other.runtimeType &&
+  //         id == other.id &&
+  //         userId == other.userId;
+  //
+  // @override
+  // int get hashCode => id.hashCode ^ userId.hashCode;
 
   factory Charity.fromJson(Map<dynamic, dynamic> json) {
     return Charity(
@@ -50,7 +51,7 @@ class Charity {
       cardNumber: json["cardNumber"] ?? '',
       createdAt: DateTime.parse(json["createdAt"] as String),
       imageUrl: json["imageUrl"] ?? '',
-    //      json["imageUrl"] != null ? json["imageUrl"] as List<String> : [],
+      //      json["imageUrl"] != null ? json["imageUrl"] as List<String> : [],
     );
   }
 
@@ -63,7 +64,6 @@ class Charity {
         "cardNumber": cardNumber,
         "category": category,
         "imageUrl": imageUrl,
-        // "comments": comments.map((e) => e.toJson()).toList(),
-        "createdAt": createdAt.toIso8601String()
+        "createdAt": createdAt.toIso8601String(),
       };
 }

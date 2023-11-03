@@ -3,7 +3,6 @@ import 'package:saxovat/pages/about_charity.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/db_services.dart';
 
-import '../../models/charity_model.dart';
 import '../font.dart';
 
 class DonationView extends StatefulWidget {
@@ -54,22 +53,25 @@ class _DonationViewState extends State<DonationView> {
               elevation: 1,
               child: Container(
                 height: 200,
-                width: 150,
-                margin: const EdgeInsets.only(right: 10),
+                width: 160,
+                margin: const EdgeInsets.only(right: 0),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image(
-                        image:
-                            NetworkImage(widget.donationList[index].imageUrl),
-                        height: 100,
-                        width: double.maxFinite,
-                        fit: BoxFit.cover,
+                    Container(
+                      margin: EdgeInsets.only(left: 2,right: 2),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image(
+                          image:
+                              NetworkImage(widget.donationList[index].imageUrl),
+                          height: 100,
+                          width: double.maxFinite,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Container(
@@ -105,30 +107,33 @@ class _DonationViewState extends State<DonationView> {
                             maxLines: 2,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            //user.favoriteList
-                            if (favoriteList!
-                                .contains(widget.donationList[index].id)) {
-                              favoriteList
-                                  .remove(widget.donationList[index].id);
-                            } else {
-                              favoriteList.add(widget.donationList[index].id);
-                            }
-                            DBService.updateUser(
-                                user!.email,
-                                user!.password,
-                                user!.username,
-                                user!.phoneNumber,
-                                user!.name,
-                                user!.userImage ?? '',
-                                favoriteList ?? [],
-                                user!.dateOfBirth);
-                            setState(() {});
-                          },
-                          child: !favoriteIcon
-                              ? Icon(Icons.favorite_border)
-                              : Icon(Icons.favorite),
+                        Container(
+                          margin: EdgeInsets.only(right: 5),
+                          child: GestureDetector(
+                            onTap: () async {
+                              //user.favoriteList
+                              if (favoriteList!
+                                  .contains(widget.donationList[index].id)) {
+                                favoriteList
+                                    .remove(widget.donationList[index].id);
+                              } else {
+                                favoriteList.add(widget.donationList[index].id);
+                              }
+                              DBService.updateUser(
+                                  user!.email,
+                                  user!.password,
+                                  user!.username,
+                                  user!.phoneNumber,
+                                  user!.name,
+                                  user!.userImage ?? '',
+                                  favoriteList ?? [],
+                                  user!.dateOfBirth);
+                              setState(() {});
+                            },
+                            child: !favoriteIcon
+                                ? Icon(Icons.favorite_border)
+                                : Icon(Icons.favorite),
+                          ),
                         )
                       ],
                     ),

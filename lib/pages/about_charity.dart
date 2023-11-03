@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/user_model.dart';
+import 'package:saxovat/pages/delete_edit_charity_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
@@ -21,17 +22,24 @@ class AboutCharity extends StatefulWidget {
 class _AboutCharityState extends State<AboutCharity> {
   bool isFavorite = false;
 
-  // checkUser() {
-  //   for (int i = 0; i < userList.length; i++) {
-  //     if (userList[i].uid == widget.charity.userId) {
-  //       user = userList[i];
-  //       print('object');
-  //       print(userList[i].favoriteList.contains(widget.charity));
-  //       isFavorite = userList[i].favoriteList.contains(widget.charity);
-  //       break;
-  //     }
-  //   }
-  // }
+  void _isFavorite() {
+    if (user!.favoriteUserUid.contains(widget.charity.id)) {
+      user?.favoriteUserUid!.remove(widget.charity.id);
+    } else {
+      user?.favoriteUserUid!.add(widget.charity.id);
+    }
+    isFavorite = user!.favoriteUserUid.contains(widget.charity.id!);
+    DBService.updateUser(
+        user!.email,
+        user!.password,
+        user!.username,
+        user!.phoneNumber,
+        user!.name,
+        user!.userImage ?? '',
+        user!.favoriteUserUid ?? [],
+        user!.dateOfBirth);
+    setState(() {});
+  }
 
   void _showCard(BuildContext ctx) {
     showModalBottomSheet(
@@ -164,7 +172,6 @@ class _AboutCharityState extends State<AboutCharity> {
   void initState() {
     super.initState();
     isFavorite = user!.favoriteUserUid.contains(widget.charity.id);
-    print(widget.charity.description);
   }
 
   @override
@@ -192,6 +199,22 @@ class _AboutCharityState extends State<AboutCharity> {
             weight: FontWeight.w500,
           ),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DeleteEditCharityPage(
+                        charity: widget.charity,
+                      ),
+                    ));
+              },
+              icon: Icon(
+                Icons.edit,
+                color: Colors.black,
+              ))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -412,16 +435,7 @@ class _AboutCharityState extends State<AboutCharity> {
                       height: 45,
                       child: ElevatedButton(
                         onPressed: () {
-                          if (!isFavorite!) {
-                            print('add');
-                            user?.favoriteUserUid?.add(widget.charity.id);
-                          } else {
-                            print('remove');
-                            user?.favoriteUserUid?.remove(widget.charity.id);
-                          }
-                          isFavorite =
-                              user!.favoriteUserUid.contains(widget.charity);
-                          DBService.updateUserInfo();
+                          _isFavorite();
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(
