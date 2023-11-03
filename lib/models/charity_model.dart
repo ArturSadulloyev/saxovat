@@ -12,7 +12,7 @@ class Charity {
 
   // final bool isMe;
   // List<Message> comments;
-  final DateTime createdAt;
+  final String createdAt;
 
   Charity({
     //this.isMe = false,
@@ -49,7 +49,7 @@ class Charity {
       category: json["category"] ?? '',
       location: json["location"] ?? '',
       cardNumber: json["cardNumber"] ?? '',
-      createdAt: DateTime.parse(json["createdAt"] as String),
+      createdAt: (json["createdAt"]) ?? DateTime.now().toString(),
       imageUrl: json["imageUrl"] ?? '',
       //      json["imageUrl"] != null ? json["imageUrl"] as List<String> : [],
     );
@@ -64,6 +64,6 @@ class Charity {
         "cardNumber": cardNumber,
         "category": category,
         "imageUrl": imageUrl,
-        "createdAt": createdAt.toIso8601String(),
+        "createdAt": createdAt,
       };
 }

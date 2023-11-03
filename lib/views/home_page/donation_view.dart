@@ -24,7 +24,6 @@ class _DonationViewState extends State<DonationView> {
   @override
   void initState() {
     getList();
-    print(widget.donationList.length);
     super.initState();
   }
 
@@ -107,34 +106,35 @@ class _DonationViewState extends State<DonationView> {
                             maxLines: 2,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: GestureDetector(
-                            onTap: () async {
-                              //user.favoriteList
-                              if (favoriteList!
-                                  .contains(widget.donationList[index].id)) {
-                                favoriteList
-                                    .remove(widget.donationList[index].id);
-                              } else {
-                                favoriteList.add(widget.donationList[index].id);
-                              }
-                              DBService.updateUser(
-                                  user!.email,
-                                  user!.password,
-                                  user!.username,
-                                  user!.phoneNumber,
-                                  user!.name,
-                                  user!.userImage ?? '',
-                                  favoriteList ?? [],
-                                  user!.dateOfBirth);
-                              setState(() {});
-                            },
-                            child: !favoriteIcon
-                                ? Icon(Icons.favorite_border)
-                                : Icon(Icons.favorite),
-                          ),
-                        )
+                        /// icnBtn
+                        // Container(
+                        //   margin: EdgeInsets.only(right: 5),
+                        //   child: Text(widget.donationList[index].createdAt),
+                        //   // GestureDetector(
+                        //   //   onTap: () async {
+                        //   //     if (favoriteList!
+                        //   //         .contains(widget.donationList[index].id)) {
+                        //   //       favoriteList
+                        //   //           .remove(widget.donationList[index].id);
+                        //   //     } else {
+                        //   //       favoriteList.add(widget.donationList[index].id);
+                        //   //     }
+                        //   //     DBService.updateUser(
+                        //   //         user!.email,
+                        //   //         user!.password,
+                        //   //         user!.username,
+                        //   //         user!.phoneNumber,
+                        //   //         user!.name,
+                        //   //         user!.userImage ?? '',
+                        //   //         favoriteList ?? [],
+                        //   //         user!.dateOfBirth);
+                        //   //     setState(() {});
+                        //   //   },
+                        //   //   child: !favoriteIcon
+                        //   //       ? Icon(Icons.favorite_border)
+                        //   //       : Icon(Icons.favorite),
+                        //   // ),
+                        // )
                       ],
                     ),
                     Padding(

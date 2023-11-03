@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:saxovat/models/charity_model.dart';
-import 'package:saxovat/services/database_service.dart';
 
+import '../models/charity_model.dart';
 import '../views/font.dart';
 import 'about_charity.dart';
 import 'home_page.dart';
 
-class FavoritePage extends StatefulWidget {
-  const FavoritePage({super.key});
+class MyCharityPage extends StatefulWidget {
+  MyCharityPage({super.key});
 
   @override
-  State<FavoritePage> createState() => _FavoritePageState();
+  State<MyCharityPage> createState() => _MyCharityPageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _MyCharityPageState extends State<MyCharityPage> {
+  List<Charity> myCharity = [];
+
   @override
   void initState() {
     getList();
     super.initState();
   }
 
-  List<Charity> favoriteList = [];
-
   void getList() {
-    user?.favoriteUserUid.forEach((element) {
-      for (var item in allPostList) {
-        if (item.id == element) {
-          favoriteList.add(item);
-        }
+    for (var item in allPostList) {
+      if (item.userId == user?.uid) {
+        myCharity.add(item);
       }
-    });
+    }
+    ;
   }
 
   @override
@@ -41,12 +39,12 @@ class _FavoritePageState extends State<FavoritePage> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Saqlab qo'yilgan loyihalar",
+          "Mening loyihalarim",
           style: TextStyle(color: Colors.black, fontSize: 20),
         ),
       ),
       body: GridView.builder(
-        itemCount: favoriteList.length,
+        itemCount: myCharity.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, mainAxisSpacing: 20, childAspectRatio: 0.9),
         itemBuilder: (context, index) {
@@ -56,7 +54,7 @@ class _FavoritePageState extends State<FavoritePage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => AboutCharity(
-                    charity: favoriteList[index],
+                    charity: myCharity[index],
                   ),
                 ),
               );
@@ -75,7 +73,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image(
-                        image: NetworkImage(favoriteList[index].imageUrl),
+                        image: NetworkImage(myCharity[index].imageUrl),
                         height: 100,
                         width: double.maxFinite,
                         fit: BoxFit.cover,
@@ -86,7 +84,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       width: double.maxFinite,
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
-                        favoriteList[index].title,
+                        myCharity[index].title,
                         style: font(
                             size: 15,
                             color: Colors.black,
@@ -106,7 +104,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       ),
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
-                        favoriteList[index].category,
+                        myCharity[index].category,
                         style: font(size: 14),
                         maxLines: 2,
                       ),
@@ -114,7 +112,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5, top: 5),
                       child: Text(
-                        favoriteList[index].location,
+                        myCharity[index].location,
                         style: font(size: 14),
                         maxLines: 2,
                       ),

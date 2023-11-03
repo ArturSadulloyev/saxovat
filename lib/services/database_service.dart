@@ -59,7 +59,7 @@ final charityList22 = [
     //   'assets/images/masjid/aoeWu_eUrAY.jpg',
     //   'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     //comments: [],
   ),
   Charity(
@@ -78,7 +78,7 @@ final charityList22 = [
     //   'assets/images/masjid/182297_best-masjid-e-nabvi-madina-saudi-arabia-7-jpg-hd-wallpapers_2560x2048_h.jpg',
     //   'assets/images/masjid/Mosque_Emirates_UAE_Sheikh_Zayed_Grand_Mosque_Abu_515032_2560x1708.jpg',
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     // comments: [],
   ),
   Charity(
@@ -97,7 +97,7 @@ final charityList22 = [
     //   'assets/images/masjid/IhxHQgy_8_EsIYgYUznoKx3zFDXwXNF3.jpg',
     //   'assets/images/masjid/f98df89eb8c262c811c40ef6aeab18c4.jpg',
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     // comments: [],
   ),
   Charity(
@@ -114,7 +114,7 @@ final charityList22 = [
     //   'assets/images/masjid/6ae7fda8-cd78-41ba-a072-6f04f8712bce_cover.jpg',
     //   'assets/images/masjid/gettyimages-168268184-1024x1024.jpg',
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     // comments: [],
   ),
   Charity(
@@ -131,7 +131,7 @@ final charityList22 = [
     // [
     //   'assets/images/masjid/maxresdefault (1).jpg',
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     // comments: [],
   ),
   Charity(
@@ -148,7 +148,7 @@ final charityList22 = [
     // [
     //   'assets/images/masjid/110320111066.jpg',
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     // comments: [],
   ),
   Charity(
@@ -164,7 +164,7 @@ final charityList22 = [
 
     // [
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     // comments: [],
   ),
   Charity(
@@ -181,7 +181,7 @@ final charityList22 = [
     // [
     //   'assets/images/masjid/maxresdefault (4).jpg',
     // ],
-    createdAt: DateTime.now(),
+    createdAt: '11/3/2023',
     // comments: [],
   ),
 ];

@@ -1,13 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/services/auth_service.dart';
-
+import 'package:uuid/uuid.dart';
 import '../models/user_model.dart';
 import '../pages/home_page.dart';
 import 'database_service.dart';
@@ -59,36 +56,25 @@ sealed class DBService {
     }
   }
 
-  static void updateUserInfo() {
-    DBService.updateUser(
-        user!.email,
-        user!.password,
-        user!.username,
-        user!.phoneNumber,
-        user!.name,
-        user!.userImage ?? '',
-        user!.favoriteUserUid,
-        user!.dateOfBirth);
-  }
-
   static Future<bool> updateUser(
     String email,
     String password,
     String username,
     String phoneNumber,
     String name,
-    String userImage,
+    File userImage,
     List favoriteList,
     String birth,
   ) async {
     final fbUser = db.ref(Folder.user).child(Auth.auth.currentUser!.uid);
+    // final imgUrl = await StoreService.updateFile(userImage);
     await fbUser.update({
       "email": email,
       "password": password,
       "username": username,
       "phoneNumber": phoneNumber,
       "name": name,
-      "userImage": userImage,
+      // "userImage": imgUrl,
       "favoriteList": favoriteList,
       "birth": birth,
     });
@@ -102,21 +88,28 @@ sealed class DBService {
     String category,
     String location,
     String cardNumber,
-    String imageUrl,
+    File imageUrl,
   ) async {
     final fbUser = db.ref(Folder.post).child(postId);
-    final id = fbUser.key;
+    //String img = await StoreService.uploadFile(imageUrl);
     await fbUser.update({
-      // "id": id,
       "title": title,
       "content": content,
-      // "userId": Auth.auth.currentUser!.uid,
       "category": category,
       "location": location,
       "cardNumber": cardNumber,
-      "imageUrl": imageUrl,
+      //   "imageUrl": img,
     });
     return true;
+  }
+
+  static Future<bool> deleteCharity(String uid) async {
+    try {
+      await db.ref(Folder.post).child(uid).remove();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   static Future<User> readUserList(String uid) async {
@@ -128,29 +121,56 @@ sealed class DBService {
       final user1 = User.fromJson(value);
       if (user1.uid == uid) {
         user = user1;
-        print(user.userImage);
         return user;
       }
     });
     return user;
   }
 
+  static Future<List> readAllUserList() async {
+    final list = [];
+    final snapshot = await db.ref(Folder.user).get();
+    final map = snapshot.value as Map<dynamic, dynamic>;
+    map.forEach((key, value) {
+      final user1 = User.fromJson(value);
+      list.add(user1);
+    });
+    return list;
+  }
+
+  static Future<List> isMeCharity(Charity charity) async {
+    final list = [];
+    final snapshot = await db.ref(Folder.user).get();
+    final map = snapshot.value as Map<dynamic, dynamic>;
+    map.forEach((key, value) {
+      final user1 = User.fromJson(value);
+      list.add(user1);
+    });
+
+    return list;
+  }
+
   static Future<List<Charity>> readAllPost() async {
-    final databaseReference = await db.ref(Folder.post);
+    final databaseReference = await db.ref(Folder.post).get();
     List<Charity> list = [];
 
-    final child = await databaseReference.once();
-    final data = child.snapshot;
-
-    if (data.value != null) {
-      final data2 = data.value as Map<dynamic, dynamic>;
-      final charity = Charity.fromJson(data2);
+    final map = databaseReference.value as Map<dynamic, dynamic>;
+    map.forEach((key, value) {
+      final charity = Charity.fromJson(value);
       list.add(charity);
-    }
-
-    list.forEach((element) {
-      print('Element !! ${element.title}, ${element.category}');
     });
+
+    // final data = child.snapshot;
+    //
+    // if (data.value != null) {
+    //   final data2 = data.value as Map<dynamic, dynamic>;
+    //   final charity = Charity.fromJson(data2);
+    //   list.add(charity);
+    // }
+    //
+    // list.forEach((element) {
+    //   print('Element !! ${element.title}, ${element.category}');
+    // });
 
     return list;
   }
@@ -166,33 +186,23 @@ sealed class DBService {
   ) async {
     try {
       final folder = db.ref(Folder.post);
-      final id = folder.push().key!;
+      final id = Uuid().v4();
+      final child = folder.child(id);
       final ImageUrl = await StoreService.uploadFile(file);
-      // Charity charity = Charity(
-      //   id: uid,
-      //   title: title,
-      //   description: description,
-      //   userId: userId,
-      //   category: category,
-      //   location: location,
-      //   cardNumber: cardNumber ?? '',
-      //   imageUrl: ImageUrl,
-      //   createdAt: DateTime.now(),
-      // );
-      //charityList22.add(charity);
-      // await folder.set(charity.toJson());
-      await folder.set({
-        "id": id,
-        "title": title,
-        "content": description,
-        "userId": Auth.auth.currentUser!.uid,
-        "category": category,
-        "location": location,
-        "cardNumber": cardNumber,
-        "createdAt": DateTime.now().toIso8601String(),
-        "imageUrl": ImageUrl,
-      });
-
+      Charity charity = Charity(
+        id: id,
+        title: title,
+        description: description,
+        userId: userId,
+        category: category,
+        location: location,
+        cardNumber: cardNumber ?? '',
+        imageUrl: ImageUrl,
+        createdAt:
+            '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+      );
+      charityList22.add(charity);
+      await child.set(charity.toJson());
       return true;
     } catch (e) {
       debugPrint("DB ERROR: $e");
@@ -205,15 +215,21 @@ sealed class StoreService {
   static final storage = FirebaseStorage.instance;
 
   static Future<String> uploadFile(File file) async {
-    List<String> list = [];
-    //fileList.forEach((file) async{
     final image = storage.ref(Folder.postImages).child(
         "image_${DateTime.now().toIso8601String()}${file.path.substring(file.path.lastIndexOf("."))}");
     final task = image.putFile(file);
     await task.whenComplete(() {});
     String url = await image.getDownloadURL();
-    //list.add(url);
-    //});
+
+    return url;
+  }
+
+  static Future<String> updateFile(File file) async {
+    final image = storage.ref(Folder.postImages).child(
+        "image_${DateTime.now().toIso8601String()}${file.path.substring(file.path.lastIndexOf("."))}");
+    //final task = image.putFile(file);
+    //await task.whenComplete(() {});
+    String url = await image.getDownloadURL();
 
     return url;
   }

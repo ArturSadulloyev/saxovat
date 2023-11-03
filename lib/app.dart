@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saxovat/pages/favourite_page.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/pages/login_page.dart';
+import 'package:saxovat/pages/splash_page.dart';
 import 'package:saxovat/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.data != null) {
             return const HomePage();
           } else {
-            return LoginPage();
+            return SplashPage();
           }
         },
       ),

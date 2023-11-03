@@ -17,6 +17,7 @@ class CharityView extends StatefulWidget {
 class _CharityViewState extends State<CharityView> {
   List favoriteList = [];
 
+
   void getList() async {
     favoriteList = await user?.favoriteUserUid ?? [];
   }
@@ -47,7 +48,6 @@ class _CharityViewState extends State<CharityView> {
               child: Container(
                 height: 200,
                 width: 150,
-                //margin: const EdgeInsets.only(),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
@@ -100,33 +100,34 @@ class _CharityViewState extends State<CharityView> {
                             maxLines: 2,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (favoriteList!
-                                  .contains(widget.charityList2[index].id)) {
-                                favoriteList
-                                    .remove(widget.charityList2[index].id);
-                              } else {
-                                favoriteList.add(widget.charityList2[index].id);
-                              }
-                              DBService.updateUser(
-                                  user!.email,
-                                  user!.password,
-                                  user!.username,
-                                  user!.phoneNumber,
-                                  user!.name,
-                                  user!.userImage ?? '',
-                                  favoriteList ?? [],
-                                  user!.dateOfBirth);
-                              setState(() {});
-                            },
-                            child: !favoriteIcon
-                                ? Icon(Icons.favorite_border)
-                                : Icon(Icons.favorite),
-                          ),
-                        )
+                        /// icnBtn
+                        // Container(
+                        //   margin: EdgeInsets.only(right: 5),
+                        //   child: GestureDetector(
+                        //     onTap: () async {
+                        //       if (favoriteList!
+                        //           .contains(widget.charityList2[index].id)) {
+                        //         favoriteList
+                        //             .remove(widget.charityList2[index].id);
+                        //       } else {
+                        //         favoriteList.add(widget.charityList2[index].id);
+                        //       }
+                        //       DBService.updateUser(
+                        //           user!.email,
+                        //           user!.password,
+                        //           user!.username,
+                        //           user!.phoneNumber,
+                        //           user!.name,
+                        //           user!.userImage ?? '',
+                        //           favoriteList ?? [],
+                        //           user!.dateOfBirth);
+                        //       setState(() {});
+                        //     },
+                        //     child: !favoriteIcon
+                        //         ? Icon(Icons.favorite_border)
+                        //         : Icon(Icons.favorite),
+                        //   ),
+                        // )
                       ],
                     ),
                     Padding(

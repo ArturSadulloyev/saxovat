@@ -33,8 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
     final xFile = await picker.pickImage(source: ImageSource.gallery);
     if (xFile != null) {
       file = File(xFile.path);
-      setState(() {});
     }
+    autoFill();
+
+    setState(() {});
   }
 
   void autoFill() {
@@ -107,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             size: 60,
                           )
                         : Image(
-                           image: NetworkImage(user!.userImage ?? ''),
+                            image: NetworkImage(user!.userImage ?? ''),
                             fit: BoxFit.cover,
                           ),
                   ),
@@ -238,7 +240,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   if (nameController.text.isEmpty ||
                       emailController.text.isEmpty ||
                       phoneNumberController.text.trim().length < 12) {
@@ -246,13 +248,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         content: Text(
                             "Saqlashdan oldin ma'lumotlar to'g'ri kiritilganiga amin bo'ling")));
                   } else {
-                   await DBService.updateUser(
+                    await DBService.updateUser(
                         emailController.text,
                         passwordController.text,
                         userNameController.text,
                         phoneNumberController.text,
                         nameController.text,
-                        file.toString(),
+                        file!,
                         user?.favoriteUserUid ?? [],
                         dateOfBirthController.text);
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

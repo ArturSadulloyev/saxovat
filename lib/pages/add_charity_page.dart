@@ -227,7 +227,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
                 height: 50,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
                   if (titleController.text.isEmpty ||
                       descriptionController.text.isEmpty ||
                       file!.path.isEmpty) {
@@ -249,6 +249,8 @@ class _AddCharityPageState extends State<AddCharityPage> {
                         locationController.text,
                         cardNumBerController.text,
                         file!);
+
+
 
                     /// #TODO
                     Navigator.pushReplacement(

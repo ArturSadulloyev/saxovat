@@ -83,11 +83,11 @@ class _DonationPageState extends State<DonationPage> {
                       width: 100,
                     ),
                     title: Text(
-                      list[0].title,
+                      list[index].title,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    trailing: Text(list[0].category),
+                    trailing: Text(list[index].category),
                   ),
                 ),
               ),
