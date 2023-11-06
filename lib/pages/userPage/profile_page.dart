@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:saxovat/services/db_services.dart';
 
-import 'home_page.dart';
+import '../home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -88,9 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 50,
-              ),
+
               Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
@@ -116,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
 
               /// name
@@ -136,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
               /// email
               TextField(
@@ -155,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
               /// phone
               TextField(
@@ -179,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
               /// username
               TextField(
@@ -198,7 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
               /// password
               TextField(
@@ -217,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
               /// birth
               TextField(
@@ -236,9 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).nextFocus();
                 },
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   if (nameController.text.isEmpty ||

@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/views/font.dart';
-import '../services/db_services.dart';
-import 'home_page.dart';
+import '../../services/db_services.dart';
+import '../home_page.dart';
 
 class DeleteEditCharityPage extends StatefulWidget {
   DeleteEditCharityPage({super.key, required this.charity});

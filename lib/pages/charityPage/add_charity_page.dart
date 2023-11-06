@@ -1,17 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/auth_service.dart';
-import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 
 class AddCharityPage extends StatefulWidget {
   const AddCharityPage({super.key, this.cardNumber});
+
+
 
   final String? cardNumber;
 
@@ -44,7 +42,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
   }
 
   String _myState = 'Xayriya';
-  var statesList = ['Xayriya', 'Volontyorlik'];
+  var statesList = ['Xayriya', 'Hashar'];
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 100,
+                height: 70,
               ),
               Container(
                 height: 150,
@@ -224,7 +222,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
                 },
               ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
               ElevatedButton(
                 onPressed: () async{
@@ -271,6 +269,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
+              SizedBox(height: 60)
             ],
           ),
         ),

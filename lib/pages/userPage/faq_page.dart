@@ -45,8 +45,8 @@ class FaqPage extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Image.asset(
                         "assets/images/faq.png",
-                        height: 200,
-                        width: 200,
+                        height: 180,
+                        width: 150,
                         fit: BoxFit.cover,
                       ),
                     ),

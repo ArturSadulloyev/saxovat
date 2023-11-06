@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_screen_onboarding_flutter/introduction.dart';
 import 'package:intro_screen_onboarding_flutter/introscreenonboarding.dart';
-import 'package:saxovat/pages/splash_page.dart';
+import 'package:saxovat/pages/loginPage/splash_page.dart';
 import 'package:saxovat/views/font.dart';
 
 class AboutProjectPage extends StatelessWidget {

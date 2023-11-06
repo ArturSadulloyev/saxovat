@@ -27,10 +27,19 @@ dependencies:
   uuid: ^4.1.0
   easy_image_viewer: ^1.2.1
   cached_network_image: ^3.3.0
+  firebase_crashlytics: ^3.4.3
+  firebase_performance: ^0.9.3+3
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/main_photo/main.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
   uses-material-design: true
@@ -38,6 +47,7 @@ flutter:
   assets:
      - assets/images/
      - assets/images/masjid/
+     - assets/images/main_photo/main.jpg
 
   # fonts:
   #   - family: Schyler

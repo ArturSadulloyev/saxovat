@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:saxovat/pages/home_page.dart';
-import 'package:saxovat/pages/phone_auth_page.dart';
-import 'package:saxovat/pages/sign_up_page.dart';
+import 'package:saxovat/pages/loginPage/sign_up_page.dart';
 import 'package:saxovat/services/auth_service.dart';
-import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 
 class LoginPage extends StatelessWidget {
@@ -13,11 +10,6 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  // final maskFormatter = MaskTextInputFormatter(
-  //   mask: "****-**-***-**-**",
-  //   filter: {"*": RegExp(r"$[+][0-9]{3}[0-9]{2}[0-9]{3}[0-9]{2}[0-9]{2}")},
-  //   type: MaskAutoCompletionType.lazy,
-  // );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,11 +25,11 @@ class LoginPage extends StatelessWidget {
       ),
       body: FutureBuilder<bool>(
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting){
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
-          }else if(snapshot.hasError){
+          } else if (snapshot.hasError) {
             return Text('Error ${snapshot.error}');
-          }else if (snapshot.hasData) {
+          } else if (snapshot.hasData) {
             return SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -101,7 +93,7 @@ class LoginPage extends StatelessWidget {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                          BorderSide(color: Colors.blue.shade800, width: 2),
+                              BorderSide(color: Colors.blue.shade800, width: 2),
                         ),
                       ),
                     ),
@@ -135,7 +127,7 @@ class LoginPage extends StatelessWidget {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
-                          BorderSide(color: Colors.blue.shade800, width: 2),
+                              BorderSide(color: Colors.blue.shade800, width: 2),
                         ),
                       ),
                     ),
@@ -158,7 +150,7 @@ class LoginPage extends StatelessWidget {
                             MediaQuery.sizeOf(context).width / 7),
                       ),
                       backgroundColor:
-                      MaterialStateProperty.all(Colors.blue.shade800),
+                          MaterialStateProperty.all(Colors.blue.shade800),
                       shape: MaterialStateProperty.all(
                         const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
@@ -200,10 +192,9 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
             );
-          }else{
+          } else {
             return Text('No found data');
           }
-
         },
         future: Auth.signInWithEmailAndPassword(
             emailController.text, passwordController.text),

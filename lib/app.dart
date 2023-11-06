@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:saxovat/pages/favourite_page.dart';
 import 'package:saxovat/pages/home_page.dart';
-import 'package:saxovat/pages/login_page.dart';
-import 'package:saxovat/pages/splash_page.dart';
+import 'package:saxovat/pages/loginPage/splash_page.dart';
 import 'package:saxovat/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

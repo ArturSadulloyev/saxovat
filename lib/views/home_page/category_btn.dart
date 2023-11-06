@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../pages/donation_page.dart';
+
+import '../../pages/charityPage/donation_page.dart';
 
 class CategorySelectBtn extends StatelessWidget {
   const CategorySelectBtn({super.key});
@@ -19,7 +20,7 @@ class CategorySelectBtn extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const DonationPage(
-                      category: 'Volontyorlik',
+                      category: 'Hashar',
                     ),
                   ),
                 );
@@ -30,7 +31,7 @@ class CategorySelectBtn extends StatelessWidget {
                 image: AssetImage('assets/images/PngItem_733744.png'),
               ),
             ),
-            const Text('Volontyorlik'),
+            const Text('Hashar'),
           ],
         ),
         const SizedBox(width: 20),

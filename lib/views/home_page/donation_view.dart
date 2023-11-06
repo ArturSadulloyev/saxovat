@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saxovat/pages/about_charity.dart';
+import 'package:saxovat/pages/charityPage/about_charity.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/db_services.dart';
 

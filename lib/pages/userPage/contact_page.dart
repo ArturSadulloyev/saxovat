@@ -156,7 +156,7 @@ class _ContactPageState extends State<ContactPage> {
                             width: 10,
                           ),
                           Text(
-                            "+998-88-866-66-21",
+                            "+998-94-128-92-62",
                             style: TextStyle(fontSize: 25),
                           ),
                         ],

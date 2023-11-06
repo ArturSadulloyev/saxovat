@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saxovat/pages/about_project_page.dart';
+import 'package:saxovat/pages/userPage/about_project_page.dart';
 import 'package:saxovat/views/font.dart';
 
 class SelectLanguagePage extends StatefulWidget {

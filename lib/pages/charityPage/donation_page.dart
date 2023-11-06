@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
-import 'package:saxovat/pages/about_charity.dart';
+import 'package:saxovat/pages/charityPage/about_charity.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/views/font.dart';
 
-import '../services/database_service.dart';
 
 class DonationPage extends StatefulWidget {
   const DonationPage({super.key, required this.category});

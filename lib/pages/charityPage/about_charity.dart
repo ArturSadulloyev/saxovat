@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/user_model.dart';
-import 'package:saxovat/pages/delete_edit_charity_page.dart';
+import 'package:saxovat/pages/charityPage/delete_edit_charity_page.dart';
 import 'package:saxovat/services/database_service.dart';
 import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 
-import 'home_page.dart';
+import '../home_page.dart';
 
 class AboutCharity extends StatefulWidget {
   AboutCharity({super.key, required this.charity});
@@ -379,31 +379,31 @@ class _AboutCharityState extends State<AboutCharity> {
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            "21.04.2023",
+                            widget.charity.createdAt ?? '11.04.2023',
                             style: font(color: Colors.blue.shade900),
                           ),
                         ],
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Badge(),
-                              const SizedBox(width: 4),
-                              Text(
-                                "Sanagacha to'planishi kerak",
-                                style: font(size: 12),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            "23.05.2023",
-                            style: font(color: Colors.blue.shade900),
-                          ),
-                        ],
-                      ),
+                      // Column(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [
+                      //     Row(
+                      //       children: [
+                      //         const Badge(),
+                      //         const SizedBox(width: 4),
+                      //         Text(
+                      //           "Sanagacha to'planishi kerak",
+                      //           style: font(size: 12),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     const SizedBox(height: 3),
+                      //     Text(
+                      //       "23.05.2023",
+                      //       style: font(color: Colors.blue.shade900),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
@@ -505,7 +505,8 @@ class _AboutCharityState extends State<AboutCharity> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 60)
               ],
             ),
           ),
