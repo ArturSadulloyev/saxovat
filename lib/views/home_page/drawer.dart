@@ -227,6 +227,25 @@ class HomeDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
+              Icons.question_answer_outlined,
+              color: Colors.purple,
+              size: 30,
+            ),
+            title: const Text(
+              "Savol javoblar",
+              style: TextStyle(fontSize: 20),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyCharityPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
               Icons.phone,
               color: Colors.blue,
               size: 30,

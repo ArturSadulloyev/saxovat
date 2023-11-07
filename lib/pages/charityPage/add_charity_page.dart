@@ -9,8 +9,6 @@ import 'package:saxovat/views/font.dart';
 class AddCharityPage extends StatefulWidget {
   const AddCharityPage({super.key, this.cardNumber});
 
-
-
   final String? cardNumber;
 
   @override
@@ -19,9 +17,7 @@ class AddCharityPage extends StatefulWidget {
 
 class _AddCharityPageState extends State<AddCharityPage> {
   final ImagePicker picker = ImagePicker();
-  String dropdownValue = 'Dog';
   File? file;
-  var items = ['top0', 'top1'];
   TextEditingController titleController = TextEditingController();
 
   TextEditingController descriptionController = TextEditingController();
@@ -225,7 +221,7 @@ class _AddCharityPageState extends State<AddCharityPage> {
                 height: 30,
               ),
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   if (titleController.text.isEmpty ||
                       descriptionController.text.isEmpty ||
                       file!.path.isEmpty) {
@@ -239,18 +235,16 @@ class _AddCharityPageState extends State<AddCharityPage> {
                       ),
                     );
 
-                    DBService.storeCharity(
-                        titleController.text,
-                        descriptionController.text,
-                        Auth.auth.currentUser!.uid,
-                        _myState,
-                        locationController.text,
-                        cardNumBerController.text,
-                        file!);
+                    await DBService.storeCharity(
+                      titleController.text,
+                      descriptionController.text,
+                      Auth.auth.currentUser!.uid,
+                      _myState,
+                      locationController.text,
+                      cardNumBerController.text,
+                      file!,
+                    );
 
-
-
-                    /// #TODO
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/user_model.dart';
 import 'package:saxovat/pages/charityPage/delete_edit_charity_page.dart';
-import 'package:saxovat/services/database_service.dart';
+import 'package:saxovat/services/local_db.dart';
 import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
@@ -26,6 +26,7 @@ class AboutCharity extends StatefulWidget {
 class _AboutCharityState extends State<AboutCharity> {
   bool isFavorite = false;
   var userMain;
+  TextEditingController msgController = TextEditingController();
 
   void _isFavorite() {
     if (user!.favoriteUserUid.contains(widget.charity.id)) {
@@ -106,10 +107,10 @@ class _AboutCharityState extends State<AboutCharity> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: widget.charity.cardNumber?.length==0 ?
-                            user?.phoneNumber :
-                            widget.charity.cardNumber,
-                        style: font(size: 18,color: Colors.black),
+                        text: widget.charity.cardNumber?.length == 0
+                            ? user?.phoneNumber
+                            : widget.charity.cardNumber,
+                        style: font(size: 18, color: Colors.black),
                       ),
                     ],
                   ),
@@ -144,6 +145,7 @@ class _AboutCharityState extends State<AboutCharity> {
             children: [
               Expanded(
                 child: TextField(
+                  controller: msgController,
                   decoration: InputDecoration(
                     hintText: 'Xabar yozing...',
                     fillColor: Colors.grey[300],
@@ -156,6 +158,9 @@ class _AboutCharityState extends State<AboutCharity> {
               ),
               IconButton(
                 onPressed: () {
+                  DBService.storeMessage(
+                      msgController.text, widget.charity.userId);
+                  msgController.text = '';
                   Navigator.pop(context);
                 },
                 icon: Icon(
@@ -194,8 +199,6 @@ class _AboutCharityState extends State<AboutCharity> {
     isFavorite = user!.favoriteUserUid.contains(widget.charity.id);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -225,35 +228,39 @@ class _AboutCharityState extends State<AboutCharity> {
               ),
             ),
             actions: [
-             widget.charity.userId==user?.uid ? IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DeleteEditCharityPage(
-                          charity: widget.charity,
-                        ),
-                      ));
-                },
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.black,
-                ),
-              ) : SizedBox.shrink(),
-              widget.charity.userId==user?.uid ? IconButton(
-                onPressed: () async {
-                  await DBService.deleteCharity(widget.charity.id);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ));
-                },
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.black,
-                ),
-              ) : SizedBox.shrink(),
+              widget.charity.userId == user?.uid
+                  ? IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DeleteEditCharityPage(
+                                charity: widget.charity,
+                              ),
+                            ));
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.black,
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              widget.charity.userId == user?.uid
+                  ? IconButton(
+                      onPressed: () async {
+                        await DBService.deleteCharity(widget.charity.id);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ));
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.black,
+                      ),
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
           body: SingleChildScrollView(
@@ -268,7 +275,8 @@ class _AboutCharityState extends State<AboutCharity> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          showImageViewer(context,
+                          showImageViewer(
+                              context,
                               doubleTapZoomable: true,
                               Image.network(widget.charity.imageUrl).image);
                           // SwipeImageGallery(
@@ -332,27 +340,29 @@ class _AboutCharityState extends State<AboutCharity> {
                         style: font(size: 20),
                       ),
                       const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          /// TODO
-                          _showQuestion(context);
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.blue.shade50,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Savol berish',
-                              style:
-                                  font(size: 18, color: Colors.blue.shade900),
-                            ),
-                          ),
-                        ),
-                      ),
+                      widget.charity.userId != user!.uid
+                          ? GestureDetector(
+                              onTap: () {
+                                /// TODO
+                                _showQuestion(context);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.blue.shade50,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Savol berish',
+                                    style: font(
+                                        size: 18, color: Colors.blue.shade900),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox.shrink(),
                     ],
                   ),
                 ),
