@@ -8,6 +8,7 @@ import 'package:saxovat/views/home_page/category_btn.dart';
 import 'package:saxovat/views/home_page/charity_view.dart';
 import 'package:saxovat/views/home_page/donation_view.dart';
 import 'package:saxovat/views/home_page/drawer.dart';
+import 'package:saxovat/views/home_page/homeAppBar.dart';
 import '../models/user_model.dart';
 import 'charityPage/donation_page.dart';
 import 'charityPage/favourite_page.dart';
@@ -67,30 +68,8 @@ class _HomePageState extends State<HomePage> {
       children: [
         Scaffold(
           backgroundColor: Colors.white.withOpacity(0.95),
-          appBar: AppBar(
-            iconTheme: const IconThemeData(color: Colors.black),
-            elevation: 0,
-            centerTitle: true,
-            title: const Text(
-              "Asosiy",
-              style: TextStyle(color: Colors.black),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FavoritePage(),
-                      ));
-                },
-                icon: Icon(
-                  Icons.favorite_border,
-                ),
-              ),
-            ],
-            backgroundColor: Colors.transparent,
-          ),
+          appBar: PreferredSize(preferredSize: Size(50, 50),
+          child: HomeAppBar()),
           drawer: HomeDrawer(),
           body: FutureBuilder<List<Charity>>(
             builder: (context, snapshot) {

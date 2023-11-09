@@ -8,7 +8,6 @@ import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
 import '../models/user_model.dart';
-import 'local_db.dart';
 
 sealed class DBService {
   static final db = FirebaseDatabase.instance;
@@ -30,15 +29,15 @@ sealed class DBService {
     try {
       final folder = db.ref(Folder.user).child(uid!);
 
-      final storage = FirebaseStorage.instance;
 
+
+      final storage = FirebaseStorage.instance;
       final image = storage.ref(Folder.postImages).child(
           "image_${DateTime.now().toIso8601String()}${userImage?.path.substring(userImage!.path.lastIndexOf("."))}");
-
       final task = image.putFile(userImage);
       await task.whenComplete(() {});
-
       String imageUrl = await image.getDownloadURL();
+
 
       final member = User(
         uid: uid,
@@ -199,6 +198,7 @@ sealed class DBService {
   static Future<bool> storeMessage(
     String message,
     String recipientId,
+      String charityId,
   ) async {
     try {
       final folder = db.ref(Folder.message);
@@ -206,7 +206,7 @@ sealed class DBService {
       final child = folder.child(id);
 
       Message message1 = Message(
-        id: id,
+        id: charityId,
         message: message,
         writtenAt: DateTime.now().toString(),
         recipientId: recipientId,
@@ -221,23 +221,28 @@ sealed class DBService {
     }
   }
 
-
   /// read
   static Future<List<Message>> readAllMessage(String uid) async {
     final databaseReference = await db.ref(Folder.message).get();
     List<Message> list = [];
 
     final map = databaseReference.value as Map<dynamic, dynamic>;
+    print(databaseReference.value);
     map.forEach((key, value) {
       final msg = Message.fromJson(value);
       if (msg.recipientId == uid) {
         list.add(msg);
       }
     });
+
+    list.forEach((element) {
+      print('MSg: ${element.message}');
+    });
+
+
+
     return list;
   }
-
-
 }
 
 sealed class StoreService {

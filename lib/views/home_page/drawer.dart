@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saxovat/pages/charityPage/message_page.dart';
 
 import '../../pages/charityPage/add_charity_page.dart';
 import '../../pages/charityPage/favourite_page.dart';
@@ -239,7 +240,7 @@ class HomeDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyCharityPage(),
+                  builder: (context) => MessagePage(),
                 ),
               );
             },

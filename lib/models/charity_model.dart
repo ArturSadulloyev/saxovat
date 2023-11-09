@@ -29,16 +29,16 @@ class Charity {
   });
 
   //
-  // @override
-  // bool operator ==(Object other) =>
-  //     identical(this, other) ||
-  //     other is Charity &&
-  //         runtimeType == other.runtimeType &&
-  //         id == other.id &&
-  //         userId == other.userId;
-  //
-  // @override
-  // int get hashCode => id.hashCode ^ userId.hashCode;
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Charity &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          userId == other.userId;
+
+  @override
+  int get hashCode => id.hashCode ^ userId.hashCode;
 
   factory Charity.fromJson(Map<dynamic, dynamic> json) {
     return Charity(

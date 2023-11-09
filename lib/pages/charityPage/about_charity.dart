@@ -159,7 +159,7 @@ class _AboutCharityState extends State<AboutCharity> {
               IconButton(
                 onPressed: () {
                   DBService.storeMessage(
-                      msgController.text, widget.charity.userId);
+                      msgController.text, widget.charity.userId,widget.charity.id);
                   msgController.text = '';
                   Navigator.pop(context);
                 },
