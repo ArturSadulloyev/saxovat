@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/message_model.dart';
+import 'package:saxovat/pages/charityPage/about_charity.dart';
 import 'package:saxovat/services/auth_service.dart';
 import 'package:saxovat/services/db_services.dart';
 import 'package:saxovat/views/font.dart';
@@ -31,35 +32,32 @@ class _MessagePageState extends State<MessagePage> {
     });
   }
 
-
   void findCharity() async {
     List<Charity> charList = await DBService.readAllPost();
-    msgList = await DBService.readAllMessage(Auth.auth.currentUser!.uid);
-
-
-
-    for(int i=0;i<charList.length;i++){
-      for(int j=0;j<msgList.length;j++){
-        if(charList[i].id==msgList[j].id){
-          if(!charityList.contains(charList[i])){
-            charityList.add(charList[i]);
-          }
+    final msgList2 = await DBService.readAllMessage(Auth.auth.currentUser!.uid);
+    Set<Charity> setCharity = {};
+    Set<Message> setMsg = {};
+    for (int i = 0; i < charList.length; i++) {
+      for (int j = 0; j < msgList2.length; j++) {
+        if (charList[i].id == msgList2[j].id) {
+          setCharity.add(charList[i]);
+          setMsg.add(msgList2[j]);
         }
       }
     }
+    charityList = setCharity.toList();
+    msgList = setMsg.toList();
+    print('lee ${charityList.length}');
 
     setState(() {
       isLoading = false;
     });
   }
 
-
-
   @override
   void initState() {
     findMessage();
     findCharity();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -68,16 +66,80 @@ class _MessagePageState extends State<MessagePage> {
     return Stack(
       children: [
         Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+            ),
+            title: Text(
+              'Xabarlar',
+              style: font(
+                size: 22,
+                color: Colors.red,
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
           body: ListView.builder(
             itemCount: charityList.length,
             itemBuilder: (context, index) {
-
-              return ListTile(
-                title: Text(
-                  msgList[0].message,
-                  style: font(size: 18),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AboutCharity(charity: charityList[index])));
+                },
+                child: Container(
+                  height: 100,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(10),
+                  child: ListTile(
+                    title: Text(
+                      charityList[index].title,
+                      style: font(
+                          size: 15,
+                          color: Colors.black,
+                          weight: FontWeight.w400),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    leading: Container(
+                        height: 150,
+                        width: 80,
+                        child: Image.network(
+                          charityList[index].imageUrl,
+                          fit: BoxFit.cover,
+                        )),
+                    // trailing:
+                    // Container(
+                    //   height: 15,
+                    //   width: 100,
+                    //   child: Text(
+                    //     msgList[index].message,
+                    //     style: font(
+                    //         size: 15,
+                    //         color: Colors.black,
+                    //         weight: FontWeight.w400),
+                    //     maxLines: 2,
+                    //     overflow: TextOverflow.ellipsis,
+                    //   ),
+                    // ),
+                  ),
                 ),
-                leading: Image.network(charityList[index].imageUrl),
               );
             },
           ),
@@ -85,9 +147,8 @@ class _MessagePageState extends State<MessagePage> {
         if (isLoading)
           Center(
               child: CircularProgressIndicator.adaptive(
-                backgroundColor: Colors.transparent,
-              )),
-
+            backgroundColor: Colors.transparent,
+          )),
       ],
     );
   }
