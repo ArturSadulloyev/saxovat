@@ -1,3 +1,6 @@
+import 'package:bounce/bounce.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../pages/charityPage/about_charity.dart';
 import '../../pages/home_page.dart';
@@ -22,7 +25,7 @@ class _CharityViewState extends State<CharityView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 220,
+      height: 235,
       child: ListView.builder(
         //padding: const EdgeInsets.all(20),
         scrollDirection: Axis.horizontal,
@@ -30,8 +33,8 @@ class _CharityViewState extends State<CharityView> {
         itemBuilder: (context, index) {
           final favoriteIcon =
               favoriteList!.contains(widget.charityList2[index].id);
-          return GestureDetector(
-            onTap: () {
+          return Bounce(
+            onTap: (){
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -46,21 +49,17 @@ class _CharityViewState extends State<CharityView> {
                 height: 200,
                 width: 150,
                 decoration: BoxDecoration(
-                    color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 2, right: 2),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image(
-                          image:
-                              NetworkImage(widget.charityList2[index].imageUrl),
+                        child: CachedNetworkImage(
                           height: 100,
                           width: double.maxFinite,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.cover, imageUrl: widget.charityList2[index].imageUrl,
                         ),
                       ),
                     ),
@@ -80,7 +79,6 @@ class _CharityViewState extends State<CharityView> {
                     ),
                     Container(
                       height: 30,
-                      width: 90,
                       margin: const EdgeInsets.all(3),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -89,9 +87,11 @@ class _CharityViewState extends State<CharityView> {
                       ),
                       padding: const EdgeInsets.all(1.0),
                       child: Text(
-                        widget.charityList2[index].category,
-                        style: font(size: 14),
-                        maxLines: 2,
+                        'charity'.tr(),
+                        style: TextStyle(fontSize: 14,color: Colors.black),
+
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Padding(
@@ -99,7 +99,10 @@ class _CharityViewState extends State<CharityView> {
                       child: Text(
                         widget.charityList2[index].location,
                         style: font(size: 14),
-                        maxLines: 2,
+
+
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

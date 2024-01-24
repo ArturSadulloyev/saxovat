@@ -16,6 +16,7 @@ class CarouselCard extends StatelessWidget {
     return SizedBox(
       height: 240,
       child: PageView.builder(
+        reverse: true,
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
         itemBuilder: (context, index) => Container(

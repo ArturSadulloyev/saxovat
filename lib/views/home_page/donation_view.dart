@@ -1,7 +1,11 @@
+import 'package:bounce/bounce.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:saxovat/pages/charityPage/about_charity.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/db_services.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../font.dart';
 
@@ -30,14 +34,14 @@ class _DonationViewState extends State<DonationView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 220,
+      height: 235,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: widget.donationList.length,
         itemBuilder: (context, index) {
           final favoriteIcon =
               favoriteList!.contains(widget.donationList[index].id);
-          return GestureDetector(
+          return Bounce(
             onTap: () {
               Navigator.push(
                 context,
@@ -54,22 +58,19 @@ class _DonationViewState extends State<DonationView> {
                 height: 200,
                 width: 160,
                 margin: const EdgeInsets.only(right: 0),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 2,right: 2),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image(
-                          image:
-                              NetworkImage(widget.donationList[index].imageUrl),
+                        child: CachedNetworkImage(
                           height: 100,
                           width: double.maxFinite,
                           fit: BoxFit.cover,
+                          imageUrl: widget.donationList[index].imageUrl,
                         ),
                       ),
                     ),
@@ -92,7 +93,7 @@ class _DonationViewState extends State<DonationView> {
                       children: [
                         Container(
                           height: 30,
-                          width: 70,
+
                           margin: const EdgeInsets.all(3),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
@@ -101,40 +102,18 @@ class _DonationViewState extends State<DonationView> {
                           ),
                           padding: const EdgeInsets.all(5.0),
                           child: Text(
-                            widget.donationList[index].category,
-                            style: font(size: 15),
-                            maxLines: 2,
+                            'donation'.tr(),
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        /// icnBtn
-                        // Container(
-                        //   margin: EdgeInsets.only(right: 5),
-                        //   child: Text(widget.donationList[index].createdAt),
-                        //   // GestureDetector(
-                        //   //   onTap: () async {
-                        //   //     if (favoriteList!
-                        //   //         .contains(widget.donationList[index].id)) {
-                        //   //       favoriteList
-                        //   //           .remove(widget.donationList[index].id);
-                        //   //     } else {
-                        //   //       favoriteList.add(widget.donationList[index].id);
-                        //   //     }
-                        //   //     DBService.updateUser(
-                        //   //         user!.email,
-                        //   //         user!.password,
-                        //   //         user!.username,
-                        //   //         user!.phoneNumber,
-                        //   //         user!.name,
-                        //   //         user!.userImage ?? '',
-                        //   //         favoriteList ?? [],
-                        //   //         user!.dateOfBirth);
-                        //   //     setState(() {});
-                        //   //   },
-                        //   //   child: !favoriteIcon
-                        //   //       ? Icon(Icons.favorite_border)
-                        //   //       : Icon(Icons.favorite),
-                        //   // ),
-                        // )
+
+
+
                       ],
                     ),
                     Padding(
@@ -145,7 +124,8 @@ class _DonationViewState extends State<DonationView> {
                           size: 14,
                           weight: FontWeight.w400,
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

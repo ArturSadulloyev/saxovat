@@ -7,6 +7,5 @@ font(
   return TextStyle(
     fontSize: size,
     fontWeight: weight,
-    color: color,
   );
 }

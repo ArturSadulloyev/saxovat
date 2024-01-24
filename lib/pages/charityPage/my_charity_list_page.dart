@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/charity_model.dart';
 import '../../views/font.dart';
 import 'about_charity.dart';
@@ -34,19 +35,19 @@ class _MyCharityPageState extends State<MyCharityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        // iconTheme: const IconThemeData(color: Colors.black),
+        // backgroundColor: Colors.white,
+        elevation: 1,
         centerTitle: true,
         title: Text(
-          "Mening loyihalarim",
-          style: TextStyle(color: Colors.black, fontSize: 20),
-        ),
+          "my_projects",
+          style: TextStyle(fontSize: 20),
+        ).tr(),
       ),
       body: GridView.builder(
         itemCount: myCharity.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, mainAxisSpacing: 20, childAspectRatio: 0.8),
+            crossAxisCount: 2, mainAxisSpacing: 0, childAspectRatio: 0.78),
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
@@ -60,21 +61,22 @@ class _MyCharityPageState extends State<MyCharityPage> {
               );
             },
             child: Card(
+              elevation: 6,
+              margin: EdgeInsets.all(10),
               child: Container(
                 height: 220,
                 width: 150,
-                margin: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    // color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image(
-                        image: NetworkImage(myCharity[index].imageUrl),
+                      child: CachedNetworkImage(
                         height: 100,
+                        imageUrl: myCharity[index].imageUrl,
                         width: double.maxFinite,
                         fit: BoxFit.cover,
                       ),
@@ -105,7 +107,7 @@ class _MyCharityPageState extends State<MyCharityPage> {
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
                         myCharity[index].category,
-                        style: font(size: 14),
+                        style: TextStyle(fontSize: 14,color: Colors.black),
                         maxLines: 2,
                       ),
                     ),

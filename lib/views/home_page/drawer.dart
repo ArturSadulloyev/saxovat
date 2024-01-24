@@ -1,7 +1,15 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:saxovat/pages/charityPage/message_page.dart';
+import 'package:saxovat/services/network.dart';
+import 'package:saxovat/services/sharedPreferences.dart';
 
+import '../../bloc/theme/theme_bloc.dart';
 import '../../pages/charityPage/add_charity_page.dart';
 import '../../pages/charityPage/favourite_page.dart';
 import '../../pages/charityPage/my_charity_list_page.dart';
@@ -12,13 +20,24 @@ import '../../pages/userPage/profile_page.dart';
 import '../../services/auth_service.dart';
 import '../font.dart';
 
-class HomeDrawer extends StatelessWidget {
+class HomeDrawer extends StatefulWidget {
   const HomeDrawer({super.key});
+
+  @override
+  State<HomeDrawer> createState() => _HomeDrawerState();
+}
+
+class _HomeDrawerState extends State<HomeDrawer> {
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      surfaceTintColor: Colors.black,
       child: ListView(
         children: [
           SizedBox(
@@ -36,8 +55,15 @@ class HomeDrawer extends StatelessWidget {
                     : SizedBox(
                         height: 50,
                         width: 50,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(user!.userImage ?? ''),
+                        child: ClipOval(
+                          child: SizedBox.fromSize(
+                            size: Size.fromRadius(48), // Image radius
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: user?.userImage ??
+                                  'https://w7.pngwing.com/pngs/188/501/png-transparent-computer-icons-anonymous-anonymity-anonymous-face-monochrome-head.png',
+                            ),
+                          ),
                         ),
                       ),
                 Column(
@@ -47,7 +73,6 @@ class HomeDrawer extends StatelessWidget {
                     Text(
                       user?.name ?? '',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
@@ -57,7 +82,7 @@ class HomeDrawer extends StatelessWidget {
                       children: [
                         Icon(Icons.person, size: 16),
                         SizedBox(width: 5),
-                        Text("Oddiy foydalanuvchi"),
+                        Text("ordinary_user").tr(),
                       ],
                     ),
                   ],
@@ -122,10 +147,12 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    "Hashar",
-                    style: font(
-                        color: Colors.blue.shade900, weight: FontWeight.w800),
-                  )
+                    "charity",
+                    style: TextStyle(
+                        color: Colors.blue.shade900,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18),
+                  ).tr(),
                 ],
               ),
             ),
@@ -158,10 +185,12 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    "Xayriya",
-                    style: font(
-                        color: Colors.blue.shade900, weight: FontWeight.w800),
-                  )
+                    "donation",
+                    style: TextStyle(
+                        color: Colors.blue.shade900,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18),
+                  ).tr()
                 ],
               ),
             ),
@@ -175,10 +204,10 @@ class HomeDrawer extends StatelessWidget {
               color: Colors.blue,
               size: 30,
             ),
-            title: const Text(
-              "Shaxsiy ma'lumotlar",
+            title:  Text(
+              "personal_information",
               style: TextStyle(fontSize: 20),
-            ),
+            ).tr(),
             onTap: () {
               Navigator.push(
                 context,
@@ -191,13 +220,12 @@ class HomeDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.favorite_border,
-              color: Colors.black,
               size: 30,
             ),
             title: const Text(
-              "Saqlangan loyihalar",
+              "saved_projects",
               style: TextStyle(fontSize: 20),
-            ),
+            ).tr(),
             onTap: () {
               Navigator.push(
                 context,
@@ -214,9 +242,9 @@ class HomeDrawer extends StatelessWidget {
               size: 30,
             ),
             title: const Text(
-              "Mening loyihalarim",
+              "my_projects",
               style: TextStyle(fontSize: 20),
-            ),
+            ).tr(),
             onTap: () {
               Navigator.push(
                 context,
@@ -226,25 +254,25 @@ class HomeDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.question_answer_outlined,
-              color: Colors.purple,
-              size: 30,
-            ),
-            title: const Text(
-              "Savol javoblar",
-              style: TextStyle(fontSize: 20),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MessagePage(),
-                ),
-              );
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(
+          //     Icons.question_answer_outlined,
+          //     color: Colors.purple,
+          //     size: 30,
+          //   ),
+          //   title: const Text(
+          //     "Savol javoblar",
+          //     style: TextStyle(fontSize: 20),
+          //   ),
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => MessagePage(),
+          //       ),
+          //     );
+          //   },
+          // ),
           ListTile(
             leading: const Icon(
               Icons.phone,
@@ -252,9 +280,9 @@ class HomeDrawer extends StatelessWidget {
               size: 30,
             ),
             title: const Text(
-              "Biz bilan aloqa",
+              "contact_us",
               style: TextStyle(fontSize: 20),
-            ),
+            ).tr(),
             onTap: () {
               Navigator.push(
                 context,
@@ -271,8 +299,44 @@ class HomeDrawer extends StatelessWidget {
               size: 30,
             ),
             title: const Text(
-              "FAQ",
+              "faq",
               style: TextStyle(fontSize: 20),
+            ).tr(),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FaqPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              context.read<ThemeBloc>().state != ThemeMode.dark
+                  ? CupertinoIcons.moon
+                  : CupertinoIcons.sun_dust,
+              color: Colors.blue,
+              size: 30,
+            ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.read<ThemeBloc>().state != ThemeMode.dark
+                      ? "night_mode"
+                      : "light_mode",
+                  style: TextStyle(fontSize: 18),
+                ).tr(),
+                Switch(
+                  value: context.read<ThemeBloc>().state == ThemeMode.dark,
+                  onChanged: (value) {
+                    context.read<ThemeBloc>().add(ThemeChanged(value));
+                    ModeAndLocalization.updateDataInSharedPref(key: 'isDark', value: value);
+
+                  },
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
@@ -290,9 +354,9 @@ class HomeDrawer extends StatelessWidget {
               size: 30,
             ),
             title: const Text(
-              "Chiqish",
+              "exit",
               style: TextStyle(fontSize: 20),
-            ),
+            ).tr(),
             onTap: () async {
               await Auth.signOut();
             },

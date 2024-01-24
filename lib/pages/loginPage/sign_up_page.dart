@@ -284,6 +284,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     [],
                     birthController.text,
                   );
+
                   await CircularProgressIndicator.adaptive();
 
                   if (result) {
@@ -294,11 +295,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     );
                   } else {
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("Iltimos qayta urinib ko'ring !"),
                       ),
                     );
+
                   }
                 },
                 child: const Text(
@@ -309,6 +312,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
+
+
             ],
           ),
         ),

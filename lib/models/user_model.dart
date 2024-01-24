@@ -32,7 +32,7 @@ class User {
       email: json["email"] ?? '',
       password: json["password"] ?? '',
       username: json["username"] ?? '',
-      userImage: json["userImage"] ?? '',
+      userImage: json["imageUrl"] ?? '',
       favoriteUserUid: List<String>.from(json['favoriteList'] ?? []),
     );
   }
@@ -47,6 +47,8 @@ class User {
 
   @override
   int get hashCode => uid.hashCode ^ email.hashCode;
+
+
 
   Map<String, Object?> toJson() {
     return {

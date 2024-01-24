@@ -6,6 +6,7 @@ import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/message_model.dart';
 import 'package:saxovat/pages/home_page.dart';
 import 'package:saxovat/services/auth_service.dart';
+import 'package:saxovat/services/network.dart';
 import 'package:uuid/uuid.dart';
 import '../models/user_model.dart';
 
@@ -29,15 +30,12 @@ sealed class DBService {
     try {
       final folder = db.ref(Folder.user).child(uid!);
 
-
-
       final storage = FirebaseStorage.instance;
       final image = storage.ref(Folder.postImages).child(
           "image_${DateTime.now().toIso8601String()}${userImage?.path.substring(userImage!.path.lastIndexOf("."))}");
       final task = image.putFile(userImage);
       await task.whenComplete(() {});
       String imageUrl = await image.getDownloadURL();
-
 
       final member = User(
         uid: uid,
@@ -59,18 +57,26 @@ sealed class DBService {
   }
 
   /// read
-  static Future<User> readUserList(String uid) async {
-    var user;
-    final snapshot = await db.ref(Folder.user).get();
-    final map = snapshot.value as Map<dynamic, dynamic>;
-    map.forEach((key, value) {
-      final user1 = User.fromJson(value);
-      if (user1.uid == uid) {
-        user = user1;
-        return user;
+  static Future<User?> readUserList(String uid) async {
+    User? user;
+
+    final snapshot = await Network.methodGet(api: Network.apiUsers);
+    final map = Network.parseUserList(snapshot!);
+    print('Uid ::: ${uid}');
+    map.forEach((element) {
+      if (element.uid == uid) {
+        user = element;
       }
     });
+
     return user;
+  }
+
+  static Future<List<User>> readUserAllList() async {
+    final snapshot = await Network.methodGet(api: Network.apiUsers);
+    final map = await Network.parseUserList(snapshot!);
+
+    return map;
   }
 
   /// update
@@ -84,8 +90,7 @@ sealed class DBService {
     List favoriteList,
     String birth,
   ) async {
-    final fbUser = db.ref(Folder.user).child(Auth.auth.currentUser!.uid);
-    await fbUser.update({
+    var map = ({
       "email": email,
       "password": password,
       "username": username,
@@ -95,6 +100,8 @@ sealed class DBService {
       "favoriteList": favoriteList,
       "birth": birth,
     });
+    await Network.methodPut(api: Network.apiUsers, id: user!.uid, data: map);
+
     return true;
   }
 
@@ -114,17 +121,19 @@ sealed class DBService {
 
   /// create
   static Future<bool> storeCharity(
+    String id,
     String title,
     String description,
     String userId,
     String category,
     String location,
     String? cardNumber,
+    String charityId,
     File file,
   ) async {
     try {
       final folder = db.ref(Folder.post);
-      final id = Uuid().v4();
+
       final child = folder.child(id);
       final ImageUrl = await StoreService.uploadFile(file);
       Charity charity = Charity(
@@ -132,6 +141,7 @@ sealed class DBService {
         title: title,
         description: description,
         userId: userId,
+        charityId: charityId,
         category: category,
         location: location,
         cardNumber: cardNumber ?? '',
@@ -198,7 +208,7 @@ sealed class DBService {
   static Future<bool> storeMessage(
     String message,
     String recipientId,
-      String charityId,
+    String charityId,
   ) async {
     try {
       final folder = db.ref(Folder.message);
@@ -238,10 +248,53 @@ sealed class DBService {
     list.forEach((element) {
       print('MSg: ${element.message}');
     });
-
-
-
     return list;
+  }
+
+  /// store with panel
+  static Future<bool> storeCharityPanel(String charityId, bool approve) async {
+    try {
+      final folder = db.ref(Folder.mainPost);
+      final id = const Uuid().v4();
+      final child = folder.child(charityId);
+      MainCharity mainCharity =
+          MainCharity(id: charityId, charityId: charityId, approve: false);
+      await child.set(mainCharity.toJson());
+      return true;
+    } catch (e) {
+      debugPrint("DB ERROR: $e");
+      return false;
+    }
+  }
+
+  /// read Post api
+  static Future<List<Charity>> readPost() async {
+    final data = await Network.methodGet(api: Network.apiCharity);
+    final data2 = await Network.methodGet(api: Network.apiMainCharity);
+
+    final list = await Network.parseCharityList(data!);
+    final list2 = await Network.parseMainCharityList(data2!);
+
+    Set<Charity> listMain = {};
+
+
+
+    list2.forEach((element) {
+      list.forEach((element2) {
+        if (element.charityId == element2.charityId) {
+          if (element.approve) {
+            listMain.add(element2);
+          }
+        }
+      });
+    });
+
+    print(listMain.length);
+
+
+
+
+    return listMain.toList();
   }
 }
 
@@ -254,7 +307,6 @@ sealed class StoreService {
     final task = image.putFile(file);
     await task.whenComplete(() {});
     String url = await image.getDownloadURL();
-
     return url;
   }
 
@@ -264,13 +316,13 @@ sealed class StoreService {
     //final task = image.putFile(file);
     //await task.whenComplete(() {});
     String url = await image.getDownloadURL();
-
     return url;
   }
 }
 
 sealed class Folder {
   static const post = "Post";
+  static const mainPost = "MainPost";
   static const user = "User";
   static const postImages = "PostImage";
   static const message = "Message";

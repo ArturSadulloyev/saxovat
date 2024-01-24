@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/charityPage/donation_page.dart';
@@ -31,7 +32,7 @@ class CategorySelectBtn extends StatelessWidget {
                 image: AssetImage('assets/images/PngItem_733744.png'),
               ),
             ),
-            const Text('Hashar'),
+             Text('charity').tr(),
           ],
         ),
         const SizedBox(width: 20),
@@ -56,7 +57,7 @@ class CategorySelectBtn extends StatelessWidget {
                 image: AssetImage('assets/images/pngegg.png'),
               ),
             ),
-            const Text('Xayriya'),
+            const Text('donation').tr(),
           ],
         ),
       ],

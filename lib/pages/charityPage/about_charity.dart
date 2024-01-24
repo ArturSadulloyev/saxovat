@@ -2,16 +2,19 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:saxovat/models/charity_model.dart';
 import 'package:saxovat/models/user_model.dart';
 import 'package:saxovat/pages/charityPage/delete_edit_charity_page.dart';
-import 'package:saxovat/services/local_db.dart';
+import 'package:saxovat/services/auth_service.dart';
 import 'package:saxovat/services/db_services.dart';
+import 'package:saxovat/services/network.dart';
 import 'package:saxovat/views/font.dart';
-import 'package:swipe_image_gallery/swipe_image_gallery.dart';
-
+import 'package:saxovat/views/no_internet_page.dart';
+import 'package:http/http.dart' as http;
 import '../home_page.dart';
 
 class AboutCharity extends StatefulWidget {
@@ -25,8 +28,11 @@ class AboutCharity extends StatefulWidget {
 
 class _AboutCharityState extends State<AboutCharity> {
   bool isFavorite = false;
+  List<User> userMain2 = [];
   var userMain;
+
   TextEditingController msgController = TextEditingController();
+  bool isInternetConnected = true;
 
   void _isFavorite() {
     if (user!.favoriteUserUid.contains(widget.charity.id)) {
@@ -37,14 +43,15 @@ class _AboutCharityState extends State<AboutCharity> {
     isFavorite = user!.favoriteUserUid.contains(widget.charity.id!);
     final file = File(user!.userImage ?? '');
     DBService.updateUser(
-        user!.email,
-        user!.password,
-        user!.username,
-        user!.phoneNumber,
-        user!.name,
-        file,
-        user!.favoriteUserUid ?? [],
-        user!.dateOfBirth);
+      user!.email,
+      user!.password,
+      user!.username,
+      user!.phoneNumber,
+      user!.name,
+      file,
+      user!.favoriteUserUid ?? [],
+      user!.dateOfBirth,
+    );
     setState(() {});
   }
 
@@ -159,7 +166,10 @@ class _AboutCharityState extends State<AboutCharity> {
               IconButton(
                 onPressed: () {
                   DBService.storeMessage(
-                      msgController.text, widget.charity.userId,widget.charity.id);
+                    msgController.text,
+                    widget.charity.userId,
+                    widget.charity.id,
+                  );
                   msgController.text = '';
                   Navigator.pop(context);
                 },
@@ -175,18 +185,45 @@ class _AboutCharityState extends State<AboutCharity> {
     );
   }
 
+  Future<void> checkInternetConnection() async {
+    try {
+      Uri url = Uri.https('google.com');
+      final response = await http.get(url);
+      setState(() {
+        isInternetConnected = response.statusCode == 200;
+      });
+    } catch (e) {
+      setState(() {
+        isInternetConnected = false;
+      });
+    }
+  }
+
+  Future<bool> checkInternetConnection2() async {
+    try {
+      Uri url = Uri.https('google.com');
+      final response = await http.get(url);
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
   bool isLoading = false;
+  bool checkInternet = true;
 
   void findUser() async {
     setState(() {
       isLoading = true;
     });
-    List allUserList = await DBService.readAllUserList();
-    allUserList.forEach((element) {
+    userMain2 = await DBService.readUserAllList();
+
+    userMain2.forEach((element) {
       if (element.uid == widget.charity.userId) {
         userMain = element;
       }
     });
+
     setState(() {
       isLoading = false;
     });
@@ -195,334 +232,371 @@ class _AboutCharityState extends State<AboutCharity> {
   @override
   void initState() {
     findUser();
+    checkInternetConnection();
     super.initState();
     isFavorite = user!.favoriteUserUid.contains(widget.charity.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          backgroundColor: Colors.white.withOpacity(0.95),
-          appBar: AppBar(
-            automaticallyImplyLeading: true,
-            backgroundColor: Colors.white.withOpacity(0.95),
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
+    return RefreshIndicator(
+      onRefresh: () async {
+        findUser();
+        checkInternetConnection();
+      },
+      child: Stack(
+        children: [
+          Scaffold(
+            // backgroundColor: Colors.white.withOpacity(0.95),
+            appBar: AppBar(
+              automaticallyImplyLeading: true,
+              // backgroundColor: Colors.white.withOpacity(0.95),
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  // color: Colors.black,
+                ),
               ),
-            ),
-            elevation: 0,
-            title: Text(
-              'Loyiha haqida',
-              style: font(
-                size: 22,
-                color: Colors.black,
-                weight: FontWeight.w500,
+              elevation: 0,
+              title: Text(
+                'about_project'.tr(),
+                style: font(
+                  size: 22,
+                  color: Colors.black,
+                  weight: FontWeight.w500,
+                ),
               ),
-            ),
-            actions: [
-              widget.charity.userId == user?.uid
-                  ? IconButton(
-                      onPressed: () {
-                        Navigator.push(
+              actions: [
+                widget.charity.userId == user?.uid
+                    ? IconButton(
+                        onPressed: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => DeleteEditCharityPage(
                                 charity: widget.charity,
                               ),
-                            ));
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.black,
-                      ),
-                    )
-                  : SizedBox.shrink(),
-              widget.charity.userId == user?.uid
-                  ? IconButton(
-                      onPressed: () async {
-                        await DBService.deleteCharity(widget.charity.id);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(),
-                            ));
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.black,
-                      ),
-                    )
-                  : SizedBox.shrink(),
-            ],
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 270,
-                  width: double.maxFinite,
-                  child: PageView.builder(
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          showImageViewer(
-                              context,
-                              doubleTapZoomable: true,
-                              Image.network(widget.charity.imageUrl).image);
-                          // SwipeImageGallery(
-                          //   transitionDuration: 0,
-                          //   context: context,
-                          //   children: [
-                          //     Image(image: NetworkImage(widget.charity.imageUrl)),
-                          //   ],
-                          // ).show();
+                            ),
+                          );
                         },
-                        child: Image(
-                          height: double.maxFinite,
-                          width: double.maxFinite,
-                          fit: BoxFit.cover,
-                          image: NetworkImage(widget.charity.imageUrl),
+                        icon: Icon(
+                          Icons.edit,
+                          // color: Colors.black,
                         ),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    widget.charity.title,
-                    style: font(
-                      size: 22,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(userMain?.userImage ??
-                              'https://w7.pngwing.com/pngs/188/501/png-transparent-computer-icons-anonymous-anonymity-anonymous-face-monochrome-head.png'),
-                        ),
-                      ),
+                      )
+                    : SizedBox.shrink(),
+                widget.charity.userId == user?.uid
+                    ? IconButton(
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          isInternetConnected =
+                              await checkInternetConnection2();
 
-                      /// network
-                      // SizedBox(
-                      //   height: 50,
-                      //   width: 50,
-                      //   child: Image(
-                      //     image: CachedNetworkImageProvider(
-                      //       userMain?.userImage ?? '',
-                      //       //placeholder: (context, url) => CircularProgressIndicator(),
-                      //       //errorWidget: (context, url, error) => Icon(Icons.error),
-                      //     ),
-                      //   ),
-                      // ),
+                          if (isInternetConnected) {
+                            final res = await Network.methodDelete(
+                              api: Network.apiCharity,
+                              id: widget.charity.id,
+                            );
+                            final res2 = await Network.methodDelete(
+                              api: Network.apiMainCharity,
+                              id: widget.charity.id,
+                            );
+                            if (res) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Loyihangiz o'chirildi !"),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Xatolik yuz berdi !"),
+                                ),
+                              );
+                            }
 
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        userMain?.name ?? '',
-                        style: font(size: 20),
-                      ),
-                      const Spacer(),
-                      widget.charity.userId != user!.uid
-                          ? GestureDetector(
-                              onTap: () {
-                                /// TODO
-                                _showQuestion(context);
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.blue.shade50,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Savol berish',
-                                    style: font(
-                                        size: 18, color: Colors.blue.shade900),
-                                  ),
-                                ),
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
                               ),
-                            )
-                          : SizedBox.shrink(),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Badge(),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                "E'lon berilgan sana",
-                                style: font(size: 12),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            widget.charity.createdAt ?? '11.04.2023',
-                            style: font(color: Colors.blue.shade900),
-                          ),
-                        ],
-                      ),
-                      // Column(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         const Badge(),
-                      //         const SizedBox(width: 4),
-                      //         Text(
-                      //           "Sanagacha to'planishi kerak",
-                      //           style: font(size: 12),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //     const SizedBox(height: 3),
-                      //     Text(
-                      //       "23.05.2023",
-                      //       style: font(color: Colors.blue.shade900),
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Text(
-                    'Batafsil',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue.shade900,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 12, top: 12, bottom: 6),
-                  child: Text(
-                    widget.charity.title,
-                    style: font(
-                      size: 22,
-                      color: Colors.black,
-                      weight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Text(
-                    widget.charity.description,
-                    style: font(
-                      size: 16,
-                      color: Colors.black87,
-                      weight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: SizedBox(
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _showCard(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue.shade900,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(9),
-                              ),
-                            ),
-                            child: Text(
-                              "Loyihani qo'llash",
-                              style: font(
-                                size: 19,
-                                color: Colors.white,
-                                weight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
+                            );
+                          }
+
+                          setState(() {
+                            isLoading = false;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          // color: Colors.black,
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: SizedBox(
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _isFavorite();
-                              setState(() {});
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue.shade900,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(9),
-                              ),
-                            ),
-                            child: !isFavorite!
-                                ? const Icon(
-                                    Icons.favorite_border,
-                                  )
-                                : const Icon(Icons.favorite),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 60)
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 270,
+                    width: double.maxFinite,
+                    child: PageView.builder(
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            showImageViewer(
+                                context,
+                                doubleTapZoomable: true,
+                                Image.network(widget.charity.imageUrl).image);
+                            // SwipeImageGallery(
+                            //   transitionDuration: 0,
+                            //   context: context,
+                            //   children: [
+                            //     Image(image: NetworkImage(widget.charity.imageUrl)),
+                            //   ],
+                            // ).show();
+                          },
+                          child: CachedNetworkImage(
+                            height: double.maxFinite,
+                            width: double.maxFinite,
+                            fit: BoxFit.cover,
+                            imageUrl: widget.charity.imageUrl,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      widget.charity.title,
+                      style: font(
+                        size: 22,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: ClipOval(
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(48), // Image radius
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: userMain?.userImage ??
+                                    'https://w7.pngwing.com/pngs/188/501/png-transparent-computer-icons-anonymous-anonymity-anonymous-face-monochrome-head.png',
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          height: 40,
+                          width: 155,
+                          child: Text(
+                            userMain?.name ?? '',
+                            style: TextStyle(
+                              fontSize: 20,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        widget.charity.userId != user!.uid
+                            ? GestureDetector(
+                                onTap: () {
+                                  /// TODO
+                                  _showQuestion(context);
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 120,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    // color: Colors.blue.shade50,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'question'.tr(),
+                                      style: font(
+                                          size: 18,
+                                          color: Colors.blue.shade900),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Badge(),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  "date_of_publication".tr(),
+                                  style: font(size: 14),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              widget.charity.createdAt.substring(0, 10) ??
+                                  '11.04.2023',
+                              style: font(color: Colors.blue.shade900),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: Text(
+                      'information'.tr(),
+                      style: TextStyle(
+                        fontSize: 16,
+                        // color: Colors.blue.shade900,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 12, right: 12, top: 12, bottom: 6),
+                    child: Text(
+                      widget.charity.title,
+                      style: font(
+                        size: 22,
+                        color: Colors.black,
+                        weight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: Text(
+                      widget.charity.description,
+                      style: font(
+                        size: 16,
+                        color: Colors.black87,
+                        weight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _showCard(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue.shade900,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                              ),
+                              child: Text(
+                                "application_of_the_project".tr(),
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _isFavorite();
+                                setState(() {});
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue.shade900,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                              ),
+                              child: !isFavorite!
+                                  ? const Icon(
+                                      Icons.favorite_border,
+                                color: Colors.pinkAccent,
+                                    )
+                                  : const Icon(Icons.favorite,color: Colors.pinkAccent,),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 60)
+                ],
+              ),
+            ),
           ),
-        ),
-        if (isLoading) Center(child: CircularProgressIndicator.adaptive())
-      ],
+          if (isLoading) Center(child: CircularProgressIndicator.adaptive()),
+          if (!isInternetConnected)
+            RefreshIndicator(
+              onRefresh: () async {
+                findUser();
+                checkInternetConnection();
+              },
+              child: NoInternetPage(
+                function: findUser,
+                function1: checkInternetConnection,
+                ctx: context,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

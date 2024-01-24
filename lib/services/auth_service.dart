@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 import 'db_services.dart';
+import 'network.dart';
 
 class Auth {
   static final FirebaseAuth auth = FirebaseAuth.instance;
@@ -34,11 +36,27 @@ class Auth {
     try {
       final credential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      final imageUrl = await StoreService.uploadFile(userImage);
+
       if (credential.user != null) {
         await credential.user!.updateDisplayName(username);
 
-        await DBService.storeUser(email, password, username, phoneNumber, name,
-            userImage, favoriteUserUid, birth, credential.user!.uid);
+        final id = Uuid().v4();
+        Map<String, Object> data = {
+          "uid": credential.user?.uid ?? id,
+          "name": name,
+          "imageUrl": imageUrl,
+          "dateOfBirth": birth,
+          "phoneNumber": phoneNumber,
+          "email": email,
+          "password": password,
+          "username": username,
+          "favoriteUserUid": [],
+        };
+        await Network.methodPost(
+          api: Network.apiUsers,
+          data: data,
+        );
       }
 
       return credential.user != null;

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,31 +25,31 @@ class _ContactPageState extends State<ContactPage> {
         Uri(scheme: 'https', host: 'www.youtube.com', path: '@MehrliQollar');
     final Uri toLaunch2 =
         Uri(scheme: 'https', host: 't.me', path: 'Mehrliqollar');
-    Uri url = Uri(scheme: "tel", path: "+998888666621");
+    Uri url = Uri(scheme: "tel", path: "+998941289262");
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Biz bilan aloqa",
-          style: TextStyle(color: Colors.black),
-        ),
+          "contact_us",
+          style: TextStyle(),
+        ).tr(),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            // color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
+          left: 20,
+          right: 20,
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -61,7 +62,7 @@ class _ContactPageState extends State<ContactPage> {
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height / 3,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   border: Border.all(color: Colors.blue),
                 ),
@@ -80,7 +81,7 @@ class _ContactPageState extends State<ContactPage> {
                           ),
                           Icon(
                             Icons.telegram,
-                            size: 60,
+                            size: 40,
                             color: Colors.blue,
                           ),
                           SizedBox(
@@ -88,7 +89,7 @@ class _ContactPageState extends State<ContactPage> {
                           ),
                           Text(
                             "Telegram",
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(fontSize: 23),
                           ),
                         ],
                       ),
@@ -110,16 +111,16 @@ class _ContactPageState extends State<ContactPage> {
                           ),
                           Container(
                               clipBehavior: Clip.antiAlias,
-                              height: 45,
-                              width: 56,
+                              height: 30,
+                              width: 30,
                               decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
                               ),
                               child: Image.asset(
                                 "assets/images/you_tube.png",
-                                height: 62,
-                                width: 62,
+                                height: 40,
+                                width: 40,
                                 fit: BoxFit.cover,
                               )),
                           const SizedBox(
@@ -127,7 +128,7 @@ class _ContactPageState extends State<ContactPage> {
                           ),
                           const Text(
                             "You tube",
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(fontSize: 23),
                           ),
                         ],
                       ),
@@ -149,15 +150,15 @@ class _ContactPageState extends State<ContactPage> {
                           ),
                           Icon(
                             Icons.phone_android,
-                            size: 60,
-                            color: Colors.black,
+                            size: 35,
+                            // color: Colors.black,
                           ),
                           SizedBox(
                             width: 10,
                           ),
                           Text(
                             "+998-94-128-92-62",
-                            style: TextStyle(fontSize: 25),
+                            style: TextStyle(fontSize: 23),
                           ),
                         ],
                       ),
@@ -169,12 +170,12 @@ class _ContactPageState extends State<ContactPage> {
                 height: 50,
               ),
               Text(
-                "Bizga yozing!",
+                "write_to_us",
                 style: TextStyle(
-                  color: Colors.grey.shade700,
+                  // color: Colors.grey.shade700,
                   fontSize: 25,
                 ),
-              ),
+              ).tr(),
               const SizedBox(
                 height: 20,
               ),
@@ -192,7 +193,7 @@ class _ContactPageState extends State<ContactPage> {
                                 BorderRadius.all(Radius.circular(20))),
                         fillColor: Colors.blue.shade100,
                         filled: true,
-                        hintText: "Yozing...",
+                        hintText: "write".tr(),
                         hintStyle: TextStyle(
                             color: Colors.grey.shade700, fontSize: 20),
                       ),

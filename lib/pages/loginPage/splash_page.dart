@@ -62,12 +62,14 @@ class SplashPage extends StatelessWidget {
               ),
             ),
             onPressed: () {
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => LoginPage(),
                 ),
               );
+
             },
             child: const Text(
               "Tizimga kirish",
